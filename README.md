@@ -9,8 +9,8 @@ If it doesn't, Google/Bing the problem.
 Enjoy.  
 
 Please add your name below, so we know that everyone has git up and running.  
-Aaron  
-Rusty
-Ralph
-your name <-- ha ha <-- Rusty wuz here
-Evan "E-Train" Williams
+Aaron.
+Rusty.
+Ralph.
+your name <-- ha ha <-- Rusty wuz here.
+Evan "E-Train" Williams.
