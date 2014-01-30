@@ -10,3 +10,5 @@ Enjoy.
 
 Please add your name below, so we know that everyone has git up and running.  
 Aaron  
+Rusty
+your name <-- ha ha
