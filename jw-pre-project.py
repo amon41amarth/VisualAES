@@ -29,6 +29,7 @@ def gui():
 	plainText = "";
 	imageSize = (width, int(height/2))
 	while True:
+		screen.fill(black)
 		didChange = False
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
@@ -49,6 +50,8 @@ def gui():
 		for pix in ciph:
 			cipherDraw.set_at((run, 0), (Color((pix),(pix),(pix),255)))
 			run+=1
+		for x in range (0, 4):
+			cipherDraw = pygame.transform.scale2x(cipherDraw)
 		screen.blit(cipherDraw, (0, height/2))
 		
 		plainDraw = pygame.Surface((len(plainText), 1))
@@ -59,7 +62,8 @@ def gui():
 		for pix in plainText:
 			plainDraw.set_at((run, 0), (Color(ord(pix),ord(pix),ord(pix),255)))
 			run+=1
-		plainDraw = pygame.transform.scale(plainDraw,imageSize)
+		for x in range (0, 4):
+			plainDraw = pygame.transform.scale2x(plainDraw)
 		screen.blit(plainDraw, (0, 0))
 		pygame.display.flip()
 		time.sleep(.1)
