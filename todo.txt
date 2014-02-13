@@ -1,0 +1,31 @@
+
+Open:
+Alter the slider.py class to allow steps in progress.  Right now it uses percentages, it should "snap" to history 1, or history 2, depending.  This is to be used in all history functionality.
+
+Justin :
+Figure out surface -> image.  This should also include taking the string and making it a balanced 2D array.
+Info: 
+	http://www.pygame.org/docs/ref/image.html#pygame.image.fromstring
+	http://stackoverflow.com/questions/14176689/how-to-convert-a-pygame-surface-to-a-pil-image
+
+Open:
+Work on changing the themes. The green is ugly.  You will need to recompile pygameui
+
+Parts:
+	Open:
+		RoundKey
+	Open:
+		SubByte
+	Open:
+		ShiftRow
+	Open:
+		MixColumn
+	Open:
+		RoundKey
+	Open:
+		Mode of Operation
+	Justin:
+		Run Round
+	Open:
+		Edit SBox
+		This one will take a longer time than normal.
