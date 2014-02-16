@@ -143,19 +143,38 @@ class KitchenSinkScene(ui.Scene):
             print "Don't know what to do..."
 
         self.updateColumns()
+    def selection_changed(self, selection_view, item, index):
+        logger.info('new selection: %s' % str(item))
 
     def drawTopButtons(self):
-        topButtonNames = ["Edit SBox","RoundKeys","SubBytes", "ShiftRows","MixColumns","Run Round","Operation Modes"]
-        numButtons = len(topButtonNames)
+        topButtonNames = ["Edit SBox","RoundKeys","SubBytes", "ShiftRows","MixColumns","Run Round"]
+        numButtons = len(topButtonNames)+1
         buttonWidth = self.frame.w / numButtons
         buttonX = (buttonWidth + VSMALL_MARGIN)
-        self.buttons = []
         for i in range (0, numButtons):
+            print str(i) + " " + str(numButtons)
+            if(i == (numButtons-1)):
+                print "Break"
+                break
             btn = ui.Button(
                 ui.Rect(i * buttonX, 10, 0, 20),
                 topButtonNames[i])
             btn.on_clicked.connect(self.onButtonClick)
             self.add_child(btn)
+        # Draw the spinner for modes of operation
+        modes = ["OFB","CFB","CBC"]
+        labels2 = [ui.Label(
+            ui.Rect(0, 0, LIST_WIDTH, self.label_height),
+            modes[i]) for i in range(len(modes))]
+        for l in labels2:
+            l.halign = ui.LEFT
+        self.select_view = ui.SelectView(ui.Rect(
+            btn.frame.left + MARGIN,
+            btn.frame.top ,
+            100, self.label_height), labels2)
+        self.select_view.on_selection_changed.connect(self.selection_changed)
+        self.add_child(self.select_view)
+
 
     def drawLinesForGrid(self):
         """

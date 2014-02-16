@@ -1,6 +1,6 @@
 
 Open:
-Alter the slider.py class to allow steps in progress.  Right now it uses percentages, it should "snap" to history 1, or history 2, depending.  This is to be used in all history functionality.
+	Alter the slider.py class to allow steps in progress.  Right now it uses percentages, it should "snap" to history 1, or history 2, depending.  This is to be used in all history functionality.
 
 DONE
 	Figure out surface -> image.  This should also include taking the string and making it a balanced 2D array.
@@ -25,8 +25,9 @@ Parts:
 		MixColumn
 	Open:
 		RoundKey
-	Open:
-		Mode of Operation
+	Justin:
+		Mode of Operation UI
+		Implement in the moo
 	DONE
 		Run Round
 	Open:
