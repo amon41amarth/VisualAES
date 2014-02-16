@@ -35,6 +35,8 @@ Parts:
 
 Open:
 	Get Py2EXE working
+	http://py2exe.org/index.cgi/Tutorial
 
 Open:
 	Implement colors.
+	Look at getARGB code.  It has a rough idea, but needs work.

@@ -88,12 +88,14 @@ class KitchenSinkScene(ui.Scene):
         # Alter surf according to the string.
         run = 0
         for pix in text:
+
             if(isinstance(text, str)):
-            # TODO If pix is a number, continue, else, use ord
-            #if((ord(pix) >= ord('a') and ord(pix) <= ord('z')) or  (ord(pix) >= ord('A') and ord(pix) <= ord('Z'))):
-                surf.set_at((run, 0), (Color((ord(pix)),(ord(pix)),(ord(pix)),255)))
+                num = ord(pix)
             else:
-                surf.set_at((run, 0), (Color((pix),(pix),(pix),255)))
+                num = pix
+            #argb = self.getRGB(num)
+            argb = (num,num,num,num)
+            surf.set_at((run, 0), (Color(argb[1],argb[2],argb[3],argb[0])))
             run+=1
 
         view.image = pygame.transform.scale(surf,size)
@@ -311,6 +313,37 @@ class KitchenSinkScene(ui.Scene):
 
     def update(self, dt):
         ui.Scene.update(self, dt)
+
+    def getRGB(self, num):
+        a = (num >> 6) & 0xff
+        r = (num >> 4) & 0xff
+        g = (num >> 2) & 0xff
+        b = (num >> 0) & 0xff
+        isGoing = True
+        while(isGoing):
+            print str(num) + ": " + str(a) +","+str(r)+","+str(g)+","+str(b)
+
+            isGoing = False
+            if(a * 2 < 256):
+                if(a != 0):
+                    isGoing = True
+                a = a * 2
+            if(r * 2 < 256):
+                if(r != 0):
+                    isGoing = True
+                r = r * 2
+            if(g * 2 < 256):
+                if(g != 0):
+                    isGoing = True
+                g = g * 2
+            if(b * 2 < 256):
+                if(b != 0):
+                    isGoing = True
+                b = b * 2
+
+        print str(num) + ": " + str(a) +","+str(r)+","+str(g)+","+str(b)
+        return (a,r,g,b)
+
 
 if __name__ == '__main__':
     import pygame
