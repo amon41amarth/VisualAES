@@ -25,7 +25,7 @@ Parts:
 		MixColumn
 	Open:
 		RoundKey
-	Justin:
+	DONE:
 		Mode of Operation UI
 		Implement in the moo
 	DONE
@@ -38,6 +38,6 @@ Open:
 	Get Py2EXE working
 	http://py2exe.org/index.cgi/Tutorial
 
-Open:
+Open - Semi done:
 	Implement colors.
 	Look at getARGB code.  It has a rough idea, but needs work.

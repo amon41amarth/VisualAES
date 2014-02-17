@@ -72,7 +72,7 @@ class KitchenSinkScene(ui.Scene):
         self.updateMiddleColumn()
 
         self.cleartext = self.cleartext + " J"
-        self.mode, self.orig_len, self.ciph = self.moo.encrypt(self.cleartext, self.moo.modeOfOperation["CBC"],
+        self.mode, self.orig_len, self.ciph = self.moo.encrypt(self.cleartext, self.moo.modeOfOperation[self.operationMode],
                 self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
         print self.ciph
 
@@ -112,10 +112,10 @@ class KitchenSinkScene(ui.Scene):
         """ This should update the right column """
         # Right column needs to be encrypted.
         print "URC"
-        self.mode, self.orig_len, ptoEncrypted = self.moo.encrypt(self.plaintextone_textfield.text, self.moo.modeOfOperation["CBC"],
+        self.mode, self.orig_len, ptoEncrypted = self.moo.encrypt(self.plaintextone_textfield.text, self.moo.modeOfOperation[self.operationMode],
             self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
         self.updateView(ptoEncrypted, self.cipherone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
-        self.mode, self.orig_len, pttEncrypted = self.moo.encrypt(self.plaintexttwo_textfield.text, self.moo.modeOfOperation["CBC"],
+        self.mode, self.orig_len, pttEncrypted = self.moo.encrypt(self.plaintexttwo_textfield.text, self.moo.modeOfOperation[self.operationMode],
             self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
         self.updateView(pttEncrypted, self.ciphertwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
 
@@ -144,7 +144,8 @@ class KitchenSinkScene(ui.Scene):
 
         self.updateColumns()
     def selection_changed(self, selection_view, item, index):
-        logger.info('new selection: %s' % str(item))
+        self.operationMode = str(item)
+        self.updateColumns()
 
     def drawTopButtons(self):
         topButtonNames = ["Edit SBox","RoundKeys","SubBytes", "ShiftRows","MixColumns","Run Round"]
@@ -306,9 +307,10 @@ class KitchenSinkScene(ui.Scene):
         self.cleartext = ""
         self.moo = slowaes.AESModeOfOperation()
         self.cleartext = ""
+        self.operationMode = "CBC"
         self.cypherkey = [143,194,34,208,145,203,230,143,177,246,97,206,145,92,255,84]
         self.iv = [103,35,148,239,76,213,47,118,255,222,123,176,106,134,98,92]
-        self.mode, self.orig_len, self.ciph = self.moo.encrypt(self.cleartext, self.moo.modeOfOperation["CBC"],
+        self.mode, self.orig_len, self.ciph = self.moo.encrypt(self.cleartext, self.moo.modeOfOperation[self.operationMode],
                 self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
         self.label_height = ui.theme.current.label_height
         scrollbar_size = ui.SCROLLBAR_SIZE
