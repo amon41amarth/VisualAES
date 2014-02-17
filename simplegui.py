@@ -24,7 +24,7 @@ SMALL_MARGIN = 10
 VSMALL_MARGIN = 1
 
 
-class KitchenSinkScene(ui.Scene):
+class MainScene(ui.Scene):
     def editSBox(self):
         self.addPointInHistory()
         print "Edit S Box"
@@ -344,6 +344,6 @@ if __name__ == '__main__':
     pygame.init()
     infoObject = pygame.display.Info()
     size = width, height = int(infoObject.current_w/2), int(infoObject.current_h/2)
-    ui.init('pygameui - Kitchen Sink',size)
-    ui.scene.push(KitchenSinkScene())
+    ui.init('AES Encryption Viewer',size)
+    ui.scene.push(MainScene())
     ui.run()
