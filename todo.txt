@@ -16,6 +16,8 @@ Open:
 
 Parts:
 	Open:
+		Switch between keys and plaintexts (2K1PT or 1K2PT)
+	Open:
 		RoundKey
 	Open:
 		SubByte

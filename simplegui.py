@@ -18,7 +18,7 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(console_handler)
 
 
-LIST_WIDTH = 180
+LIST_WIDTH = 100
 MARGIN = 20
 SMALL_MARGIN = 10
 VSMALL_MARGIN = 1
@@ -28,28 +28,22 @@ class KitchenSinkScene(ui.Scene):
     def editSBox(self):
         self.addPointInHistory()
         print "Edit S Box"
-
     def runRoundKeys(self):
         print "Run round keys"
-
     def runSubBytes(self):
         print "Run sub bytes"
-
     def runShiftRows(self):
         print "Run shift rows"
-
     def runMixColumns(self):
         print "Run mix columns"
-
     def runRound(self):
         print "Run round"
-
     def changeOperationMode(self):
         print "Change operation mode"
-
     def updateMiddleColumn(self):
         print "Updating middle column"
-
+    def switchKeyPlaintextMode(self):
+        print "Switching to 2keys or 2pts"
     def onButtonClick(self, btn, mbtn):
         if btn.text == "Edit SBox":
             self.editSBox()
@@ -65,6 +59,8 @@ class KitchenSinkScene(ui.Scene):
             self.runRound()
         elif btn.text == "Operation Modes":
             self.changeOperationMode()
+        elif btn.text == "Switch":
+            self.switchKeyPlaintextMode()
         else:
             print "Don't know what to do"
         # We don't always have to update the middle column. But just so it's easy to read and less bull crap lines,
@@ -75,7 +71,6 @@ class KitchenSinkScene(ui.Scene):
         self.mode, self.orig_len, self.ciph = self.moo.encrypt(self.cleartext, self.moo.modeOfOperation[self.operationMode],
                 self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
         print self.ciph
-
     def updateView(self, text, view, size):
         """
             This method accepts a string, cipher/plain text (text), and updates the view (view) given.
@@ -99,7 +94,6 @@ class KitchenSinkScene(ui.Scene):
             run+=1
 
         view.image = pygame.transform.scale(surf,size)
-
     def updateLeftColumn(self):
         """ This should update the left column """
         print "ULC"
@@ -107,7 +101,6 @@ class KitchenSinkScene(ui.Scene):
 
         self.updateView(self.plaintextone_textfield.text, self.plaintextone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
         self.updateView(self.plaintexttwo_textfield.text, self.plaintexttwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
-
     def updateRightColumn(self):
         """ This should update the right column """
         # Right column needs to be encrypted.
@@ -118,19 +111,14 @@ class KitchenSinkScene(ui.Scene):
         self.mode, self.orig_len, pttEncrypted = self.moo.encrypt(self.plaintexttwo_textfield.text, self.moo.modeOfOperation[self.operationMode],
             self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
         self.updateView(pttEncrypted, self.ciphertwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
-
     def updateCenterColumn(self):
         """ This should update the center column """
         print "Update center"
-
-
     def updateColumns(self):
         """ This updates all the columns.  Redraws the left, right, and center. """
         self.updateLeftColumn()
         self.updateMiddleColumn()
         self.updateRightColumn()
-
-
     def onTextChanged(self, tf, text):
         """  tf is the TextField object.
             Text is the text the TextField was changed to.
@@ -146,9 +134,8 @@ class KitchenSinkScene(ui.Scene):
     def selection_changed(self, selection_view, item, index):
         self.operationMode = str(item)
         self.updateColumns()
-
     def drawTopButtons(self):
-        topButtonNames = ["Edit SBox","RoundKeys","SubBytes", "ShiftRows","MixColumns","Run Round"]
+        topButtonNames = ["Switch", "Edit SBox","RoundKeys","SubBytes", "ShiftRows","MixColumns","Run Round"]
         numButtons = len(topButtonNames)+1
         buttonWidth = self.frame.w / numButtons
         buttonX = (buttonWidth + VSMALL_MARGIN)
@@ -169,14 +156,12 @@ class KitchenSinkScene(ui.Scene):
             modes[i]) for i in range(len(modes))]
         for l in labels2:
             l.halign = ui.LEFT
-        self.select_view = ui.SelectView(ui.Rect(
-            btn.frame.left + MARGIN,
-            btn.frame.top ,
-            100, self.label_height), labels2)
+        print btn.frame
+        self.select_view = ui.SelectView(
+            ui.Rect(btn.frame.right + buttonWidth, btn.frame.top, LIST_WIDTH, self.label_height),
+            labels2)
         self.select_view.on_selection_changed.connect(self.selection_changed)
         self.add_child(self.select_view)
-
-
     def drawLinesForGrid(self):
         """
             This draws the grid lines.
@@ -253,7 +238,6 @@ class KitchenSinkScene(ui.Scene):
         self.plaintexttwo_textfield.text = "World"
         self.plaintexttwo_textfield.on_text_change.connect(self.onTextChanged)
         self.add_child(self.plaintexttwo_textfield)
-
     def drawRightColumn(self):
         """
             This draws the right column.
@@ -267,8 +251,6 @@ class KitchenSinkScene(ui.Scene):
         self.ciphertwo_imageview = ui.ImageView(ui.Rect(self.columnWidth*2, self.middleBarY + MARGIN, self.columnWidth,self.frame.h),
             self.empty)
         self.add_child(self.ciphertwo_imageview)
-
-
     def drawCenterColumn(self):
         """
             This draws the center column.
@@ -288,20 +270,16 @@ class KitchenSinkScene(ui.Scene):
         self.history.value = 1
         self.history.on_value_changed.connect(self.historyChanged)
         self.add_child(self.history)
-
     def addPointInHistory(self):
         # To do.
         self.history.high = self.history.high + 1
         self.history.value = self.history.high
         print "Adding point in history"
-
     def resetHistory(self):
         print "History reset"
-
     def historyChanged(self, slider_view, value):
         # To do.
         print "We're in history change mode! Now at: " + str(value)
-
     def __init__(self):
         ui.Scene.__init__(self)
         self.cleartext = ""
@@ -328,13 +306,10 @@ class KitchenSinkScene(ui.Scene):
         self.drawCenterColumn()
 
         self.drawLinesForGrid() # Always call last so that they're on top.
-
     def layout(self):
         ui.Scene.layout(self)
-
     def update(self, dt):
         ui.Scene.update(self, dt)
-
     def getRGB(self, num):
         a = (num >> 6) & 0xff
         r = (num >> 4) & 0xff
@@ -364,15 +339,11 @@ class KitchenSinkScene(ui.Scene):
 
         print str(num) + ": " + str(a) +","+str(r)+","+str(g)+","+str(b)
         return (a,r,g,b)
-
-
 if __name__ == '__main__':
     import pygame
     pygame.init()
     infoObject = pygame.display.Info()
     size = width, height = int(infoObject.current_w/2), int(infoObject.current_h/2)
     ui.init('pygameui - Kitchen Sink',size)
-#    pygame.display.set_mode((width*2, height*2))
-
     ui.scene.push(KitchenSinkScene())
     ui.run()
