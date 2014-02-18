@@ -183,11 +183,10 @@ class AES(object):
 
 		return expandedKey
 
-	def addRoundKey(self, state, roundKey):
+	def addRoundKey(self, roundKey):
 		"""Adds (XORs) the round key to the state."""
 		for i in range(16):
-			state[i] ^= roundKey[i]
-		return state
+			self.state[i] ^= roundKey[i]
 
 	def createRoundKey(self, expandedKey, roundKeyPointer):
 		"""Create a round key.
@@ -218,43 +217,40 @@ class AES(object):
 	# substitute all the values from the state with the value in the SBox
 	# using the state value as index for the SBox
 	#
-	def subBytes(self, state, isInv):
+	def subBytes(self, isInv):
 		if isInv: getter = self.getSBoxInvert
 		else: getter = self.getSBoxValue
-		for i in range(16): state[i] = getter(state[i])
-		return state
+		print "HERE"
+		print self.state
+		for i in range(16): self.state[i] = getter(self.state[i])
 
 	# iterate over the 4 rows and call shiftRow() with that row
-	def shiftRows(self, state, isInv):
+	def shiftRows(self, isInv):
 		for i in range(4):
-			state = self.shiftRow(state, i*4, i, isInv)
-		return state
+			self.shiftRow(i*4, i, isInv)
 
 	# each iteration shifts the row to the left by 1
-	def shiftRow(self, state, statePointer, nbr, isInv):
+	def shiftRow(self, statePointer, nbr, isInv):
 		for i in range(nbr):
 			if isInv:
-				state[statePointer:statePointer+4] = \
-						state[statePointer+3:statePointer+4] + \
-						state[statePointer:statePointer+3]
+				self.state[statePointer:statePointer+4] = \
+						self.state[statePointer+3:statePointer+4] + \
+						self.state[statePointer:statePointer+3]
 			else:
-				state[statePointer:statePointer+4] = \
-						state[statePointer+1:statePointer+4] + \
-						state[statePointer:statePointer+1]
-		return state
+				self.state[statePointer:statePointer+4] = \
+						self.state[statePointer+1:statePointer+4] + \
+						self.state[statePointer:statePointer+1]
 
 	# galois multiplication of the 4x4 matrix
-	def mixColumns(self, state, isInv):
+	def mixColumns(self, isInv):
 		# iterate over the 4 columns
 		for i in range(4):
 			# construct one column by slicing over the 4 rows
-			column = state[i:i+16:4]
+			column = self.state[i:i+16:4]
 			# apply the mixColumn on one column
 			column = self.mixColumn(column, isInv)
 			# put the values back into the state
-			state[i:i+16:4] = column
-
-		return state
+			self.state[i:i+16:4] = column
 
 	# galois multiplication of 1 column of the 4x4 matrix
 	def mixColumn(self, column, isInv):
@@ -274,50 +270,46 @@ class AES(object):
 		return column
 
 	# applies the 4 operations of the forward round in sequence
-	def aes_round(self, state, roundKey):
-		state = self.subBytes(state, False)
-		state = self.shiftRows(state, False)
-		state = self.mixColumns(state, False)
-		state = self.addRoundKey(state, roundKey)
-		return state
+	def aes_round(self, roundKey):
+		self.subBytes( False)
+		self.shiftRows( False)
+		self.mixColumns( False)
+		self.addRoundKey(roundKey)
+
 
 	# applies the 4 operations of the inverse round in sequence
-	def aes_invRound(self, state, roundKey):
-		state = self.shiftRows(state, True)
-		state = self.subBytes(state, True)
-		state = self.addRoundKey(state, roundKey)
-		state = self.mixColumns(state, True)
-		return state
+	def aes_invRound(self, roundKey):
+		self.shiftRows( True)
+		self.subBytes( True)
+		self.addRoundKey( roundKey)
+		self.mixColumns( True)
+
 
 	# Perform the initial operations, the standard round, and the final
 	# operations of the forward aes, creating a round key for each round
-	def aes_main(self, state, expandedKey, nbrRounds):
-		state = self.addRoundKey(state, self.createRoundKey(expandedKey, 0))
+	def aes_main(self, expandedKey, nbrRounds):
+		print "AES MAIN BEFORE " + str(self.state)
+		self.addRoundKey(self.createRoundKey(expandedKey, 0))
 		i = 1
+		print "AES MAIN: " + str(self.state)
 		while i < nbrRounds:
-			state = self.aes_round(state,
-								   self.createRoundKey(expandedKey, 16*i))
+			self.aes_round(self.createRoundKey(expandedKey, 16*i))
 			i += 1
-		state = self.subBytes(state, False)
-		state = self.shiftRows(state, False)
-		state = self.addRoundKey(state,
-								 self.createRoundKey(expandedKey, 16*nbrRounds))
-		return state
+		self.subBytes( False)
+		self.shiftRows( False)
+		self.addRoundKey(self.createRoundKey(expandedKey, 16*nbrRounds))
 
 	# Perform the initial operations, the standard round, and the final
 	# operations of the inverse aes, creating a round key for each round
-	def aes_invMain(self, state, expandedKey, nbrRounds):
-		state = self.addRoundKey(state,
-								 self.createRoundKey(expandedKey, 16*nbrRounds))
+	def aes_invMain(self, expandedKey, nbrRounds):
+		self.addRoundKey(self.createRoundKey(expandedKey, 16*nbrRounds))
 		i = nbrRounds - 1
 		while i > 0:
-			state = self.aes_invRound(state,
-									  self.createRoundKey(expandedKey, 16*i))
+			self.aes_invRound(self.createRoundKey(expandedKey, 16*i))
 			i -= 1
-		state = self.shiftRows(state, True)
-		state = self.subBytes(state, True)
-		state = self.addRoundKey(state, self.createRoundKey(expandedKey, 0))
-		return state
+		self.shiftRows( True)
+		self.subBytes( True)
+		self.addRoundKey( self.createRoundKey(expandedKey, 0))
 
 	# encrypts a 128 bit input block against the given key of size specified
 	def encrypt(self, iput, key, size):
@@ -351,15 +343,18 @@ class AES(object):
 		# expand the key into an 176, 208, 240 bytes key
 		# the expanded key
 		expandedKey = self.expandKey(key, size, expandedKeySize)
-
+		print block
 		# encrypt the block using the expandedKey
-		block = self.aes_main(block, expandedKey, nbrRounds)
+		self.state = block
+
+		print "OOOOO " + str(self.state)
+		#block = self.aes_main(expandedKey, nbrRounds)
 
 		# unmap the block again into the output
 		for k in range(4):
 			# iterate over the rows
 			for l in range(4):
-				output[(k*4)+l] = block[(k+(l*4))]
+				output[(k*4)+l] = self.state[(k+(l*4))]
 		return output
 
 	# decrypts a 128 bit input block against the given key of size specified
