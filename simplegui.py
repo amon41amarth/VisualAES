@@ -30,6 +30,7 @@ class MainScene(ui.Scene):
         print "Edit S Box"
     def runRoundKeys(self):
         print "Run round keys"
+        #self.currentOne.one.addRoundKey(self.currentOne.one.createRoundKey())
     def runSubBytes(self):
         print "Run sub bytes"
     def runShiftRows(self):
@@ -114,6 +115,9 @@ class MainScene(ui.Scene):
     def updateCenterColumn(self):
         """ This should update the center column """
         print "Update center"
+        self.updateView(self.currentOne, self.currentone_imageview, (0,0))
+        self.updateView(self.currentTwo, self.currenttwo_imageview, (0,0))
+
     def updateColumns(self):
         """ This updates all the columns.  Redraws the left, right, and center. """
         self.updateLeftColumn()
@@ -285,6 +289,8 @@ class MainScene(ui.Scene):
         self.cleartext = ""
         self.moo = slowaes.AESModeOfOperation()
         self.cleartext = ""
+        #self.currentOne = AES()
+        #self.currentTwo = AES()
         self.operationMode = "CBC"
         self.cypherkey = [143,194,34,208,145,203,230,143,177,246,97,206,145,92,255,84]
         self.iv = [103,35,148,239,76,213,47,118,255,222,123,176,106,134,98,92]

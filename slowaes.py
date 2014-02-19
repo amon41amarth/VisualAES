@@ -400,6 +400,8 @@ class AES(object):
 class AESModeOfOperation(object):
 
 	aes = AES()
+	one = AES()
+	two = AES()
 
 	# structure of supported modes of operation
 	modeOfOperation = dict(OFB=0, CFB=1, CBC=2)
