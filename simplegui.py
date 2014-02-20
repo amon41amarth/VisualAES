@@ -242,6 +242,7 @@ class MainScene(ui.Scene):
         self.plaintexttwo_textfield.text = "World"
         self.plaintexttwo_textfield.on_text_change.connect(self.onTextChanged)
         self.add_child(self.plaintexttwo_textfield)
+
     def drawRightColumn(self):
         """
             This draws the right column.
@@ -255,6 +256,7 @@ class MainScene(ui.Scene):
         self.ciphertwo_imageview = ui.ImageView(ui.Rect(self.columnWidth*2, self.middleBarY + MARGIN, self.columnWidth,self.frame.h),
             self.empty)
         self.add_child(self.ciphertwo_imageview)
+
     def drawCenterColumn(self):
         """
             This draws the center column.
@@ -274,16 +276,20 @@ class MainScene(ui.Scene):
         self.history.value = 1
         self.history.on_value_changed.connect(self.historyChanged)
         self.add_child(self.history)
+
     def addPointInHistory(self):
         # To do.
         self.history.high = self.history.high + 1
         self.history.value = self.history.high
         print "Adding point in history"
+
     def resetHistory(self):
         print "History reset"
+
     def historyChanged(self, slider_view, value):
         # To do.
         print "We're in history change mode! Now at: " + str(value)
+
     def __init__(self):
         ui.Scene.__init__(self)
         self.cleartext = ""
@@ -295,9 +301,8 @@ class MainScene(ui.Scene):
         self.cypherkey = [143,194,34,208,145,203,230,143,177,246,97,206,145,92,255,84]
         self.iv = [103,35,148,239,76,213,47,118,255,222,123,176,106,134,98,92]
         self.mode, self.orig_len, self.ciph = self.moo.encrypt(self.cleartext, self.moo.modeOfOperation[self.operationMode],
-                self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
+                    self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
         self.label_height = ui.theme.current.label_height
-        scrollbar_size = ui.SCROLLBAR_SIZE
         infoObject = pygame.display.Info()
         size = width, height = int(infoObject.current_w), int(infoObject.current_h)
 

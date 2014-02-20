@@ -12,6 +12,10 @@ Open:
 Work on changing the themes. The green is ugly.  You will need to recompile pygameui
 
 Open:
+	Difference between each.
+	TEAM: Discuss how we want to do this.
+
+Open:
 	Fix delete character in textbox doesn't update field.
 
 Parts:
@@ -43,3 +47,11 @@ Open:
 Open - Semi done:
 	Implement colors.
 	Look at getARGB code.  It has a rough idea, but needs work.
+
+Questions for Dr. B:
+1.  Should we have the option to change the expanded key size? 192 etc.
+2.
+3.
+4.
+5.
+6.
