@@ -2,12 +2,6 @@
 Open:
 	Alter the slider.py class to allow steps in progress.  Right now it uses percentages, it should "snap" to history 1, or history 2, depending.  This is to be used in all history functionality.
 
-DONE
-	Figure out surface -> image.  This should also include taking the string and making it a balanced 2D array.
-	Info:
-		http://www.pygame.org/docs/ref/image.html#pygame.image.fromstring
-		http://stackoverflow.com/questions/14176689/how-to-convert-a-pygame-surface-to-a-pil-image
-
 Justin (Add items when you need something added, I can do it):
 	Add to gui:
 		Change between views text view in upper left corners of each.
@@ -51,15 +45,11 @@ Open:
 	Get Py2EXE working
 	http://py2exe.org/index.cgi/Tutorial
 
-Open - Semi done:
-	Implement colors.
-	Look at getARGB code.  It has a rough idea, but needs work.
-
 Open:
-	Look up translating a 0-255 number to a sound file.  I was thinkingg
+	Making a WAV file from an 8 bit number (8 bit music!).  WAV seems easiest, built in Python support. If you'd like to try another file type, please tell the group.
 
 Questions for Dr. B:
-1.  Should we have the option to change the expanded key size? 192 etc.
+1.  Should we have the option to change the expanded key size? 192 etc. Assuming yes.
 2.
 3.
 4.
