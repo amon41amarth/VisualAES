@@ -8,8 +8,15 @@ DONE
 		http://www.pygame.org/docs/ref/image.html#pygame.image.fromstring
 		http://stackoverflow.com/questions/14176689/how-to-convert-a-pygame-surface-to-a-pil-image
 
+Justin (Add items when you need something added, I can do it):
+	Add to gui:
+		Change between views text view in upper left corners of each.
+		Button to "play" sound.
+		Button to change between greyscale and color mode.
+		Expanded key size spinner.
+
 Open:
-Work on changing the themes. The green is ugly.  You will need to recompile pygameui
+	Work on changing the themes. The green is ugly.  You will need to recompile pygameui
 
 Open:
 	Difference between each.
@@ -47,6 +54,9 @@ Open:
 Open - Semi done:
 	Implement colors.
 	Look at getARGB code.  It has a rough idea, but needs work.
+
+Open:
+	Look up translating a 0-255 number to a sound file.  I was thinkingg
 
 Questions for Dr. B:
 1.  Should we have the option to change the expanded key size? 192 etc.
