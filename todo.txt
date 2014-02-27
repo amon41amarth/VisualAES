@@ -46,6 +46,10 @@ Open:
 	http://py2exe.org/index.cgi/Tutorial
 
 Open:
+	sound.py shows how to do a single value.  Convert this to play a series of sounds.
+
+	ALT
+
 	Making a WAV file from an 8 bit number (8 bit music!).  WAV seems easiest, built in Python support. If you'd like to try another file type, please tell the group.
 
 Questions for Dr. B:
