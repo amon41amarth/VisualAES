@@ -25,7 +25,7 @@ Open:
 Open:
 	Button for showing the entropy.
 
-Open:
+Justin:
 	Make picture show in a 4X4 grid, not a strip.
 
 Parts:
