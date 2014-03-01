@@ -4,29 +4,25 @@ Open:
 
 Justin (Add items when you need something added, I can do it):
 	Add to gui:
-		Change between views text view in upper left corners of each.
-		Button to "play" sound.
-		Button to change between greyscale and color mode.
-		Expanded key size spinner.
+		Bottom bar...
+		Button: Play sounds.
+		Spinner: Expanded key size
+		Spinner: Round number
+		Spinner: Change mode of visualization
+		Button: Show entropy levels
 
 Open:
 	Work on changing the themes. The green is ugly.  You will need to recompile pygameui
 
 Open:
-	Difference between each.
-	TEAM: Discuss how we want to do this.
-
-Open:
 	Fix delete character in textbox doesn't update field.
 
-Open:
-	Spinner for changing mode of visualization
+UI Crap:
+	Open:
+		Spinner for changing mode of visualization
 
-Open:
-	Button for showing the entropy.
-
-Justin:
-	Make picture show in a 4X4 grid, not a strip.
+	Open:
+		Button for showing the entropy.
 
 Parts:
 	Open:

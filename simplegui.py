@@ -109,10 +109,12 @@ class MainScene(ui.Scene):
         """
         if(len(text) == 0):
             return
-        surf = pygame.Surface((len(text), 1))
+        #surf = pygame.Surface((len(text), 1))
+        surf = pygame.Surface((4, 4))
         surf = surf.convert()
         # Alter surf according to the string.
-        run = 0
+        col = 0
+        row = 0
         for pix in text:
             if(isinstance(text, str)):
                 num = ord(pix)
@@ -120,10 +122,13 @@ class MainScene(ui.Scene):
                 num = pix
             argb = self.getRGB(num)
             #argb = (num,num,num,num)
-            surf.set_at((run, 0), (Color(argb[1],argb[2],argb[3],argb[0])))
-            run+=1
-
-        view.image = pygame.transform.scale(surf,size)
+            surf.set_at((col, row), (Color(argb[1],argb[2],argb[3],argb[0])))
+            col = col + 1
+            if(col == 4):
+                col = 0
+                row = row + 1
+# self.columnWidth, self.buttonBarBottom +  MARGIN
+        view.image = pygame.transform.scale(surf,(self.columnWidth, self.middleBarY -  self.buttonBarBottom - MARGIN))
 
     def updateMiddleColumn(self):
 
