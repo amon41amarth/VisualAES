@@ -40,12 +40,21 @@ class MainScene(ui.Scene):
     def editSBox(self):
         self.addPointInHistory()
     def runRoundKeys(self):
-        print "Run round keys"
+        self.convertStates()
         #self.currentOne.one.addRoundKey(self.currentOne.one.createRoundKey())
     def runSubBytes(self):
-        print "Run sub bytes"
+        self.convertStates()
+        self.aes.state = self.firstState
+        self.aes.isInv = False
+        print "Before: " + str(self.firstState)
+        self.firstState = self.aes.subBytes()
+        print "After: " + str(self.firstState)
+        self.aes.state = self.secondState
+        self.aes.isInv = False
+        self.secondState = self.aes.subBytes()
+        self.updateMiddleColumn()
     def runShiftRows(self):
-        print "Run shift rows"
+        self.convertStates()
     def runMixColumns(self):
         self.convertStates()
         self.aes.state = self.firstState

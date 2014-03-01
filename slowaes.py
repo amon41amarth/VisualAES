@@ -229,6 +229,7 @@ class AES(object):
             getter = self.getSBoxValue
         for i in range(16):
             self.state[i] = getter(self.state[i])
+        return self.state
 
     # iterate over the 4 rows and call shiftRow() with that row
     def shiftRows(self):
