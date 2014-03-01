@@ -257,6 +257,7 @@ class AES(object):
             column = self.mixColumn(column)
             # put the values back into the state
             self.state[i:i+16:4] = column
+        return self.state
 
     # galois multiplication of 1 column of the 4x4 matrix
     def mixColumn(self, column):
@@ -296,10 +297,8 @@ class AES(object):
     # Perform the initial operations, the standard round, and the final
     # operations of the forward aes, creating a round key for each round
     def aes_main(self, expandedKey, nbrRounds):
-        print "AES MAIN BEFORE " + str(self.state)
         self.addRoundKey(self.createRoundKey(expandedKey, 0))
         i = 1
-        print "AES MAIN: " + str(self.state)
         while i < nbrRounds:
             self.aes_round(self.createRoundKey(expandedKey, 16*i))
             i += 1
@@ -356,11 +355,9 @@ class AES(object):
         # expand the key into an 176, 208, 240 bytes key
         # the expanded key
         expandedKey = self.expandKey(key, size, expandedKeySize)
-        print block
         # encrypt the block using the expandedKey
         self.state = block
 
-        print "OOOOO " + str(self.state)
         block = self.aes_main(expandedKey, nbrRounds)
 
         # unmap the block again into the output
@@ -417,8 +414,6 @@ class AES(object):
 class AESModeOfOperation(object):
 
     aes = AES()
-    one = AES()
-    two = AES()
 
     # structure of supported modes of operation
     modeOfOperation = dict(OFB=0, CFB=1, CBC=2)
