@@ -40,8 +40,8 @@ Open:
 	sound.py shows how to do a single value.  Convert this to play a series of sounds.
 
 Questions for Dr. B:
-1.  Should we have the option to change the expanded key size? 192 etc. Assuming yes.
-2.
+1. Number of rounds in relation to round keys.
+2. Can we edit the s box?
 3.
 4.
 5.
