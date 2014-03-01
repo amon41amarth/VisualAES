@@ -235,6 +235,7 @@ class AES(object):
     def shiftRows(self):
         for i in range(4):
             self.shiftRow(i*4, i)
+        return self.state
 
     # each iteration shifts the row to the left by 1
     def shiftRow(self, statePointer, nbr):

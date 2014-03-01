@@ -46,14 +46,20 @@ class MainScene(ui.Scene):
         self.convertStates()
         self.aes.state = self.firstState
         self.aes.isInv = False
-        print "Before: " + str(self.firstState)
         self.firstState = self.aes.subBytes()
-        print "After: " + str(self.firstState)
         self.aes.state = self.secondState
         self.aes.isInv = False
         self.secondState = self.aes.subBytes()
         self.updateMiddleColumn()
     def runShiftRows(self):
+        self.convertStates()
+        self.aes.state = self.firstState
+        self.aes.isInv = False
+        self.firstState = self.aes.shiftRows()
+        self.aes.state = self.secondState
+        self.aes.isInv = False
+        self.secondState = self.aes.shiftRows()
+        self.updateMiddleColumn()
         self.convertStates()
     def runMixColumns(self):
         self.convertStates()
