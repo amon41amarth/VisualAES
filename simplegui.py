@@ -25,24 +25,55 @@ VSMALL_MARGIN = 1
 
 
 class MainScene(ui.Scene):
+    aes = slowaes.AES()
+    aesmoo = slowaes.AESModeOfOperation()
+    def convertStates(self):
+        print "----------------------------------------------"
+        print type(self.secondState)
+        if(type(self.secondState) == type("") ):
+            print "CHAINGING\n-----------------------------"
+            self.secondState = self.aesmoo.convertString(self.secondState, 0,  len(self.secondState), self.aesmoo.modeOfOperation[self.operationMode])
+
+        if(type(self.firstState) == type("") ):
+            self.firstState = self.aesmoo.convertString(self.firstState, 0,  len(self.firstState), self.aesmoo.modeOfOperation[self.operationMode])
+
     def editSBox(self):
         self.addPointInHistory()
-        print "Edit S Box"
     def runRoundKeys(self):
-        print "Run round keys"
+        self.convertStates()
         #self.currentOne.one.addRoundKey(self.currentOne.one.createRoundKey())
     def runSubBytes(self):
-        print "Run sub bytes"
+        self.convertStates()
+        self.aes.state = self.firstState
+        self.aes.isInv = False
+        self.firstState = self.aes.subBytes()
+        self.aes.state = self.secondState
+        self.aes.isInv = False
+        self.secondState = self.aes.subBytes()
+        self.updateMiddleColumn()
     def runShiftRows(self):
-        print "Run shift rows"
+        self.convertStates()
+        self.aes.state = self.firstState
+        self.aes.isInv = False
+        self.firstState = self.aes.shiftRows()
+        self.aes.state = self.secondState
+        self.aes.isInv = False
+        self.secondState = self.aes.shiftRows()
+        self.updateMiddleColumn()
+        self.convertStates()
     def runMixColumns(self):
-        print "Run mix columns"
+        self.convertStates()
+        self.aes.state = self.firstState
+        self.aes.isInv = False
+        self.firstState = self.aes.mixColumns()
+        self.aes.state = self.secondState
+        self.aes.isInv = False
+        self.secondState = self.aes.mixColumns()
+        self.updateMiddleColumn()
     def runRound(self):
         print "Run round"
     def changeOperationMode(self):
         print "Change operation mode"
-    def updateMiddleColumn(self):
-        print "Updating middle column"
     def switchKeyPlaintextMode(self):
         print "Switching to 2keys or 2pts"
     def onButtonClick(self, btn, mbtn):
@@ -71,7 +102,6 @@ class MainScene(ui.Scene):
         self.cleartext = self.cleartext + " J"
         self.mode, self.orig_len, self.ciph = self.moo.encrypt(self.cleartext, self.moo.modeOfOperation[self.operationMode],
                 self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
-        print self.ciph
     def updateView(self, text, view, size):
         """
             This method accepts a string, cipher/plain text (text), and updates the view (view) given.
@@ -84,7 +114,6 @@ class MainScene(ui.Scene):
         # Alter surf according to the string.
         run = 0
         for pix in text:
-
             if(isinstance(text, str)):
                 num = ord(pix)
             else:
@@ -95,9 +124,14 @@ class MainScene(ui.Scene):
             run+=1
 
         view.image = pygame.transform.scale(surf,size)
+
+    def updateMiddleColumn(self):
+
+        self.updateView(self.firstState, self.currentone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+        self.updateView(self.secondState, self.currenttwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+
     def updateLeftColumn(self):
         """ This should update the left column """
-        print "ULC"
         # Left column doesn't need to be encrypted, we're using the plaintext.
 
         self.updateView(self.plaintextone_textfield.text, self.plaintextone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
@@ -105,18 +139,12 @@ class MainScene(ui.Scene):
     def updateRightColumn(self):
         """ This should update the right column """
         # Right column needs to be encrypted.
-        print "URC"
         self.mode, self.orig_len, ptoEncrypted = self.moo.encrypt(self.plaintextone_textfield.text, self.moo.modeOfOperation[self.operationMode],
             self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
         self.updateView(ptoEncrypted, self.cipherone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
         self.mode, self.orig_len, pttEncrypted = self.moo.encrypt(self.plaintexttwo_textfield.text, self.moo.modeOfOperation[self.operationMode],
             self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
         self.updateView(pttEncrypted, self.ciphertwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
-    def updateCenterColumn(self):
-        """ This should update the center column """
-        print "Update center"
-        self.updateView(self.currentOne, self.currentone_imageview, (0,0))
-        self.updateView(self.currentTwo, self.currenttwo_imageview, (0,0))
 
     def updateColumns(self):
         """ This updates all the columns.  Redraws the left, right, and center. """
@@ -129,8 +157,10 @@ class MainScene(ui.Scene):
         """
         if tf.placeholder == "Plain Text One":
             self.pto = text; # Plain Text One
+            self.firstState = self.pto
         elif tf.placeholder == "Plain Text Two":
             self.ptt = text # Plain Text Two
+            self.secondState = self.ptt
         else:
             print "Don't know what to do..."
 
@@ -144,9 +174,7 @@ class MainScene(ui.Scene):
         buttonWidth = self.frame.w / numButtons
         buttonX = (buttonWidth + VSMALL_MARGIN)
         for i in range (0, numButtons):
-            print str(i) + " " + str(numButtons)
             if(i == (numButtons-1)):
-                print "Break"
                 break
             btn = ui.Button(
                 ui.Rect(i * buttonX, 10, 0, 20),
@@ -160,7 +188,6 @@ class MainScene(ui.Scene):
             modes[i]) for i in range(len(modes))]
         for l in labels2:
             l.halign = ui.LEFT
-        print btn.frame
         self.select_view = ui.SelectView(
             ui.Rect(btn.frame.right + buttonWidth, btn.frame.top, LIST_WIDTH, self.label_height),
             labels2)
@@ -231,7 +258,7 @@ class MainScene(ui.Scene):
             ui.Rect(0, self.middleBarY-15, 200, self.label_height),
             placeholder='Plain Text One')
         self.plaintextone_textfield.centerx = self.frame.centerx
-        self.plaintextone_textfield.text = "Hello"
+        self.plaintextone_textfield.text = self.firstState = "Hello"
         self.plaintextone_textfield.on_text_change.connect(self.onTextChanged)
         self.add_child(self.plaintextone_textfield)
 
@@ -239,7 +266,7 @@ class MainScene(ui.Scene):
             ui.Rect(0, self.middleBarY+15, 200, self.label_height),
             placeholder='Plain Text Two')
         self.plaintexttwo_textfield.centerx = self.frame.centerx
-        self.plaintexttwo_textfield.text = "World"
+        self.plaintexttwo_textfield.text = self.secondState = "World"
         self.plaintexttwo_textfield.on_text_change.connect(self.onTextChanged)
         self.add_child(self.plaintexttwo_textfield)
 
@@ -263,10 +290,12 @@ class MainScene(ui.Scene):
             This will be the current cipher keys and a slider at the bottom
             for history.
         """
-        self.currentone_imageview = ui.View(ui.Rect(self.columnWidth, self.buttonBarBottom +  MARGIN, self.columnWidth,self.middleBarY + MARGIN))
+        self.currentone_imageview = ui.ImageView(ui.Rect(self.columnWidth, self.buttonBarBottom +  MARGIN, self.columnWidth,self.middleBarY + MARGIN),
+            self.empty)
         self.add_child(self.currentone_imageview)
 
-        self.currenttwo_imageview = ui.View(ui.Rect(self.columnWidth, self.middleBarY + MARGIN, self.columnWidth,self.frame.h))
+        self.currenttwo_imageview = ui.ImageView(ui.Rect(self.columnWidth, self.middleBarY + MARGIN, self.columnWidth,self.frame.h),
+            self.empty)
         self.add_child(self.currenttwo_imageview)
 
         # Draw history slider
@@ -281,7 +310,6 @@ class MainScene(ui.Scene):
         # To do.
         self.history.high = self.history.high + 1
         self.history.value = self.history.high
-        print "Adding point in history"
 
     def resetHistory(self):
         print "History reset"
@@ -315,6 +343,7 @@ class MainScene(ui.Scene):
         self.drawLeftColumn()
         self.drawRightColumn()
         self.drawCenterColumn()
+        self.updateColumns()
 
         self.drawLinesForGrid() # Always call last so that they're on top.
     def layout(self):
@@ -326,7 +355,6 @@ class MainScene(ui.Scene):
         r = ((num >> 5) & 0x7) * 36
         g = ((num >> 2) & 0x7) * 36
         b = ((num >> 0) & 0x3) * 85
-        print str(a) + " " + str(r) + " " + str(g) + " " + str(b)
         return (a,r,g,b)
 if __name__ == '__main__':
     import pygame
