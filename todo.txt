@@ -19,27 +19,22 @@ Open:
 Open:
 	Fix delete character in textbox doesn't update field.
 
+Open:
+	Spinner for changing mode of visualization
+
+Open:
+	Button for showing the entropy.
+
+Open:
+	Make picture show in a 4X4 grid, not a strip.
+
 Parts:
 	Open:
 		Switch between keys and plaintexts (2K1PT or 1K2PT)
 	Open:
 		RoundKey
 	Open:
-		SubByte
-	Open:
-		ShiftRow
-	Open:
-		MixColumn
-	Open:
-		RoundKey
-	DONE:
-		Mode of Operation UI
-		Implement in the moo
-	DONE
-		Run Round
-	Open:
 		Edit SBox
-		This one will take a longer time than normal.
 
 Open:
 	Get Py2EXE working
