@@ -179,7 +179,10 @@ class MainScene(ui.Scene):
     def expanded_key_size_changed(self, selection_view, item, index):
         #self.operationMode = str(item)
         self.updateColumns()
-    def drawTopButtons(self):
+    def visualization_changed(self, selection_view, item, index):
+        #self.operationMode = str(item)
+        self.updateColumns()
+    def drawTopBar(self):
         topButtonNames = ["Run Round","Round Keys", "RoundNumber", "EKeySize", "Sub Bytes", "Shift Rows", "Mix Columns", "MOO" ]
         numButtons = len(topButtonNames)
         buttonWidth = self.frame.w / numButtons
@@ -234,7 +237,36 @@ class MainScene(ui.Scene):
                         ui.Rect(i * buttonWidth, 10, buttonWidth, 20),
                         topButtonNames[i])
                 view.on_clicked.connect(self.onButtonClick)
-            print topButtonNames[i] + " " + str(view.frame)
+            self.add_child(view)
+    def drawBottomBar(self):
+        topButtonNames = ["2 PT 1 Key","Edit SBox", "<--", "-->", "Entropy", "Visualization"]
+        numButtons = len(topButtonNames)
+        buttonWidth = self.frame.w / numButtons
+        buttonX = (buttonWidth + VSMALL_MARGIN)
+        view = None
+        for i in range (0, len(topButtonNames)):
+            if(topButtonNames[i] == "Visualization"):
+                # Draw the spinner for modes of operation
+                modes = ["Greyscale", "Color", "Sound", "Histogram" , "Punchcard", "Bit Compare"]
+                labels2 = [ui.Label(
+                    ui.Rect(0, 0, LIST_WIDTH, self.label_height),
+                    modes[j]) for j in range(len(modes))]
+                for l in labels2:
+                    l.halign = ui.LEFT
+                view = ui.SelectView(
+                    ui.Rect(i * buttonWidth, self.frame.h-self.label_height, LIST_WIDTH, self.label_height),
+                    labels2)
+                view.on_selection_changed.connect(self.visualization_changed)
+            else:
+                if(view == None):
+                    view = ui.Button(
+                        ui.Rect(VSMALL_MARGIN, self.frame.h-self.label_height, buttonWidth, 20),
+                        topButtonNames[i])
+                else:
+                    view = ui.Button(
+                        ui.Rect(i * buttonWidth, self.frame.h-self.label_height, buttonWidth, 20),
+                        topButtonNames[i])
+                view.on_clicked.connect(self.onButtonClick)
             self.add_child(view)
     def drawLinesForGrid(self):
         """
@@ -342,12 +374,12 @@ class MainScene(ui.Scene):
         self.add_child(self.currenttwo_imageview)
 
         # Draw history slider
-        self.history = ui.SliderView(
-            ui.Rect(self.columnWidth + SMALL_MARGIN, self.frame.h-MARGIN, self.columnWidth-MARGIN, SMALL_MARGIN),
-            ui.HORIZONTAL, 0, 1, True)
-        self.history.value = 1
-        self.history.on_value_changed.connect(self.historyChanged)
-        self.add_child(self.history)
+        #self.history = ui.SliderView(
+        #    ui.Rect(self.columnWidth + SMALL_MARGIN, self.frame.h-MARGIN, self.columnWidth-MARGIN, SMALL_MARGIN),
+        #    ui.HORIZONTAL, 0, 1, True)
+        #self.history.value = 1
+        #self.history.on_value_changed.connect(self.historyChanged)
+        #self.add_child(self.history)
 
     def addPointInHistory(self):
         # To do.
@@ -382,7 +414,8 @@ class MainScene(ui.Scene):
         self.columnWidth = self.frame.w/3
         self.middleBarY = (self.frame.h - self.buttonBarBottom) / 2
 
-        self.drawTopButtons()
+        self.drawTopBar()
+        self.drawBottomBar()
         self.drawLeftColumn()
         self.drawRightColumn()
         self.drawCenterColumn()
