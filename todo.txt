@@ -22,8 +22,7 @@ Parts:
 		Edit SBox
 
 Open:
-	Get Py2EXE working
-	http://py2exe.org/index.cgi/Tutorial
+	Fix exe close prompt.
 
 Open:
 	sound.py shows how to do a single value.  Convert this to play a series of sounds.

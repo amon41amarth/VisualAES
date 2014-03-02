@@ -5,7 +5,7 @@ import sys
 import os
 
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+#sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 import pygameui as ui
 from pygame.locals import *
 
@@ -298,7 +298,7 @@ class MainScene(ui.Scene):
             ui.HORIZONTAL, 0, 1, False)
         slider.value = 1
         self.add_child(slider)
-    def load_image(self, file_name, colorkey=False, image_directory='data'):
+    def load_image(self, file_name, colorkey=False, image_directory=''):
         file = os.path.join(image_directory, file_name)
         _image = pygame.image.load(file)
         if colorkey:

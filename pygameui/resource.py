@@ -21,20 +21,25 @@ def get_font(size, use_bold=False):
     if use_bold:
         filename = 'bold'
     key = '%s:%d' % (filename, size)
+    backup_fonts = 'helvetica,arial'
+    font = pygame.font.SysFont(backup_fonts, size, use_bold)
+    return font
     try:
         font = font_cache[key]
     except KeyError:
         path = 'resources/fonts/%s.ttf' % filename
-        path = pkg_resources.resource_filename(package_name, path)
         try:
-            logger.debug('loading font %s' % path)
-            font = pygame.font.Font(path, size)
-        except pygame.error, e:
-            logger.warn('failed to load font: %s: %s' % (path, e))
-            backup_fonts = 'helvetica,arial'
-            font = pygame.font.SysFont(backup_fonts, size, use_bold)
-        else:
-            font_cache[key] = font
+            path = pkg_resources.resource_filename(package_name, path)
+        except:
+            try:
+                logger.debug('loading font %s' % path)
+                font = pygame.font.Font(path, size)
+            except pygame.error, e:
+                logger.warn('failed to load font: %s: %s' % (path, e))
+                backup_fonts = 'helvetica,arial'
+                font = pygame.font.SysFont(backup_fonts, size, use_bold)
+            else:
+                font_cache[key] = font
     return font
 
 
