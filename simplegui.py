@@ -170,34 +170,72 @@ class MainScene(ui.Scene):
             print "Don't know what to do..."
 
         self.updateColumns()
-    def selection_changed(self, selection_view, item, index):
-        self.operationMode = str(item)
+    def moo_changed(self, selection_view, item, index):
+        #self.operationMode = str(item)
+        self.updateColumns()
+    def round_number_changed(self, selection_view, item, index):
+        #self.operationMode = str(item)
+        self.updateColumns()
+    def expanded_key_size_changed(self, selection_view, item, index):
+        #self.operationMode = str(item)
         self.updateColumns()
     def drawTopButtons(self):
-        topButtonNames = ["Switch", "Edit SBox","RoundKeys","SubBytes", "ShiftRows","MixColumns","Run Round"]
-        numButtons = len(topButtonNames)+1
+        topButtonNames = ["Run Round","Round Keys", "RoundNumber", "EKeySize", "Sub Bytes", "Shift Rows", "Mix Columns", "MOO" ]
+        numButtons = len(topButtonNames)
         buttonWidth = self.frame.w / numButtons
         buttonX = (buttonWidth + VSMALL_MARGIN)
-        for i in range (0, numButtons):
-            if(i == (numButtons-1)):
-                break
-            btn = ui.Button(
-                ui.Rect(i * buttonX, 10, 0, 20),
-                topButtonNames[i])
-            btn.on_clicked.connect(self.onButtonClick)
-            self.add_child(btn)
-        # Draw the spinner for modes of operation
-        modes = ["OFB","CFB","CBC"]
-        labels2 = [ui.Label(
-            ui.Rect(0, 0, LIST_WIDTH, self.label_height),
-            modes[i]) for i in range(len(modes))]
-        for l in labels2:
-            l.halign = ui.LEFT
-        self.select_view = ui.SelectView(
-            ui.Rect(btn.frame.right + buttonWidth, btn.frame.top, LIST_WIDTH, self.label_height),
-            labels2)
-        self.select_view.on_selection_changed.connect(self.selection_changed)
-        self.add_child(self.select_view)
+        view = None
+        for i in range (0, len(topButtonNames)):
+            if(topButtonNames[i] == "RoundNumber"):
+                # Draw the spinner for modes of operation
+                modes = ["1","2","3","4","5","6","7","8","9","10","11","12",
+                        "13","14","15","16","17","18","19","20","21","22",
+                        "23","24","25","26","27","28","29","30","31","32"]
+                labels2 = [ui.Label(
+                    ui.Rect(0, 0, LIST_WIDTH, self.label_height),
+                    modes[j]) for j in range(len(modes))]
+                for l in labels2:
+                    l.halign = ui.LEFT
+                view = ui.SelectView(
+                    ui.Rect(i * buttonWidth, 0, LIST_WIDTH, self.label_height),
+                    labels2)
+                view.on_selection_changed.connect(self.round_number_changed)
+            elif (topButtonNames[i] == "EKeySize"):
+                # Draw the spinner for modes of operation
+                modes = ["128","192","256"]
+                labels2 = [ui.Label(
+                    ui.Rect(0, 0, LIST_WIDTH, self.label_height),
+                    modes[j]) for j in range(len(modes))]
+                for l in labels2:
+                    l.halign = ui.LEFT
+                view = ui.SelectView(
+                    ui.Rect(i * buttonWidth, 0, LIST_WIDTH, self.label_height),
+                    labels2)
+                view.on_selection_changed.connect(self.expanded_key_size_changed)
+            elif (topButtonNames[i] == "MOO"):
+                # Draw the spinner for modes of operation
+                modes = ["OFB","CFB","CBC"]
+                labels2 = [ui.Label(
+                    ui.Rect(0, 0, LIST_WIDTH, self.label_height),
+                    modes[j]) for j in range(len(modes))]
+                for l in labels2:
+                    l.halign = ui.LEFT
+                view = ui.SelectView(
+                    ui.Rect(i * buttonWidth, 0, LIST_WIDTH, self.label_height),
+                    labels2)
+                view.on_selection_changed.connect(self.moo_changed)
+            else:
+                if(view == None):
+                    view = ui.Button(
+                        ui.Rect(VSMALL_MARGIN, 10, buttonWidth, 20),
+                        topButtonNames[i])
+                else:
+                    view = ui.Button(
+                        ui.Rect(i * buttonWidth, 10, buttonWidth, 20),
+                        topButtonNames[i])
+                view.on_clicked.connect(self.onButtonClick)
+            print topButtonNames[i] + " " + str(view.frame)
+            self.add_child(view)
     def drawLinesForGrid(self):
         """
             This draws the grid lines.
@@ -355,6 +393,7 @@ class MainScene(ui.Scene):
         ui.Scene.layout(self)
     def update(self, dt):
         ui.Scene.update(self, dt)
+        self.updateColumns()
     def getRGB(self, num):
         a = 255
         r = ((num >> 5) & 0x7) * 36

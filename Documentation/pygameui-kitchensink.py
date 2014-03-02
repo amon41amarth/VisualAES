@@ -18,7 +18,7 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(console_handler)
 
 
-LIST_WIDTH = 180
+LIST_WIDTH = 100
 MARGIN = 20
 SMALL_MARGIN = 10
 

@@ -1,7 +1,3 @@
-
-Open:
-	Alter the slider.py class to allow steps in progress.  Right now it uses percentages, it should "snap" to history 1, or history 2, depending.  This is to be used in all history functionality.
-
 Justin (Add items when you need something added, I can do it):
 	Add to gui:
 		Bottom bar...
@@ -17,15 +13,8 @@ Open:
 Open:
 	Fix delete character in textbox doesn't update field.
 
-UI Crap:
-	Open:
-		Spinner for changing mode of visualization
-
-	Open:
-		Button for showing the entropy.
-
 Parts:
-	Open:
+	Justin:
 		Switch between keys and plaintexts (2K1PT or 1K2PT)
 	Open:
 		RoundKey
@@ -42,7 +31,7 @@ Open:
 Questions for Dr. B:
 1. Number of rounds in relation to round keys.
 2. Can we edit the s box?
-3.
+3. What exactly do you mean by variable watching?
 4.
 5.
 6.
