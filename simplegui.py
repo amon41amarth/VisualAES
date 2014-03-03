@@ -28,13 +28,11 @@ class MainScene(ui.Scene):
     aes = slowaes.AES()
     aesmoo = slowaes.AESModeOfOperation()
     def convertStates(self):
-        print "----------------------------------------------"
-        print type(self.secondState)
         if(type(self.secondState) == type("") ):
-            print "CHAINGING\n-----------------------------"
             self.secondState = self.aesmoo.convertString(self.secondState, 0,  len(self.secondState), self.aesmoo.modeOfOperation[self.operationMode])
 
         if(type(self.firstState) == type("") ):
+            print "Converting the First state " + str(self.firstState)
             self.firstState = self.aesmoo.convertString(self.firstState, 0,  len(self.firstState), self.aesmoo.modeOfOperation[self.operationMode])
 
     def editSBox(self):
@@ -163,24 +161,19 @@ class MainScene(ui.Scene):
             nums.append(0)
         for x in text:
             if(type(x) == type(0)):
-                print x
                 nums[x] = nums[x] + 1
             else:
                 nums[ord(x)] = nums[ord(x)] + 1
         height = 0
         for x in range(0, len(nums)):
-            if(x < height):
-                height = x
-        print self.columnWidth
-        surf = pygame.Surface((255, 200))
+            if(nums[x] > height):
+                height = nums[x]
+        surf = pygame.Surface((255, height+1))
         surf = surf.convert()
         for x in range(0, 255):
             for y in range(0,nums[x]):
                 surf.set_at((x,y), (Color(255,0,0)))
-        print "crashing"
-        #img =
-        print "Waiting"
-        view.image = pygame.transform.scale(surf,(self.columnWidth, self.middleBarY -  self.buttonBarBottom - MARGIN))
+        view.image = pygame.transform.rotate(pygame.transform.scale(surf,(self.columnWidth, self.middleBarY -  self.buttonBarBottom - MARGIN)), 180)
 
 
     def updateMiddleColumn(self):
@@ -188,6 +181,7 @@ class MainScene(ui.Scene):
             self.updateView(self.firstState, self.currentone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
             self.updateView(self.secondState, self.currenttwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
         elif(self.visualization == "Histogram"):
+            self.convertStates()
             self.histogramOnView(self.firstState, self.currentone_imageview)
             self.histogramOnView(self.secondState, self.currenttwo_imageview)
 

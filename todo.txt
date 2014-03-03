@@ -13,8 +13,6 @@ Parts - Visualizations:
 		Sound
 	Open:
 		Punchcard
-Open:
-	Histogram size isn't right. Fix
 
 Questions for Dr. B:
 1. Number of rounds in relation to round keys.
