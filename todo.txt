@@ -13,10 +13,20 @@ Parts:
 		Edit SBox
 
 Open:
-	Fix exe close prompt.
+	Entropy algorithms
+
+Parts - Visualizations:
+	Open:
+		Bit Compare
+	Open:
+		Sound
+	Open:
+		Punchcard
+	Open:
+		Histogram
 
 Open:
-	sound.py shows how to do a single value.  Convert this to play a series of sounds.
+	Fix exe close prompt.
 
 Questions for Dr. B:
 1. Number of rounds in relation to round keys.
