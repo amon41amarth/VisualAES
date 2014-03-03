@@ -1,6 +1,3 @@
-Open:
-	Work on changing the themes. The green is ugly.  You will need to recompile pygameui
-
 Parts:
 	Justin:
 		Switch between keys and plaintexts (2K1PT or 1K2PT)
@@ -9,7 +6,7 @@ Parts:
 	Open:
 		Edit SBox
 
-Open:
+Justin:
 	Entropy algorithms
 
 Parts - Visualizations:

@@ -186,9 +186,9 @@ def use_theme(theme):
 
 
 def init_light_theme():
-    color1 = (227, 227, 159)    # a light yellow
-    color2 = (173, 222, 78)     # a light green
-    color3 = (77, 148, 83)      # a dark green
+    color1 = (0, 0, 0)    # a light yellow
+    color2 = (255, 255, 255)     # a light green
+    color3 = (0, 0, 0)      # a dark green
     color4 = white_color
     color5 = near_white_color
     color6 = light_gray_color
