@@ -9,7 +9,7 @@ import entropy
 #sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 import pygameui as ui
 from pygame.locals import *
-
+"""
 import logging
 log_format = '%(asctime)-6s: %(name)s - %(levelname)s - %(message)s'
 console_handler = logging.StreamHandler()
@@ -17,7 +17,7 @@ console_handler.setFormatter(logging.Formatter(log_format))
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 logger.addHandler(console_handler)
-
+"""
 
 LIST_WIDTH = 100
 MARGIN = 20

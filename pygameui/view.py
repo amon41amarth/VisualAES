@@ -77,18 +77,9 @@ class View(object):
         Subclasses should invoke this after laying out child
         views and/or updating its own frame.
         """
-        if self.shadowed:
-            shadow_size = theme.current.shadow_size
-            shadowed_frame_size = (self.frame.w + shadow_size,
-                                   self.frame.h + shadow_size)
-            self.surface = pygame.Surface(
-                shadowed_frame_size, pygame.SRCALPHA, 32)
-            shadow_image = resource.get_image('shadow')
-            self.shadow_image = resource.scale_image(shadow_image,
-                                                     shadowed_frame_size)
-        else:
-            self.surface = pygame.Surface(self.frame.size, pygame.SRCALPHA, 32)
-            self.shadow_image = None
+
+        self.surface = pygame.Surface(self.frame.size, pygame.SRCALPHA, 32)
+        self.shadow_image = None
 
     def size_to_fit(self):
         rect = self.frame
@@ -236,11 +227,6 @@ class View(object):
 
                 topleft = child.frame.topleft
 
-                if child.shadowed:
-                    shadow_size = theme.current.shadow_size
-                    shadow_topleft = (topleft[0] - shadow_size // 2,
-                                      topleft[1] - shadow_size // 2)
-                    self.surface.blit(child.shadow_image, shadow_topleft)
 
                 self.surface.blit(child.surface, topleft)
 
@@ -308,7 +294,7 @@ class View(object):
         if self.parent is not None:
             self.frame.center = (self.parent.frame.w - self.frame.w / 2,
                                 self.parent.frame.h // 2)
-                            
+
     def add_child(self, child):
         assert child is not None
         self.rm_child(child)

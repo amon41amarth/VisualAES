@@ -1,5 +1,5 @@
 Parts:
-	Justin:
+	Justin - number 4:
 		Switch between keys and plaintexts (2K1PT or 1K2PT)
 	Open:
 		RoundKey
@@ -23,6 +23,6 @@ Questions for Dr. B:
 1. Number of rounds in relation to round keys.
 2. Can we edit the s box?
 3. What exactly do you mean by variable watching?
-4.
+4. How to get input for plaintext to encrypt on 1PT2K?
 5.
 6.

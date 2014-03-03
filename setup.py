@@ -129,7 +129,7 @@ class BuildExe:
             self.icon_file = os.path.join(path, 'pygame.ico')
  
         #List all data files to add
-        extra_datas = ['empty.png']
+        extra_datas = ['empty.png','pygameui\\resources\\images\\info.png','pygameui\\resources\\images\\logo.png','pygameui\\resources\\images\\shadow.png','pygameui\\resources\\images\\spinner.png','pygameui\\resources\\images\\star.png']
         for data in self.extra_datas:
             if os.path.isdir(data):
                 extra_datas.extend(self.find_data_files(data, '*'))

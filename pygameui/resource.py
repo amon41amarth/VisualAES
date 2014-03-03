@@ -47,6 +47,7 @@ def get_font(size, use_bold=False):
 
 
 def get_image(name):
+    print "Getting image : " + name
     try:
         img = image_cache[name]
     except KeyError:
