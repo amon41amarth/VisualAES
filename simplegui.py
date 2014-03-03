@@ -156,13 +156,40 @@ class MainScene(ui.Scene):
             if(col == 4):
                 col = 0
                 row = row + 1
-# self.columnWidth, self.buttonBarBottom +  MARGIN
         view.image = pygame.transform.scale(surf,(self.columnWidth, self.middleBarY -  self.buttonBarBottom - MARGIN))
+    def histogramOnView(self, text, view):
+        nums = []
+        for x in range(0,256):
+            nums.append(0)
+        for x in text:
+            if(type(x) == type(0)):
+                print x
+                nums[x] = nums[x] + 1
+            else:
+                nums[ord(x)] = nums[ord(x)] + 1
+        height = 0
+        for x in range(0, len(nums)):
+            if(x < height):
+                height = x
+        print self.columnWidth
+        surf = pygame.Surface((255, 200))
+        surf = surf.convert()
+        for x in range(0, 255):
+            for y in range(0,nums[x]):
+                surf.set_at((x,y), (Color(255,0,0)))
+        print "crashing"
+        #img =
+        print "Waiting"
+        view.image = pygame.transform.scale(surf,(self.columnWidth, self.middleBarY -  self.buttonBarBottom - MARGIN))
+
 
     def updateMiddleColumn(self):
         if(self.visualization == "Greyscale" or self.visualization == "Color" ):
             self.updateView(self.firstState, self.currentone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
             self.updateView(self.secondState, self.currenttwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+        elif(self.visualization == "Histogram"):
+            self.histogramOnView(self.firstState, self.currentone_imageview)
+            self.histogramOnView(self.secondState, self.currenttwo_imageview)
 
     def updateLeftColumn(self):
         """ This should update the left column """
@@ -170,6 +197,9 @@ class MainScene(ui.Scene):
         if(self.visualization == "Greyscale" or self.visualization == "Color" ):
             self.updateView(self.plaintextone_textfield.text, self.plaintextone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
             self.updateView(self.plaintexttwo_textfield.text, self.plaintexttwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+        elif(self.visualization == "Histogram"):
+            self.histogramOnView(self.plaintextone_textfield.text, self.plaintextone_imageview)
+            self.histogramOnView(self.plaintexttwo_textfield.text, self.plaintexttwo_imageview)
     def updateRightColumn(self):
         """ This should update the right column """
         # Right column needs to be encrypted.
@@ -180,6 +210,13 @@ class MainScene(ui.Scene):
             self.mode, self.orig_len, self.pttEncrypted = self.moo.encrypt(self.plaintexttwo_textfield.text, self.moo.modeOfOperation[self.operationMode],
                 self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
             self.updateView(self.pttEncrypted, self.ciphertwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+        elif(self.visualization == "Histogram"):
+            self.mode, self.orig_len, self.ptoEncrypted = self.moo.encrypt(self.plaintextone_textfield.text, self.moo.modeOfOperation[self.operationMode],
+                self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
+            self.histogramOnView(self.ptoEncrypted, self.cipherone_imageview)
+            self.mode, self.orig_len, self.pttEncrypted = self.moo.encrypt(self.plaintexttwo_textfield.text, self.moo.modeOfOperation[self.operationMode],
+                self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
+            self.histogramOnView(self.pttEncrypted, self.ciphertwo_imageview)
 
     def updateColumns(self):
         """ This updates all the columns.  Redraws the left, right, and center. """
