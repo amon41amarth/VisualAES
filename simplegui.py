@@ -38,7 +38,7 @@ class MainScene(ui.Scene):
             self.firstState = self.aesmoo.convertString(self.firstState, 0,  len(self.firstState), self.aesmoo.modeOfOperation[self.operationMode])
 
     def editSBox(self):
-        self.addPointInHistory()
+        print "Edit s box"
     def runRoundKeys(self):
         self.convertStates()
         #self.currentOne.one.addRoundKey(self.currentOne.one.createRoundKey())
@@ -74,29 +74,45 @@ class MainScene(ui.Scene):
         print "Run round"
     def changeOperationMode(self):
         print "Change operation mode"
-    def switchKeyPlaintextMode(self):
-        print "Switching to 2keys or 2pts"
+    def switchKeyPlaintextMode(self, btn):
+        if("2 Key" in btn.text):
+            btn.text = "2 Plaintexts 1 Key"
+        else:
+            btn.text = "1 Plaintext 2 Keys"
+    def showEntropy(self):
+        ui.show_alert_test(title='Greetings!', message='Left', position='Left')
+        ui.show_alert_test(title='Greetings!', message='Center', position='Center')
+        ui.show_alert_test(title='Greetings!', message='Right', position='Right')
+
+    def historyForward(self):
+        print "Forward"
+    def historyBackward(self):
+        print "Backward"
     def onButtonClick(self, btn, mbtn):
-        if btn.text == "Edit SBox":
+        if "SBox" in btn.text:
             self.editSBox()
-        elif btn.text == "RoundKeys":
+        elif "Round" in btn.text:
             self.runRoundKeys()
-        elif btn.text == "SubBytes":
+        elif "Sub" in btn.text:
             self.runSubBytes()
-        elif btn.text == "ShiftRows":
+        elif "Shift" in btn.text:
             self.runShiftRows()
-        elif btn.text == "MixColumns":
+        elif "Mix" in btn.text:
             self.runMixColumns()
-        elif btn.text == "Run Round":
+        elif "Run Round" in btn.text:
             self.runRound()
-        elif btn.text == "Operation Modes":
-            self.changeOperationMode()
-        elif btn.text == "Switch":
-            self.switchKeyPlaintextMode()
+        elif "Plaintext" in btn.text:
+            self.switchKeyPlaintextMode(btn)
+        elif "<--" in btn.text:
+            self.historyBackward()
+        elif "-->" in btn.text:
+            self.historyForward()
+        elif "Entropy" in btn.text:
+            self.showEntropy()
         else:
             print "Don't know what to do"
         # We don't always have to update the middle column. But just so it's easy to read and less bull crap lines,
-        # we'll bbe updating it everytime this method is called.
+        # we'll be updating it everytime this method is called.
         self.updateMiddleColumn()
 
         self.cleartext = self.cleartext + " J"
@@ -171,16 +187,16 @@ class MainScene(ui.Scene):
 
         self.updateColumns()
     def moo_changed(self, selection_view, item, index):
-        #self.operationMode = str(item)
+        self.operationMode = str(item)
         self.updateColumns()
     def round_number_changed(self, selection_view, item, index):
-        #self.operationMode = str(item)
+        print "Round number changed."
         self.updateColumns()
     def expanded_key_size_changed(self, selection_view, item, index):
-        #self.operationMode = str(item)
+        print "Expanded key size changed"
         self.updateColumns()
     def visualization_changed(self, selection_view, item, index):
-        #self.operationMode = str(item)
+        print "Visual changed"
         self.updateColumns()
     def drawTopBar(self):
         topButtonNames = ["Run Round","Round Keys", "RoundNumber", "EKeySize", "Sub Bytes", "Shift Rows", "Mix Columns", "MOO" ]
@@ -239,13 +255,13 @@ class MainScene(ui.Scene):
                 view.on_clicked.connect(self.onButtonClick)
             self.add_child(view)
     def drawBottomBar(self):
-        topButtonNames = ["2 PT 1 Key","Edit SBox", "<--", "-->", "Entropy", "Visualization"]
-        numButtons = len(topButtonNames)
+        bottomButtonNames = ["2 Plaintexts 1 Key","Edit SBox", "<--", "-->", "Entropy", "Visualization"]
+        numButtons = len(bottomButtonNames)
         buttonWidth = self.frame.w / numButtons
         buttonX = (buttonWidth + VSMALL_MARGIN)
         view = None
-        for i in range (0, len(topButtonNames)):
-            if(topButtonNames[i] == "Visualization"):
+        for i in range (0, len(bottomButtonNames)):
+            if(bottomButtonNames[i] == "Visualization"):
                 # Draw the spinner for modes of operation
                 modes = ["Greyscale", "Color", "Sound", "Histogram" , "Punchcard", "Bit Compare"]
                 labels2 = [ui.Label(
@@ -261,11 +277,11 @@ class MainScene(ui.Scene):
                 if(view == None):
                     view = ui.Button(
                         ui.Rect(VSMALL_MARGIN, self.frame.h-self.label_height, buttonWidth, 20),
-                        topButtonNames[i])
+                        bottomButtonNames[i])
                 else:
                     view = ui.Button(
                         ui.Rect(i * buttonWidth, self.frame.h-self.label_height, buttonWidth, 20),
-                        topButtonNames[i])
+                        bottomButtonNames[i])
                 view.on_clicked.connect(self.onButtonClick)
             self.add_child(view)
     def drawLinesForGrid(self):

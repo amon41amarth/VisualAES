@@ -1,12 +1,3 @@
-Justin (Add items when you need something added, I can do it):
-	Add to gui:
-		Bottom bar...
-		Button: Play sounds.
-		Spinner: Expanded key size
-		Spinner: Round number
-		Spinner: Change mode of visualization
-		Button: Show entropy levels
-
 Open:
 	Work on changing the themes. The green is ugly.  You will need to recompile pygameui
 

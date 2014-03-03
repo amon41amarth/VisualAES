@@ -106,7 +106,6 @@ class SelectView(view.View):
             points = [(f.left + f.w // 4, f.h - f.h // 3),
                       (f.right - f.w // 4, f.h - f.h // 3),
                       (f.centerx, f.h // 3)]
-
         pygame.draw.polygon(self.surface,
                             self.disclosure_triangle_color,
                             points)

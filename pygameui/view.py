@@ -300,7 +300,15 @@ class View(object):
         if self.parent is not None:
             self.frame.center = (self.parent.frame.w // 2,
                                  self.parent.frame.h // 2)
-
+    def left(self):
+        if self.parent is not None:
+            self.frame.center = (self.frame.w / 2,
+                                self.parent.frame.h // 2)
+    def right(self):
+        if self.parent is not None:
+            self.frame.center = (self.parent.frame.w - self.frame.w / 2,
+                                self.parent.frame.h // 2)
+                            
     def add_child(self, child):
         assert child is not None
         self.rm_child(child)
