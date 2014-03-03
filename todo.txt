@@ -7,11 +7,11 @@ Parts:
 		Edit SBox
 
 Parts - Visualizations:
-	Open:
+	Blake:
 		Bit Compare
-	Open:
+	Evan:
 		Sound
-	Open:
+	Rusty:
 		Punchcard
 
 Questions for Dr. B:
