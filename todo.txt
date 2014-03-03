@@ -1,9 +1,6 @@
 Open:
 	Work on changing the themes. The green is ugly.  You will need to recompile pygameui
 
-Open:
-	Fix delete character in textbox doesn't update field.
-
 Parts:
 	Justin:
 		Switch between keys and plaintexts (2K1PT or 1K2PT)
@@ -11,6 +8,9 @@ Parts:
 		RoundKey
 	Open:
 		Edit SBox
+
+Open:
+	Fix dropdown menu for visualization
 
 Open:
 	Entropy algorithms

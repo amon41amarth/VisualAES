@@ -47,6 +47,7 @@ class TextField(view.View):
     def key_down(self, key, code):
         if key == pygame.K_BACKSPACE:
             self.text = self.text[0:-1]
+            self.on_text_change(self, self.text)
         elif key == pygame.K_RETURN:
             can_submit = True
             if self.placeholder and self.text == self.placeholder:

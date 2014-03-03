@@ -30,7 +30,7 @@ class SelectView(view.View):
         self.on_selection_changed = callback.Signal()
         self.on_list_opened = callback.Signal()
 
-        self.top_label = label.Label(pygame.Rect(0, 0, 1, 1), '')
+        self.top_label = label.Label(pygame.Rect(0, 0, 1, 1), str(items[0]))
         self.top_label.halign = label.LEFT
         self.top_label._enabled = True
         self.top_label.on_mouse_down.connect(self.show_list)
@@ -106,6 +106,7 @@ class SelectView(view.View):
             points = [(f.left + f.w // 4, f.h - f.h // 3),
                       (f.right - f.w // 4, f.h - f.h // 3),
                       (f.centerx, f.h // 3)]
+
         pygame.draw.polygon(self.surface,
                             self.disclosure_triangle_color,
                             points)
