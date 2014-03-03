@@ -72,8 +72,6 @@ class MainScene(ui.Scene):
         self.updateMiddleColumn()
     def runRound(self):
         print "Run round"
-    def changeOperationMode(self):
-        print "Change operation mode"
     def switchKeyPlaintextMode(self, btn):
         if("2 Key" in btn.text):
             btn.text = "2 Plaintexts 1 Key"
@@ -149,8 +147,10 @@ class MainScene(ui.Scene):
                 num = ord(pix)
             else:
                 num = pix
-            argb = self.getRGB(num)
-            #argb = (num,num,num,num)
+            if(self.visualization == "Color" ):
+                argb = self.getRGB(num)
+            else:
+                argb = (num,num,num,num)
             surf.set_at((col, row), (Color(argb[1],argb[2],argb[3],argb[0])))
             col = col + 1
             if(col == 4):
@@ -160,25 +160,26 @@ class MainScene(ui.Scene):
         view.image = pygame.transform.scale(surf,(self.columnWidth, self.middleBarY -  self.buttonBarBottom - MARGIN))
 
     def updateMiddleColumn(self):
-
-        self.updateView(self.firstState, self.currentone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
-        self.updateView(self.secondState, self.currenttwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+        if(self.visualization == "Greyscale" or self.visualization == "Color" ):
+            self.updateView(self.firstState, self.currentone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+            self.updateView(self.secondState, self.currenttwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
 
     def updateLeftColumn(self):
         """ This should update the left column """
         # Left column doesn't need to be encrypted, we're using the plaintext.
-
-        self.updateView(self.plaintextone_textfield.text, self.plaintextone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
-        self.updateView(self.plaintexttwo_textfield.text, self.plaintexttwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+        if(self.visualization == "Greyscale" or self.visualization == "Color" ):
+            self.updateView(self.plaintextone_textfield.text, self.plaintextone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+            self.updateView(self.plaintexttwo_textfield.text, self.plaintexttwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
     def updateRightColumn(self):
         """ This should update the right column """
         # Right column needs to be encrypted.
-        self.mode, self.orig_len, self.ptoEncrypted = self.moo.encrypt(self.plaintextone_textfield.text, self.moo.modeOfOperation[self.operationMode],
-            self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
-        self.updateView(self.ptoEncrypted, self.cipherone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
-        self.mode, self.orig_len, self.pttEncrypted = self.moo.encrypt(self.plaintexttwo_textfield.text, self.moo.modeOfOperation[self.operationMode],
-            self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
-        self.updateView(self.pttEncrypted, self.ciphertwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+        if(self.visualization == "Greyscale" or self.visualization == "Color" ):
+            self.mode, self.orig_len, self.ptoEncrypted = self.moo.encrypt(self.plaintextone_textfield.text, self.moo.modeOfOperation[self.operationMode],
+                self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
+            self.updateView(self.ptoEncrypted, self.cipherone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+            self.mode, self.orig_len, self.pttEncrypted = self.moo.encrypt(self.plaintexttwo_textfield.text, self.moo.modeOfOperation[self.operationMode],
+                self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
+            self.updateView(self.pttEncrypted, self.ciphertwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
 
     def updateColumns(self):
         """ This updates all the columns.  Redraws the left, right, and center. """
@@ -209,7 +210,8 @@ class MainScene(ui.Scene):
         print "Expanded key size changed"
         self.updateColumns()
     def visualization_changed(self, selection_view, item, index):
-        print "Visual changed"
+        print "Visual changed " + str(item)
+        self.visualization = str(item)
         self.updateColumns()
     def drawTopBar(self):
         topButtonNames = ["Run Round","Round Keys", "RoundNumber", "EKeySize", "Sub Bytes", "Shift Rows", "Mix Columns", "MOO" ]
@@ -431,6 +433,7 @@ class MainScene(ui.Scene):
         self.statesEntropy = None
         self.cryptsEntropy = None
         self.operationMode = "CBC"
+        self.visualization = "Greyscale"
         self.cypherkey = [143,194,34,208,145,203,230,143,177,246,97,206,145,92,255,84]
         self.iv = [103,35,148,239,76,213,47,118,255,222,123,176,106,134,98,92]
         self.mode, self.orig_len, self.ciph = self.moo.encrypt(self.cleartext, self.moo.modeOfOperation[self.operationMode],
