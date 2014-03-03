@@ -21,10 +21,10 @@ class SelectView(view.View):
             item selected
     """
 
-    def __init__(self, frame, items):
+    def __init__(self, frame, items, isUpToBottom = True):
         """items: list of views; str(item) used for selection display"""
         assert len(items) > 0
-
+        self.isUpToBottom = isUpToBottom
         view.View.__init__(self, pygame.Rect(frame.topleft, (1, 1)))
 
         self.on_selection_changed = callback.Signal()
@@ -47,22 +47,36 @@ class SelectView(view.View):
         self.disclosure = button.Button(pygame.Rect(0, 0, 1, 1), caption='')
         self.disclosure.on_clicked.connect(self._toggle_show_list)
         self.add_child(self.disclosure)
+        self.isOnlyOnce = True
 
     def layout(self):
         assert self.padding[0] == 0 and self.padding[1] == 0
-
+  
         self.scroll_view.frame.top = self.top_label.frame.bottom - 1
         self.scroll_view.frame.h = 100
         self.scroll_view.frame.w = (self.list_view.frame.w +
                                     scroll.SCROLLBAR_SIZE)
 
-        self.frame.w = self.scroll_view.frame.w
 
+        self.frame.w = self.scroll_view.frame.w
+            
         if self.scroll_view.hidden:
             self.frame.h = theme.current.label_height
+            if(not self.isUpToBottom):
+                if(self.isOnlyOnce):
+                    self.oldFrame = self.frame.top
+                    self.isOnlyOnce = False
+                self.frame.top = self.oldFrame
         else:
             self.frame.h = (self.top_label.frame.h +
                             self.scroll_view.frame.h - 1)
+            if(not self.isUpToBottom):
+                if(self.isOnlyOnce):
+                    self.oldFrame = self.frame.top
+                    self.isOnlyOnce = False
+                self.frame.top = self.oldFrame - 100
+                print str(self.frame)
+                
 
         self.disclosure.frame.w = theme.current.label_height
         self.disclosure.frame.h = theme.current.label_height

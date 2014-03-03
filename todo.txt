@@ -10,9 +10,6 @@ Parts:
 		Edit SBox
 
 Open:
-	Fix dropdown menu for visualization
-
-Open:
 	Entropy algorithms
 
 Parts - Visualizations:

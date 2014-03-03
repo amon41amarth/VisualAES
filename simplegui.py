@@ -271,7 +271,7 @@ class MainScene(ui.Scene):
                     l.halign = ui.LEFT
                 view = ui.SelectView(
                     ui.Rect(i * buttonWidth, self.frame.h-self.label_height, LIST_WIDTH, self.label_height),
-                    labels2)
+                    labels2, False)
                 view.on_selection_changed.connect(self.visualization_changed)
             else:
                 if(view == None):
