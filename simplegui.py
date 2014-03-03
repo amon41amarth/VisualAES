@@ -3,6 +3,7 @@
 import slowaes
 import sys
 import os
+import entropy
 
 
 #sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
@@ -22,7 +23,6 @@ LIST_WIDTH = 100
 MARGIN = 20
 SMALL_MARGIN = 10
 VSMALL_MARGIN = 1
-
 
 class MainScene(ui.Scene):
     aes = slowaes.AES()
@@ -80,9 +80,22 @@ class MainScene(ui.Scene):
         else:
             btn.text = "1 Plaintext 2 Keys"
     def showEntropy(self):
-        ui.show_alert_test(title='Greetings!', message='Left', position='Left')
-        ui.show_alert_test(title='Greetings!', message='Center', position='Center')
-        ui.show_alert_test(title='Greetings!', message='Right', position='Right')
+        e = entropy.Entropy()
+        original = e.getAllEntropies(self.plaintextone_textfield.text, self.plaintexttwo_textfield.text)
+        states = e.getAllEntropies(self.firstState, self.secondState)
+        crypts = e.getAllEntropies(self.ptoEncrypted, self.pttEncrypted)
+        if( self.originalEntropy != None):
+            self.originalEntropy._dismiss(None, None)
+            self.originalEntropy = None
+        if( self.statesEntropy != None):
+            self.statesEntropy._dismiss(None, None)
+            self.statesEntropy = None
+        if( self.cryptsEntropy != None):
+            self.cryptsEntropy._dismiss(None, None)
+            self.cryptsEntropy = None
+        self.originalEntropy = ui.show_alert_test(title='', message=original, position='Left')
+        self.statesEntropy = ui.show_alert_test(title='', message=states, position='Center')
+        self.cryptsEntropy = ui.show_alert_test(title='', message=crypts, position='Right')
 
     def historyForward(self):
         print "Forward"
@@ -160,12 +173,12 @@ class MainScene(ui.Scene):
     def updateRightColumn(self):
         """ This should update the right column """
         # Right column needs to be encrypted.
-        self.mode, self.orig_len, ptoEncrypted = self.moo.encrypt(self.plaintextone_textfield.text, self.moo.modeOfOperation[self.operationMode],
+        self.mode, self.orig_len, self.ptoEncrypted = self.moo.encrypt(self.plaintextone_textfield.text, self.moo.modeOfOperation[self.operationMode],
             self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
-        self.updateView(ptoEncrypted, self.cipherone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
-        self.mode, self.orig_len, pttEncrypted = self.moo.encrypt(self.plaintexttwo_textfield.text, self.moo.modeOfOperation[self.operationMode],
+        self.updateView(self.ptoEncrypted, self.cipherone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+        self.mode, self.orig_len, self.pttEncrypted = self.moo.encrypt(self.plaintexttwo_textfield.text, self.moo.modeOfOperation[self.operationMode],
             self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
-        self.updateView(pttEncrypted, self.ciphertwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+        self.updateView(self.pttEncrypted, self.ciphertwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
 
     def updateColumns(self):
         """ This updates all the columns.  Redraws the left, right, and center. """
@@ -414,8 +427,9 @@ class MainScene(ui.Scene):
         self.cleartext = ""
         self.moo = slowaes.AESModeOfOperation()
         self.cleartext = ""
-        #self.currentOne = AES()
-        #self.currentTwo = AES()
+        self.originalEntropy = None
+        self.statesEntropy = None
+        self.cryptsEntropy = None
         self.operationMode = "CBC"
         self.cypherkey = [143,194,34,208,145,203,230,143,177,246,97,206,145,92,255,84]
         self.iv = [103,35,148,239,76,213,47,118,255,222,123,176,106,134,98,92]

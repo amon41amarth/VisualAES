@@ -6,9 +6,6 @@ Parts:
 	Open:
 		Edit SBox
 
-Justin:
-	Entropy algorithms
-
 Parts - Visualizations:
 	Open:
 		Bit Compare

@@ -107,6 +107,7 @@ def show_alert(message, title='Info', buttons=OK):
     scene.current.add_child(alert_view)
     alert_view.focus()
     alert_view.center()
+    return alert_view
 
 def show_alert_test(message, title='Info', buttons=OK, position = 'Center'):
     alert_view = AlertView(title, message, buttons)
@@ -119,4 +120,4 @@ def show_alert_test(message, title='Info', buttons=OK, position = 'Center'):
         alert_view.right()
     elif(position == 'Left'):
         alert_view.left()
-        
+    return alert_view
