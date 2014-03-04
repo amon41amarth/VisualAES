@@ -28,12 +28,12 @@ class MainScene(ui.Scene):
     aes = slowaes.AES()
     aesmoo = slowaes.AESModeOfOperation()
     def convertStates(self):
-        if(type(self.secondState) == type("") ):
-            self.secondState = self.aesmoo.convertString(self.secondState, 0,  len(self.secondState), self.aesmoo.modeOfOperation[self.operationMode])
+        if(type(self.lbEntry) == type("") ):
+            self.lbEntry = self.aesmoo.convertString(self.lbEntry, 0,  len(self.lbEntry), self.aesmoo.modeOfOperation[self.operationMode])
 
-        if(type(self.firstState) == type("") ):
-            print "Converting the First state " + str(self.firstState)
-            self.firstState = self.aesmoo.convertString(self.firstState, 0,  len(self.firstState), self.aesmoo.modeOfOperation[self.operationMode])
+        if(type(self.ltEntry) == type("") ):
+            print "Converting the First state " + str(self.ltEntry)
+            self.ltEntry = self.aesmoo.convertString(self.ltEntry, 0,  len(self.ltEntry), self.aesmoo.modeOfOperation[self.operationMode])
 
     def editSBox(self):
         print "Edit s box"
@@ -42,43 +42,54 @@ class MainScene(ui.Scene):
         #self.currentOne.one.addRoundKey(self.currentOne.one.createRoundKey())
     def runSubBytes(self):
         self.convertStates()
-        self.aes.state = self.firstState
+        self.aes.state = self.ltEntry
         self.aes.isInv = False
-        self.firstState = self.aes.subBytes()
-        self.aes.state = self.secondState
+        self.ltEntry = self.aes.subBytes()
+        self.aes.state = self.lbEntry
         self.aes.isInv = False
-        self.secondState = self.aes.subBytes()
+        self.lbEntry = self.aes.subBytes()
         self.updateMiddleColumn()
     def runShiftRows(self):
         self.convertStates()
-        self.aes.state = self.firstState
+        self.aes.state = self.ltEntry
         self.aes.isInv = False
-        self.firstState = self.aes.shiftRows()
-        self.aes.state = self.secondState
+        self.ltEntry = self.aes.shiftRows()
+        self.aes.state = self.lbEntry
         self.aes.isInv = False
-        self.secondState = self.aes.shiftRows()
+        self.lbEntry = self.aes.shiftRows()
         self.updateMiddleColumn()
         self.convertStates()
     def runMixColumns(self):
         self.convertStates()
-        self.aes.state = self.firstState
+        self.aes.state = self.ltEntry
         self.aes.isInv = False
-        self.firstState = self.aes.mixColumns()
-        self.aes.state = self.secondState
+        self.ltEntry = self.aes.mixColumns()
+        self.aes.state = self.lbEntry
         self.aes.isInv = False
-        self.secondState = self.aes.mixColumns()
+        self.lbEntry = self.aes.mixColumns()
         self.updateMiddleColumn()
     def runRound(self):
         print "Run round"
     def switchKeyPlaintextMode(self, btn):
+        top = self.lefttop_textfield.label.text
+        bottom = self.leftbottom_textfield.label.text
+        middle = self.leftmiddle_textfield.label.text
         if("2 Key" in btn.text):
             btn.text = "2 Plaintexts 1 Key"
         else:
             btn.text = "1 Plaintext 2 Keys"
+        self.leftbottom_textfield.label.text = ""
+        self.lefttop_textfield.label.text = middle
+        self.leftmiddle_textfield.label.text = top
+        self.leftbottom_textfield.text = ""
+        self.lefttop_textfield.text = middle
+        self.leftmiddle_textfield.text = top
+        self.ptkMode = btn.text #This is to hold if we're doign 2 keys or 1 key
+        self.updateColumns()
     def showEntropy(self):
         e = entropy.Entropy()
-        original = e.getAllEntropies(self.plaintextone_textfield.text, self.plaintexttwo_textfield.text)
-        states = e.getAllEntropies(self.firstState, self.secondState)
+        original = e.getAllEntropies(self.lefttop_textfield.text, self.leftbottom_textfield.text)
+        states = e.getAllEntropies(self.ltEntry, self.lbEntry)
         crypts = e.getAllEntropies(self.ptoEncrypted, self.pttEncrypted)
         if( self.originalEntropy != None):
             self.originalEntropy._dismiss(None, None)
@@ -178,37 +189,37 @@ class MainScene(ui.Scene):
 
     def updateMiddleColumn(self):
         if(self.visualization == "Greyscale" or self.visualization == "Color" ):
-            self.updateView(self.firstState, self.currentone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
-            self.updateView(self.secondState, self.currenttwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+            self.updateView(self.ltEntry, self.currentone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+            self.updateView(self.lbEntry, self.currenttwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
         elif(self.visualization == "Histogram"):
             self.convertStates()
-            self.histogramOnView(self.firstState, self.currentone_imageview)
-            self.histogramOnView(self.secondState, self.currenttwo_imageview)
+            self.histogramOnView(self.ltEntry, self.currentone_imageview)
+            self.histogramOnView(self.lbEntry, self.currenttwo_imageview)
 
     def updateLeftColumn(self):
         """ This should update the left column """
         # Left column doesn't need to be encrypted, we're using the plaintext.
         if(self.visualization == "Greyscale" or self.visualization == "Color" ):
-            self.updateView(self.plaintextone_textfield.text, self.plaintextone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
-            self.updateView(self.plaintexttwo_textfield.text, self.plaintexttwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+            self.updateView(self.lefttop_textfield.text, self.plaintextone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
+            self.updateView(self.leftbottom_textfield.text, self.plaintexttwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
         elif(self.visualization == "Histogram"):
-            self.histogramOnView(self.plaintextone_textfield.text, self.plaintextone_imageview)
-            self.histogramOnView(self.plaintexttwo_textfield.text, self.plaintexttwo_imageview)
+            self.histogramOnView(self.lefttop_textfield.text, self.plaintextone_imageview)
+            self.histogramOnView(self.leftbottom_textfield.text, self.plaintexttwo_imageview)
     def updateRightColumn(self):
         """ This should update the right column """
         # Right column needs to be encrypted.
         if(self.visualization == "Greyscale" or self.visualization == "Color" ):
-            self.mode, self.orig_len, self.ptoEncrypted = self.moo.encrypt(self.plaintextone_textfield.text, self.moo.modeOfOperation[self.operationMode],
+            self.mode, self.orig_len, self.ptoEncrypted = self.moo.encrypt(self.lefttop_textfield.text, self.moo.modeOfOperation[self.operationMode],
                 self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
             self.updateView(self.ptoEncrypted, self.cipherone_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
-            self.mode, self.orig_len, self.pttEncrypted = self.moo.encrypt(self.plaintexttwo_textfield.text, self.moo.modeOfOperation[self.operationMode],
+            self.mode, self.orig_len, self.pttEncrypted = self.moo.encrypt(self.leftbottom_textfield.text, self.moo.modeOfOperation[self.operationMode],
                 self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
             self.updateView(self.pttEncrypted, self.ciphertwo_imageview,  ( self.columnWidth, self.middleBarY + MARGIN) )
         elif(self.visualization == "Histogram"):
-            self.mode, self.orig_len, self.ptoEncrypted = self.moo.encrypt(self.plaintextone_textfield.text, self.moo.modeOfOperation[self.operationMode],
+            self.mode, self.orig_len, self.ptoEncrypted = self.moo.encrypt(self.lefttop_textfield.text, self.moo.modeOfOperation[self.operationMode],
                 self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
             self.histogramOnView(self.ptoEncrypted, self.cipherone_imageview)
-            self.mode, self.orig_len, self.pttEncrypted = self.moo.encrypt(self.plaintexttwo_textfield.text, self.moo.modeOfOperation[self.operationMode],
+            self.mode, self.orig_len, self.pttEncrypted = self.moo.encrypt(self.leftbottom_textfield.text, self.moo.modeOfOperation[self.operationMode],
                 self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
             self.histogramOnView(self.pttEncrypted, self.ciphertwo_imageview)
 
@@ -223,10 +234,10 @@ class MainScene(ui.Scene):
         """
         if tf.placeholder == "Plain Text One":
             self.pto = text; # Plain Text One
-            self.firstState = self.pto
+            self.ltEntry = self.pto
         elif tf.placeholder == "Plain Text Two":
             self.ptt = text # Plain Text Two
-            self.secondState = self.ptt
+            self.lbEntry = self.ptt
         else:
             print "Don't know what to do..."
 
@@ -378,9 +389,6 @@ class MainScene(ui.Scene):
             This column consists of two surfaces showing the initial string,
             along input text boxes for the strings.
         """
-        import os
-        print os.getcwd() # Keep this in. You may need to put an empty image at this location.
-        self.empty = self.load_image("empty.png")
         self.plaintextone_imageview = ui.ImageView(
             ui.Rect(0, self.buttonBarBottom+  MARGIN, self.columnWidth,self.middleBarY + MARGIN),
             self.empty)
@@ -391,21 +399,30 @@ class MainScene(ui.Scene):
         self.add_child(self.plaintexttwo_imageview)
 
         # Draw these text fields at end so they're on top of the pictures.
-        self.plaintextone_textfield = ui.TextField(
-            ui.Rect(0, self.middleBarY-15, 200, self.label_height),
+        self.lefttop_textfield = ui.TextField(
+            ui.Rect(0, self.middleBarY-15, self.columnWidth/2, self.label_height),
             placeholder='Plain Text One')
-        self.plaintextone_textfield.centerx = self.frame.centerx
-        self.plaintextone_textfield.text = self.firstState = "Hello"
-        self.plaintextone_textfield.on_text_change.connect(self.onTextChanged)
-        self.add_child(self.plaintextone_textfield)
+        self.lefttop_textfield.centerx = self.frame.centerx
+        self.lefttop_textfield.text = self.ltEntry = "Hello"
+        self.lefttop_textfield.on_text_change.connect(self.onTextChanged)
+        self.add_child(self.lefttop_textfield)
 
-        self.plaintexttwo_textfield = ui.TextField(
-            ui.Rect(0, self.middleBarY+15, 200, self.label_height),
+        self.leftbottom_textfield = ui.TextField(
+            ui.Rect(0, self.middleBarY+15, self.columnWidth/2, self.label_height),
             placeholder='Plain Text Two')
-        self.plaintexttwo_textfield.centerx = self.frame.centerx
-        self.plaintexttwo_textfield.text = self.secondState = "World"
-        self.plaintexttwo_textfield.on_text_change.connect(self.onTextChanged)
-        self.add_child(self.plaintexttwo_textfield)
+        self.leftbottom_textfield.centerx = self.frame.centerx
+        self.leftbottom_textfield.text = self.lbEntry = "World"
+        self.leftbottom_textfield.on_text_change.connect(self.onTextChanged)
+        self.add_child(self.leftbottom_textfield)
+
+        self.leftmiddle_textfield = ui.TextField(
+            ui.Rect(self.leftbottom_textfield.frame.right, self.middleBarY, self.columnWidth/2, self.label_height),
+            placeholder='LM')
+        self.leftmiddle_textfield.centerx = self.frame.centerx
+        self.leftmiddle_textfield.text = self.lmEntry = "Password"
+        self.leftmiddle_textfield.on_text_change.connect(self.onTextChanged)
+        self.leftmiddle_textfield.bring_to_front()
+        self.add_child(self.leftmiddle_textfield)
 
     def drawRightColumn(self):
         """
@@ -477,15 +494,18 @@ class MainScene(ui.Scene):
         self.buttonBarBottom = self.label_height+VSMALL_MARGIN
         self.columnWidth = self.frame.w/3
         self.middleBarY = (self.frame.h - self.buttonBarBottom) / 2
+        import os
+        print os.getcwd() # Keep this in. You may need to put an empty image at this location.
+        self.empty = self.load_image("empty.png")
 
         self.drawTopBar()
         self.drawBottomBar()
-        self.drawLeftColumn()
+
         self.drawRightColumn()
         self.drawCenterColumn()
+        self.drawLinesForGrid()
+        self.drawLeftColumn()
         self.updateColumns()
-
-        self.drawLinesForGrid() # Always call last so that they're on top.
     def layout(self):
         ui.Scene.layout(self)
     def update(self, dt):
