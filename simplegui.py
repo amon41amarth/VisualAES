@@ -164,7 +164,7 @@ class MainScene(ui.Scene):
 
         self.cleartext = self.cleartext + " J"
         self.mode, self.orig_len, self.ciph = self.moo.encrypt(self.cleartext, self.moo.modeOfOperation[self.operationMode],
-                self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
+                self.cypherkey, int(self.keySize), self.iv)
     def updateView(self, text, view, size):
         """
             This method accepts a string, cipher/plain text (text), and updates the view (view) given.
@@ -246,18 +246,17 @@ class MainScene(ui.Scene):
         # Right column needs to be encrypted.
         if(self.ptkMode == "2P1K"):
             self.mode, self.orig_len, top = self.moo.encrypt(self.lefttop_textfield.text, self.moo.modeOfOperation[self.operationMode],
-                self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
+                self.cypherkey, int(self.keySize), self.iv)
             self.mode, self.orig_len, bottom = self.moo.encrypt(self.lefttop_textfield.text, self.moo.modeOfOperation[self.operationMode],
-                self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
+                self.cypherkey, int(self.keySize), self.iv)
         elif(self.ptkMode == "1P2K"):
             key = []
             for x in range(0, len(self.lefttop_textfield.text)):
                 key.append(ord(self.lefttop_textfield.text[x]))
-            print key
             self.mode, self.orig_len, top = self.moo.encrypt(self.leftmiddle_textfield.text, self.moo.modeOfOperation[self.operationMode],
-                key, self.moo.aes.keySize["SIZE_128"], self.iv)
+                key, int(self.keySize), self.iv)
             self.mode, self.orig_len, bottom = self.moo.encrypt(self.leftmiddle_textfield.text, self.moo.modeOfOperation[self.operationMode],
-                key, self.moo.aes.keySize["SIZE_128"], self.iv)
+                key, int(self.keySize), self.iv)
 
         else:
             print "Poop, this doesn't work =/"
@@ -296,6 +295,14 @@ class MainScene(ui.Scene):
         self.updateColumns()
     def expanded_key_size_changed(self, selection_view, item, index):
         print "Expanded key size changed"
+        if(int(item.text) == 128):
+            self.keySize = self.moo.aes.keySize["SIZE_128"]
+        elif(int(item.text) == 192):
+            self.keySize = self.moo.aes.keySize["SIZE_192"]
+        elif(int(item.text) == 256):
+            self.keySize = self.moo.aes.keySize["SIZE_256"]
+        else:
+            self.keySize = self.moo.aes.keySize["SIZE_256"]
         self.updateColumns()
     def visualization_changed(self, selection_view, item, index):
         print "Visual changed " + str(item)
@@ -528,11 +535,12 @@ class MainScene(ui.Scene):
         self.cryptsEntropy = None
         self.operationMode = "CBC"
         self.ptkMode = "2P1K"
+        self.keySize = self.moo.aes.keySize["SIZE_128"]
         self.visualization = "Greyscale"
         self.cypherkey = [143,194,34,208,145,203,230,143,177,246,97,206,145,92,255,84]
         self.iv = [103,35,148,239,76,213,47,118,255,222,123,176,106,134,98,92]
         self.mode, self.orig_len, self.ciph = self.moo.encrypt(self.cleartext, self.moo.modeOfOperation[self.operationMode],
-                    self.cypherkey, self.moo.aes.keySize["SIZE_128"], self.iv)
+                    self.cypherkey, int(self.keySize), self.iv)
         self.label_height = ui.theme.current.label_height
         infoObject = pygame.display.Info()
         size = width, height = int(infoObject.current_w), int(infoObject.current_h)
