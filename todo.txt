@@ -1,6 +1,4 @@
 Parts:
-	Justin - number 4:
-		Switch between keys and plaintexts (2K1PT or 1K2PT)
 	Open:
 		RoundKey
 	Open:
@@ -19,5 +17,5 @@ Questions for Dr. B:
 2. Can we edit the s box?
 3. What exactly do you mean by variable watching?
 4. How to get input for plaintext to encrypt on 1PT2K?
-5.
-6.
+5. Should the Initialization Vector be editable, or just leave it constant?
+6. Keys must be divisible by 16, 24, 32 depending on key size. So should we allow 2K1P?

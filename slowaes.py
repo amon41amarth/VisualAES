@@ -447,7 +447,10 @@ class AESModeOfOperation(object):
     # hexIV - the 128 bit hex Initilization Vector
     def encrypt(self, stringIn, mode, key, size, IV):
         if len(key) % size:
-            return None
+            # Fluff up the key if it's not the correct length with 0x0's.
+            thing = len(key) % size
+            for x in range (0, thing):
+                key.append(0x1)
         if len(IV) % 16:
             return None
         # the AES input/output
