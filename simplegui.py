@@ -5,14 +5,13 @@ import slowaes
 import sys
 import os
 import entropy
-import math
-import numpy
-import pygame
 
 # sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 import pygameui as ui
 from pygame.locals import *
+import math
+import numpy
 
 LIST_WIDTH = 100
 LIST_ARROW_WIDTH = 16
@@ -256,41 +255,43 @@ class MainScene(ui.Scene):
                                     - self.buttonBarBottom - MARGIN)),
                                     180)
 
-    def playSound(self, text, view):
-        soundSize = (10,10)
+    def playSound(clear, cipher):
+        soundSize = (16,16)
         soundBits = 16
         duration = 10.0 #seconds
         freqLeft = 1040
         freqRight = 550
         sampleRate = 44100
-        n_samples = int(round(len(self.cleartext) * sampleRate))
+        n_samples = int(round(16 * sampleRate))
         buf = numpy.zeros((n_samples, 2), dtype=numpy.int16)
         maxSample = 2 ** (soundBits - 1) - 1
         run = 0
         for s in range(n_samples) :
-            thing = self.cleartext[run]
+            thing = clear[run]
             run = int(round(s / sampleRate))
             t = float(s) / sampleRate   #seconds
-            buf[s][0] = int(round(maxSample * math.sin(2 * math.pi * self.cleartext[run] * t)))
-            buf[s][0] = int(round(maxSample * 0.5 * math.sin(2 * math.pi * self.ciph[run] * t)))
+            buf[s][0] = int(round(maxSample * math.sin(2 * math.pi * [run] * t)))
+            buf[s][0] = int(round(maxSample * 0.5 * math.sin(2 * math.pi * cipher[run] * t)))
         sound = pygame.sndarray.make_sound(buf)
         sound.play(loops=-1)    # -1 plays forever
 
     def updateMiddleColumn(self):
         top = self.ltEntry
         bottom = self.lbEntry
-        curVisual = self.visualization
-        if curVisual == 'Sound'
-            curVisual = self.lastVisual
 
-        if curVisual == 'Greyscale' or curVisual == 'Color':
+        if self.visualization == 'Greyscale' or self.visualization == 'Color':
             self.updateView(top, self.currentone_imageview,
                             (self.columnWidth, self.middleBarY
                             + MARGIN))
             self.updateView(bottom, self.currenttwo_imageview,
                             (self.columnWidth, self.middleBarY
                             + MARGIN))
-        elif curVisual == 'Histogram':
+        elif self.visualization == 'Histogram':
+            self.convertStates()
+            self.histogramOnView(top, self.currentone_imageview)
+            self.histogramOnView(bottom, self.currenttwo_imageview)
+        elif self.visualization == 'Sound':
+            self.playSound(self.cleartext)
             self.convertStates()
             self.histogramOnView(top, self.currentone_imageview)
             self.histogramOnView(bottom, self.currenttwo_imageview)
@@ -306,7 +307,8 @@ class MainScene(ui.Scene):
 
         # Left column doesn't need to be encrypted, we're using the plaintext.
 
-        if self.visualization == 'Greyscale' or self.visualization == 'Color':
+        if self.visualization == 'Greyscale' or self.visualization \
+            == 'Color':
             self.updateView(top, self.plaintextone_imageview,
                             (self.columnWidth, self.middleBarY
                             + MARGIN))
@@ -363,8 +365,7 @@ class MainScene(ui.Scene):
 
     def updateColumns(self):
         """ This updates all the columns.  Redraws the left, right, and center. """
-        if self.visualization != 'Sound':
-            self.lastVisual = self.visualization
+
         self.updateLeftColumn()
         self.updateMiddleColumn()
         self.updateRightColumn()
@@ -753,7 +754,6 @@ class MainScene(ui.Scene):
         self.ptkMode = '2P1K'
         self.keySize = self.moo.aes.keySize['SIZE_128']
         self.visualization = 'Greyscale'
-        self.lastVisual = 'Greyscale'
         self.cypherkey = [
             143,
             194,
