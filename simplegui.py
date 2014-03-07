@@ -24,6 +24,13 @@ MARGIN = 20
 SMALL_MARGIN = 10
 VSMALL_MARGIN = 1
 
+class HistoryPoint(object):
+    def __init__(self, mt, mb):
+        self.mt = mt
+        self.mb = mb
+    def __str__(self):
+        return str(self.mt)
+
 class MainScene(ui.Scene):
     aes = slowaes.AES()
     aesmoo = slowaes.AESModeOfOperation()
@@ -39,10 +46,11 @@ class MainScene(ui.Scene):
                 self.lmEntry = self.aesmoo.convertString(self.lmEntry, 0,  len(self.lmEntry), self.aesmoo.modeOfOperation[self.operationMode])
 
     def editSBox(self):
-        print "Edit s box"
+        pass
     def runRoundKeys(self):
         self.convertStates()
         #self.currentOne.one.addRoundKey(self.currentOne.one.createRoundKey())
+        self.addPointInHistory()
     def runSubBytes(self):
         self.convertStates()
         if(self.ptkMode == "2P1K"):
@@ -60,6 +68,7 @@ class MainScene(ui.Scene):
             self.aes.isInv = False
             self.lbEntry = self.aes.subBytes()
         self.updateMiddleColumn()
+        self.addPointInHistory()
     def runShiftRows(self):
         self.convertStates()
         if(self.ptkMode == "2P1K"):
@@ -77,6 +86,7 @@ class MainScene(ui.Scene):
             self.aes.isInv = False
             self.lbEntry = self.aes.shiftRows()
         self.updateMiddleColumn()
+        self.addPointInHistory()
     def runMixColumns(self):
         self.convertStates()
         if(self.ptkMode == "2P1K"):
@@ -94,8 +104,9 @@ class MainScene(ui.Scene):
             self.aes.isInv = False
             self.lbEntry = self.aes.mixColumns()
         self.updateMiddleColumn()
+        self.addPointInHistory()
     def runRound(self):
-        print "Run round"
+        self.addPointInHistory()
     def switchKeyPlaintextMode(self, btn):
         top = self.lefttop_textfield.label.text
         bottom = self.leftbottom_textfield.label.text
@@ -131,10 +142,6 @@ class MainScene(ui.Scene):
         self.statesEntropy = ui.show_alert_test(title='', message=states, position='Center')
         self.cryptsEntropy = ui.show_alert_test(title='', message=crypts, position='Right')
 
-    def historyForward(self):
-        print "Forward"
-    def historyBackward(self):
-        print "Backward"
     def onButtonClick(self, btn, mbtn):
         if "SBox" in btn.text:
             self.editSBox()
@@ -151,6 +158,7 @@ class MainScene(ui.Scene):
         elif "Plaintext" in btn.text:
             self.switchKeyPlaintextMode(btn)
         elif "<--" in btn.text:
+            print "Backward"
             self.historyBackward()
         elif "-->" in btn.text:
             self.historyForward()
@@ -160,6 +168,7 @@ class MainScene(ui.Scene):
             print "Don't know what to do"
         # We don't always have to update the middle column. But just so it's easy to read and less bull crap lines,
         # we'll be updating it everytime this method is called.
+
         self.updateMiddleColumn()
 
         self.cleartext = self.cleartext + " J"
@@ -257,7 +266,6 @@ class MainScene(ui.Scene):
                 key, int(self.keySize), self.iv)
             self.mode, self.orig_len, bottom = self.moo.encrypt(self.leftmiddle_textfield.text, self.moo.modeOfOperation[self.operationMode],
                 key, int(self.keySize), self.iv)
-
         else:
             print "Poop, this doesn't work =/"
 
@@ -285,16 +293,18 @@ class MainScene(ui.Scene):
             self.lmEntry = text
         else:
             print "Don't know what to do..."
-
+            return
+        #Clear and add new stuff!
+        self.clearHistory()
         self.updateColumns()
+        self.addPointInHistory()
+
     def moo_changed(self, selection_view, item, index):
         self.operationMode = str(item)
         self.updateColumns()
     def round_number_changed(self, selection_view, item, index):
-        print "Round number changed."
         self.updateColumns()
     def expanded_key_size_changed(self, selection_view, item, index):
-        print "Expanded key size changed"
         if(int(item.text) == 128):
             self.keySize = self.moo.aes.keySize["SIZE_128"]
         elif(int(item.text) == 192):
@@ -305,7 +315,6 @@ class MainScene(ui.Scene):
             self.keySize = self.moo.aes.keySize["SIZE_256"]
         self.updateColumns()
     def visualization_changed(self, selection_view, item, index):
-        print "Visual changed " + str(item)
         self.visualization = str(item)
         self.updateColumns()
     def drawTopBar(self):
@@ -505,31 +514,45 @@ class MainScene(ui.Scene):
             self.empty)
         self.add_child(self.currenttwo_imageview)
 
-        # Draw history slider
-        #self.history = ui.SliderView(
-        #    ui.Rect(self.columnWidth + SMALL_MARGIN, self.frame.h-MARGIN, self.columnWidth-MARGIN, SMALL_MARGIN),
-        #    ui.HORIZONTAL, 0, 1, True)
-        #self.history.value = 1
-        #self.history.on_value_changed.connect(self.historyChanged)
-        #self.add_child(self.history)
+    def historyForward(self):
+        if(len(self.future) != 0):
+            self.printHistory()
+            point = self.future.pop()
+            self.history.append(point)
+            self.ltEntry = point.mt
+            self.lbEntry = point.mb
+            self.updateMiddleColumn()
+
+    def historyBackward(self):
+        if(len(self.history) != 0):
+            point = self.history.pop()
+            self.future.append(point)
+            self.ltEntry = point.mt
+            self.lbEntry = point.mb
+            self.updateMiddleColumn()
+
+    def printHistory(self):
+        for x in range(0, len(self.history)):
+            print self.history[x]
 
     def addPointInHistory(self):
-        # To do.
-        self.history.high = self.history.high + 1
-        self.history.value = self.history.high
+        #Clear anything from the current future.
+        self.future = []
+        #Add actual point.
+        p  = HistoryPoint(self.ltEntry[:], self.lbEntry[:])
+        self.history.append(p)
 
-    def resetHistory(self):
-        print "History reset"
+    def clearHistory(self):
+        self.history = []
 
-    def historyChanged(self, slider_view, value):
-        # To do.
-        print "We're in history change mode! Now at: " + str(value)
 
     def __init__(self):
         ui.Scene.__init__(self)
         self.cleartext = ""
         self.moo = slowaes.AESModeOfOperation()
         self.cleartext = ""
+        self.history = []
+        self.future = []
         self.originalEntropy = None
         self.statesEntropy = None
         self.cryptsEntropy = None
@@ -549,8 +572,6 @@ class MainScene(ui.Scene):
         self.buttonBarBottom = self.label_height+VSMALL_MARGIN
         self.columnWidth = self.frame.w/3
         self.middleBarY = (self.frame.h - self.buttonBarBottom) / 2
-        import os
-        print os.getcwd() # Keep this in. You may need to put an empty image at this location.
         self.empty = self.load_image("empty.png")
 
         self.drawTopBar()
@@ -561,6 +582,7 @@ class MainScene(ui.Scene):
         self.drawLinesForGrid()
         self.drawLeftColumn()
         self.updateColumns()
+        self.addPointInHistory()
     def layout(self):
         ui.Scene.layout(self)
     def update(self, dt):
