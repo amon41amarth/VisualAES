@@ -5,6 +5,9 @@ import slowaes
 import sys
 import os
 import entropy
+import math
+import numpy
+import pygame
 
 # sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
@@ -12,12 +15,15 @@ import pygameui as ui
 from pygame.locals import *
 
 LIST_WIDTH = 100
+LIST_ARROW_WIDTH = 16
 MARGIN = 20
 SMALL_MARGIN = 10
 VSMALL_MARGIN = 1
 
-
 class MainScene(ui.Scene):
+
+    # actionList keeps track of user actions
+    actionList = []
 
     aes = slowaes.AES()
     aesmoo = slowaes.AESModeOfOperation()
@@ -250,19 +256,41 @@ class MainScene(ui.Scene):
                                     - self.buttonBarBottom - MARGIN)),
                                     180)
 
+    def playSound(self, text, view):
+        soundSize = (10,10)
+        soundBits = 16
+        duration = 10.0 #seconds
+        freqLeft = 1040
+        freqRight = 550
+        sampleRate = 44100
+        n_samples = int(round(len(self.cleartext) * sampleRate))
+        buf = numpy.zeros((n_samples, 2), dtype=numpy.int16)
+        maxSample = 2 ** (soundBits - 1) - 1
+        run = 0
+        for s in range(n_samples) :
+            thing = self.cleartext[run]
+            run = int(round(s / sampleRate))
+            t = float(s) / sampleRate   #seconds
+            buf[s][0] = int(round(maxSample * math.sin(2 * math.pi * self.cleartext[run] * t)))
+            buf[s][0] = int(round(maxSample * 0.5 * math.sin(2 * math.pi * self.ciph[run] * t)))
+        sound = pygame.sndarray.make_sound(buf)
+        sound.play(loops=-1)    # -1 plays forever
+
     def updateMiddleColumn(self):
         top = self.ltEntry
         bottom = self.lbEntry
+        curVisual = self.visualization
+        if curVisual == 'Sound'
+            curVisual = self.lastVisual
 
-        if self.visualization == 'Greyscale' or self.visualization \
-            == 'Color':
+        if curVisual == 'Greyscale' or curVisual == 'Color':
             self.updateView(top, self.currentone_imageview,
                             (self.columnWidth, self.middleBarY
                             + MARGIN))
             self.updateView(bottom, self.currenttwo_imageview,
                             (self.columnWidth, self.middleBarY
                             + MARGIN))
-        elif self.visualization == 'Histogram':
+        elif curVisual == 'Histogram':
             self.convertStates()
             self.histogramOnView(top, self.currentone_imageview)
             self.histogramOnView(bottom, self.currenttwo_imageview)
@@ -278,8 +306,7 @@ class MainScene(ui.Scene):
 
         # Left column doesn't need to be encrypted, we're using the plaintext.
 
-        if self.visualization == 'Greyscale' or self.visualization \
-            == 'Color':
+        if self.visualization == 'Greyscale' or self.visualization == 'Color':
             self.updateView(top, self.plaintextone_imageview,
                             (self.columnWidth, self.middleBarY
                             + MARGIN))
@@ -336,7 +363,8 @@ class MainScene(ui.Scene):
 
     def updateColumns(self):
         """ This updates all the columns.  Redraws the left, right, and center. """
-
+        if self.visualization != 'Sound':
+            self.lastVisual = self.visualization
         self.updateLeftColumn()
         self.updateMiddleColumn()
         self.updateRightColumn()
@@ -415,7 +443,7 @@ class MainScene(ui.Scene):
             ]
         numButtons = len(topButtonNames)
         buttonWidth = self.frame.w / numButtons
-        buttonX = buttonWidth + VSMALL_MARGIN
+        buttonX = buttonWidth + VSMALL_MARGIN   #this doesn't do anything?? is it part of pygame?
         view = None
         for i in range(0, len(topButtonNames)):
             if topButtonNames[i] == 'RoundNumber':
@@ -456,7 +484,7 @@ class MainScene(ui.Scene):
                     '31',
                     '32',
                     ]
-                labels2 = [ui.Label(ui.Rect(0, 0, LIST_WIDTH,
+                labels2 = [ui.Label(ui.Rect(0, 0, buttonWidth - LIST_ARROW_WIDTH,
                            self.label_height), modes[j]) for j in
                            range(len(modes))]
                 for l in labels2:
@@ -469,7 +497,7 @@ class MainScene(ui.Scene):
                 # Draw the spinner for modes of operation
 
                 modes = ['128', '192', '256']
-                labels2 = [ui.Label(ui.Rect(0, 0, LIST_WIDTH,
+                labels2 = [ui.Label(ui.Rect(0, 0, buttonWidth - LIST_ARROW_WIDTH,
                            self.label_height), modes[j]) for j in
                            range(len(modes))]
                 for l in labels2:
@@ -482,7 +510,7 @@ class MainScene(ui.Scene):
                 # Draw the spinner for modes of operation
 
                 modes = ['OFB', 'CFB', 'CBC']
-                labels2 = [ui.Label(ui.Rect(0, 0, LIST_WIDTH,
+                labels2 = [ui.Label(ui.Rect(0, 0, buttonWidth - LIST_ARROW_WIDTH,
                            self.label_height), modes[j]) for j in
                            range(len(modes))]
                 for l in labels2:
@@ -492,17 +520,17 @@ class MainScene(ui.Scene):
                 view.on_selection_changed.connect(self.moo_changed)
             else:
                 if view == None:
-                    view = ui.Button(ui.Rect(VSMALL_MARGIN, 10,
-                            buttonWidth, 20), topButtonNames[i])
+                    view = ui.Button(ui.Rect(VSMALL_MARGIN, 0,
+                            buttonWidth, self.label_height), topButtonNames[i])
                 else:
-                    view = ui.Button(ui.Rect(i * buttonWidth, 10,
-                            buttonWidth, 20), topButtonNames[i])
+                    view = ui.Button(ui.Rect(i * buttonWidth, 0,
+                            buttonWidth, self.label_height), topButtonNames[i])
                 view.on_clicked.connect(self.onButtonClick)
             self.add_child(view)
 
     def drawBottomBar(self):
         bottomButtonNames = [
-            '2 Plaintexts 1 Key',
+            '2 PTexts, 1 Key',
             'Edit SBox',
             '<--',
             '-->',
@@ -539,11 +567,11 @@ class MainScene(ui.Scene):
                 if view == None:
                     view = ui.Button(ui.Rect(VSMALL_MARGIN,
                             self.frame.h - self.label_height,
-                            buttonWidth, 20), bottomButtonNames[i])
+                            buttonWidth, 0), bottomButtonNames[i])
                 else:
                     view = ui.Button(ui.Rect(i * buttonWidth,
                             self.frame.h - self.label_height,
-                            buttonWidth, 20), bottomButtonNames[i])
+                            buttonWidth, 0), bottomButtonNames[i])
                 view.on_clicked.connect(self.onButtonClick)
             self.add_child(view)
 
@@ -725,6 +753,7 @@ class MainScene(ui.Scene):
         self.ptkMode = '2P1K'
         self.keySize = self.moo.aes.keySize['SIZE_128']
         self.visualization = 'Greyscale'
+        self.lastVisual = 'Greyscale'
         self.cypherkey = [
             143,
             194,
