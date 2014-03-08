@@ -112,10 +112,10 @@ class MainScene(ui.Scene):
         bottom = self.leftbottom_textfield.label.text
         middle = self.leftmiddle_textfield.label.text
         if("2 Key" in btn.text):
-            btn.text = "2 Plaintexts 1 Key"
+            btn.text = "2 PTexts 1 Key"
             self.ptkMode = "2P1K"
         else:
-            btn.text = "1 Plaintext 2 Keys"
+            btn.text = "1 PText 2 Keys"
             self.ptkMode = "1P2K"
         self.leftbottom_textfield.label.text = ""
         self.lefttop_textfield.label.text = middle
@@ -330,51 +330,51 @@ class MainScene(ui.Scene):
                         "13","14","15","16","17","18","19","20","21","22",
                         "23","24","25","26","27","28","29","30","31","32"]
                 labels2 = [ui.Label(
-                    ui.Rect(0, 0, LIST_WIDTH, self.label_height),
+                    ui.Rect(0, 0, buttonWidth - 16, self.label_height),
                     modes[j]) for j in range(len(modes))]
                 for l in labels2:
                     l.halign = ui.LEFT
                 view = ui.SelectView(
-                    ui.Rect(i * buttonWidth, 0, LIST_WIDTH, self.label_height),
+                    ui.Rect(i * buttonWidth, 0, buttonWidth - 16, self.label_height),
                     labels2)
                 view.on_selection_changed.connect(self.round_number_changed)
             elif (topButtonNames[i] == "EKeySize"):
                 # Draw the spinner for modes of operation
                 modes = ["128","192","256"]
                 labels2 = [ui.Label(
-                    ui.Rect(0, 0, LIST_WIDTH, self.label_height),
+                    ui.Rect(0, 0, buttonWidth - 16, self.label_height),
                     modes[j]) for j in range(len(modes))]
                 for l in labels2:
                     l.halign = ui.LEFT
                 view = ui.SelectView(
-                    ui.Rect(i * buttonWidth, 0, LIST_WIDTH, self.label_height),
+                    ui.Rect(i * buttonWidth, 0, buttonWidth - 16, self.label_height),
                     labels2)
                 view.on_selection_changed.connect(self.expanded_key_size_changed)
             elif (topButtonNames[i] == "MOO"):
                 # Draw the spinner for modes of operation
                 modes = ["OFB","CFB","CBC"]
                 labels2 = [ui.Label(
-                    ui.Rect(0, 0, LIST_WIDTH, self.label_height),
+                    ui.Rect(0, 0, buttonWidth - 16, self.label_height),
                     modes[j]) for j in range(len(modes))]
                 for l in labels2:
                     l.halign = ui.LEFT
                 view = ui.SelectView(
-                    ui.Rect(i * buttonWidth, 0, LIST_WIDTH, self.label_height),
+                    ui.Rect(i * buttonWidth, 0, buttonWidth - 16, self.label_height),
                     labels2)
                 view.on_selection_changed.connect(self.moo_changed)
             else:
                 if(view == None):
                     view = ui.Button(
-                        ui.Rect(VSMALL_MARGIN, 10, buttonWidth, 20),
+                        ui.Rect(VSMALL_MARGIN, 0, buttonWidth, self.label_height),
                         topButtonNames[i])
                 else:
                     view = ui.Button(
-                        ui.Rect(i * buttonWidth, 10, buttonWidth, 20),
+                        ui.Rect(i * buttonWidth, 0, buttonWidth, self.label_height),
                         topButtonNames[i])
                 view.on_clicked.connect(self.onButtonClick)
             self.add_child(view)
     def drawBottomBar(self):
-        bottomButtonNames = ["2 Plaintexts 1 Key","Edit SBox", "<--", "-->", "Entropy", "Visualization"]
+        bottomButtonNames = ["2 PTexts 1 Key","Edit SBox", "<--", "-->", "Entropy", "Visualization"]
         numButtons = len(bottomButtonNames)
         buttonWidth = self.frame.w / numButtons
         buttonX = (buttonWidth + VSMALL_MARGIN)
@@ -395,11 +395,11 @@ class MainScene(ui.Scene):
             else:
                 if(view == None):
                     view = ui.Button(
-                        ui.Rect(VSMALL_MARGIN, self.frame.h-self.label_height, buttonWidth, 20),
+                        ui.Rect(VSMALL_MARGIN, self.frame.h-self.label_height, buttonWidth, self.label_height),
                         bottomButtonNames[i])
                 else:
                     view = ui.Button(
-                        ui.Rect(i * buttonWidth, self.frame.h-self.label_height, buttonWidth, 20),
+                        ui.Rect(i * buttonWidth, self.frame.h-self.label_height, buttonWidth, self.label_height),
                         bottomButtonNames[i])
                 view.on_clicked.connect(self.onButtonClick)
             self.add_child(view)
