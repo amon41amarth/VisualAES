@@ -15,6 +15,12 @@ Parts - Visualizations:
 Open:
 	"Toasts" or small notifcations that appear and disappear.
 
+Bugs:
+	Open:
+		Entropy dialogues should update was buttons are pressed.
+	Open:
+		When 192/256 etc. are changed, update the left column.
+
 Questions for Dr. B:
 1. Number of rounds in relation to round keys.
 2. Can we edit the s box?

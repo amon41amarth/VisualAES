@@ -4,6 +4,7 @@ import slowaes
 import sys
 import os
 import entropy
+import collections
 
 
 #sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
@@ -222,6 +223,30 @@ class MainScene(ui.Scene):
                 surf.set_at((x,y), (Color(255,0,0)))
         view.image = pygame.transform.rotate(pygame.transform.scale(surf,(self.columnWidth, self.middleBarY -  self.buttonBarBottom - MARGIN)), 180)
 
+    def punchCardOnView(self, text, view):
+        one = []
+        for x in range (0, len(text)):
+            one.append(0)
+        if(type(text) == type("string")):
+            for x in range (0, len(text)):
+                one[x] = ord(text[x])
+        else:
+            one = text
+
+        cnt = collections.Counter()
+        for x in one:
+            cnt[x] += 1
+        size = cnt.most_common(1)[0][1]
+        surf = pygame.Surface((size*16, size*16))
+        surf.fill((255,255,255))
+        for x in range (0, 256):
+            if(cnt[x] == 0):
+                pygame.draw.circle(surf, (0,250, 0), (x % 16 * size,size* int(x/16)), (cnt[x]/2 ))
+            else:
+                pygame.draw.circle(surf, (0, 0, 250), (x % 16 * size,size* int(x/16)), (cnt[x] ))
+
+        surf = pygame.transform.scale(surf,(self.columnWidth, self.middleBarY -  self.buttonBarBottom - MARGIN))
+        view.image = surf
 
     def updateMiddleColumn(self):
         top = self.ltEntry
@@ -234,6 +259,9 @@ class MainScene(ui.Scene):
             self.convertStates()
             self.histogramOnView(top, self.currentone_imageview)
             self.histogramOnView(bottom, self.currenttwo_imageview)
+        elif(self.visualization == "Punchcard"):
+            self.punchCardOnView(top, self.currentone_imageview)
+            self.punchCardOnView(bottom, self.currenttwo_imageview)
 
     def updateLeftColumn(self):
         """ This should update the left column """
@@ -250,6 +278,9 @@ class MainScene(ui.Scene):
         elif(self.visualization == "Histogram"):
             self.histogramOnView(top, self.plaintextone_imageview)
             self.histogramOnView(bottom, self.plaintexttwo_imageview)
+        elif(self.visualization == "Punchcard"):
+            self.punchCardOnView(top, self.plaintextone_imageview)
+            self.punchCardOnView(bottom, self.plaintexttwo_imageview)
     def updateRightColumn(self):
         """ This should update the right column """
         # Right column needs to be encrypted.
@@ -275,6 +306,9 @@ class MainScene(ui.Scene):
         elif(self.visualization == "Histogram"):
             self.histogramOnView(top, self.cipherone_imageview)
             self.histogramOnView(bottom, self.ciphertwo_imageview)
+        elif(self.visualization == "Punchcard"):
+            self.punchCardOnView(top, self.cipherone_imageview)
+            self.punchCardOnView(bottom, self.ciphertwo_imageview)
 
     def updateColumns(self):
         """ This updates all the columns.  Redraws the left, right, and center. """
@@ -598,7 +632,13 @@ if __name__ == '__main__':
     import pygame
     pygame.init()
     infoObject = pygame.display.Info()
+    #Center Screen.
     size = width, height = int(infoObject.current_w/2), int(infoObject.current_h/2)
+    pos_x = width / 2 - width / 2
+    pos_y = height - height
+    os.environ['SDL_VIDEO_WINDOW_POS'] = '%i,%i' % (pos_x,pos_y)
+    os.environ['SDL_VIDEO_CENTERED'] = '0'
+    #Init it and run.
     ui.init('AES Encryption Viewer',size)
     ui.scene.push(MainScene())
     ui.run()
