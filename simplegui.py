@@ -156,7 +156,7 @@ class MainScene(ui.Scene):
             self.runMixColumns()
         elif "Run Round" in btn.text:
             self.runRound()
-        elif "Plaintext" in btn.text:
+        elif "PText" in btn.text:
             self.switchKeyPlaintextMode(btn)
         elif "<--" in btn.text:
             print "Backward"
