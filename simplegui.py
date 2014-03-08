@@ -248,6 +248,51 @@ class MainScene(ui.Scene):
         surf = pygame.transform.scale(surf,(self.columnWidth, self.middleBarY -  self.buttonBarBottom - MARGIN))
         view.image = surf
 
+    def bitChangeOnView(self, first, second, view, isPrint = False):
+        one = []
+        for x in range (0, len(first)):
+            one.append(0)
+        if(type(first) == type("string")):
+            for x in range (0, len(first)):
+                one[x] = ord(first[x])
+        else:
+            one = first
+
+        two = []
+        for x in range (0, len(second)):
+            two.append(0)
+        if(type(second) == type("string")):
+            for x in range (0, len(second)):
+                two[x] = ord(second[x])
+        else:
+            two = second
+        if(isPrint):
+            print str(one) + " " + str(two)
+        # Fluff one or two.
+        while(len(one) > len(two)):
+            two.append(0)
+        while(len(one) < len(two)):
+            one.append(0)
+        # Make our bit strings.
+        oneBuff = ""
+        for x in range (0, len(one)):
+            add = "{0:08b}".format(one[x])
+            oneBuff += add
+        twoBuff = ""
+        for x in range (0, len(two)):
+            add = "{0:08b}".format(two[x])
+            twoBuff += add
+        surf = pygame.Surface((len(twoBuff), 1))
+        for x in range (0, len(twoBuff)):
+            if(twoBuff[x] == oneBuff[x]):
+                # White, they're the same.
+                surf.set_at((x, 0), (Color((255),(255),(255))))
+            else:
+                # BLack, they're different.
+                surf.set_at((x, 0), (Color((0),(0),(0))))
+        surf = pygame.transform.scale(surf,(self.columnWidth, self.middleBarY -  self.buttonBarBottom - MARGIN))
+        view.image = surf
+
     def updateMiddleColumn(self):
         top = self.ltEntry
         bottom = self.lbEntry
@@ -262,6 +307,15 @@ class MainScene(ui.Scene):
         elif(self.visualization == "Punchcard"):
             self.punchCardOnView(top, self.currentone_imageview)
             self.punchCardOnView(bottom, self.currenttwo_imageview)
+        elif(self.visualization == "Bit Compare"):
+            if(self.ptkMode == "2P1K"):
+                ptOne = self.lefttop_textfield.text
+                ptTwo = self.leftbottom_textfield.text
+            else:
+                ptOne = self.leftmiddle_textfield.text
+                ptTwo = self.leftmiddle_textfield.text
+            self.bitChangeOnView(top, ptOne, self.currentone_imageview)
+            self.bitChangeOnView(bottom, ptTwo, self.currenttwo_imageview)
 
     def updateLeftColumn(self):
         """ This should update the left column """
@@ -279,16 +333,23 @@ class MainScene(ui.Scene):
             self.histogramOnView(top, self.plaintextone_imageview)
             self.histogramOnView(bottom, self.plaintexttwo_imageview)
         elif(self.visualization == "Punchcard"):
-            self.punchCardOnView(top, self.plaintextone_imageview)
-            self.punchCardOnView(bottom, self.plaintexttwo_imageview)
+            self.bitChangeOnView(top, top, self.plaintextone_imageview)
+            self.bitChangeOnView(bottom, bottom, self.plaintexttwo_imageview)
+        elif(self.visualization == "Bit Compare"):
+            self.bitChangeOnView(top, top, self.plaintextone_imageview)
+            self.bitChangeOnView(bottom, bottom, self.plaintexttwo_imageview)
     def updateRightColumn(self):
         """ This should update the right column """
         # Right column needs to be encrypted.
+        ptOne = None
+        ptTwo = None
         if(self.ptkMode == "2P1K"):
             self.mode, self.orig_len, top = self.moo.encrypt(self.lefttop_textfield.text, self.moo.modeOfOperation[self.operationMode],
                 self.cypherkey, int(self.keySize), self.iv)
-            self.mode, self.orig_len, bottom = self.moo.encrypt(self.lefttop_textfield.text, self.moo.modeOfOperation[self.operationMode],
+            self.mode, self.orig_len, bottom = self.moo.encrypt(self.leftbottom_textfield.text, self.moo.modeOfOperation[self.operationMode],
                 self.cypherkey, int(self.keySize), self.iv)
+            ptOne = self.lefttop_textfield.text
+            ptTwo = self.leftbottom_textfield.text
         elif(self.ptkMode == "1P2K"):
             key = []
             for x in range(0, len(self.lefttop_textfield.text)):
@@ -297,6 +358,8 @@ class MainScene(ui.Scene):
                 key, int(self.keySize), self.iv)
             self.mode, self.orig_len, bottom = self.moo.encrypt(self.leftmiddle_textfield.text, self.moo.modeOfOperation[self.operationMode],
                 key, int(self.keySize), self.iv)
+            ptOne = self.leftmiddle_textfield.text
+            ptTwo = self.leftmiddle_textfield.text
         else:
             print "Poop, this doesn't work =/"
 
@@ -309,6 +372,18 @@ class MainScene(ui.Scene):
         elif(self.visualization == "Punchcard"):
             self.punchCardOnView(top, self.cipherone_imageview)
             self.punchCardOnView(bottom, self.ciphertwo_imageview)
+        elif(self.visualization == "Bit Compare"):
+            self.bitChangeOnView(ptOne, top, self.cipherone_imageview)
+            self.bitChangeOnView(ptTwo, bottom, self.ciphertwo_imageview)
+            if(self.ptkMode == "2P1K"):
+                ptOne = self.lefttop_textfield.text
+                ptTwo = self.leftbottom_textfield.text
+            else:
+                ptOne = self.leftmiddle_textfield.text
+                ptTwo = self.leftmiddle_textfield.text
+            print str(top) + " " + str(ptOne)
+            self.bitChangeOnView(top, ptOne, self.cipherone_imageview, True)
+            self.bitChangeOnView(bottom, ptTwo, self.ciphertwo_imageview)
 
     def updateColumns(self):
         """ This updates all the columns.  Redraws the left, right, and center. """
