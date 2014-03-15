@@ -445,12 +445,13 @@ class AESModeOfOperation(object):
     # hexKey - a hex key of the bit length size
     # size - the bit length of the key
     # hexIV - the 128 bit hex Initilization Vector
-    def encrypt(self, stringIn, mode, key, size, IV):
+    def encrypt(self, stringIn, mode, key, size, IV, pad = 0x0):
         if len(key) % size:
             # Fluff up the key if it's not the correct length with 0x0's.
             thing = len(key) % size
-            for x in range (0, thing):
-                key.append(0x1)
+            while len(key) < 16:
+                key.append(pad) # Padding done here.
+            size = len(key)
         if len(IV) % 16:
             return None
         # the AES input/output

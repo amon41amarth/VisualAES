@@ -163,7 +163,7 @@ class MainScene(ui.Scene):
     def onButtonClick(self, btn, mbtn):
         if 'SBox' in btn.text:
             self.editSBox()
-        elif 'Round' in btn.text:
+        elif 'Expand' in btn.text:
             self.runRoundKeys()
         elif 'Sub' in btn.text:
             self.runSubBytes()
@@ -550,7 +550,7 @@ class MainScene(ui.Scene):
     def drawTopBar(self):
         topButtonNames = [
             'Run Round',
-            'Round Keys',
+            'Expand Round Key',
             'RoundNumber',
             'EKeySize',
             'Sub Bytes',

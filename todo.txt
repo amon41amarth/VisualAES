@@ -3,23 +3,24 @@ Parts:
 		RoundKey
 	Open:
 		Edit SBox
+Open:
+	Differential Fault Analysis
+
+
 
 Parts - Visualizations:
-	Blake:
-		Bit Compare
-	Evan:
+	Open:
 		Sound
-	Rusty:
-		Punchcard
+		Needs implemented.  Not high priority though.
 
 Open:
 	"Toasts" or small notifcations that appear and disappear.
 
+
+
 Bugs:
 	Open:
 		Entropy dialogues should update was buttons are pressed.
-	Open:
-		When 192/256 etc. are changed, update the left column.
 
 Questions for Dr. B:
 1. Number of rounds in relation to round keys.
