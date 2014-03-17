@@ -280,7 +280,7 @@ def init_light_theme():
     light_theme.set(class_name='Button',
                     state='normal',
                     key='font',
-                    value=resource.get_font(16, use_bold=True))
+                    value=resource.get_font(12, use_bold=True))
     light_theme.set(class_name='Button',
                     state='normal',
                     key='border_widths',

@@ -550,7 +550,7 @@ class MainScene(ui.Scene):
     def drawTopBar(self):
         topButtonNames = [
             'Run Round',
-            'Expand Round Key',
+            'Exp. Round Key',
             'RoundNumber',
             'EKeySize',
             'Sub Bytes',
@@ -570,7 +570,7 @@ class MainScene(ui.Scene):
                         "13","14","15","16","17","18","19","20","21","22",
                         "23","24","25","26","27","28","29","30","31","32"]
                 labels2 = [ui.Label(
-                    ui.Rect(0, 0, LIST_WIDTH, self.label_height),
+                    ui.Rect(0, 0, buttonWidth - 16, self.label_height),
                     modes[j]) for j in range(len(modes))]
                 for l in labels2:
                     l.halign = ui.LEFT
