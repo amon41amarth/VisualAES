@@ -34,86 +34,93 @@ class MainScene(ui.Scene):
     aesmoo = slowaes.AESModeOfOperation()
 
     def convertStates(self):
-        if self.ptkMode == '2P1K':
-            if type(self.lbEntry) == type(''):
-                self.lbEntry = self.aesmoo.convertString(self.lbEntry,
-                        0, len(self.lbEntry),
-                        self.aesmoo.modeOfOperation[self.operationMode])
+        try:
+            if type(self.lrbEntry) == type(''):
+                self.lrbEntry = self.aesmoo.convertString(self.lrbEntry, 0, len(self.lrbEntry),
+                            self.aesmoo.modeOfOperation[self.operationMode])
+        except AttributeError:
+            pass
+        try:
+            if self.ptkMode == '2P1K':
+                if type(self.llbEntry) == type(''):
+                    self.llbEntry = self.aesmoo.convertString(self.llbEntry,
+                            0, len(self.llbEntry),
+                            self.aesmoo.modeOfOperation[self.operationMode])
 
-            if type(self.ltEntry) == type(''):
-                self.ltEntry = self.aesmoo.convertString(self.ltEntry,
-                        0, len(self.ltEntry),
-                        self.aesmoo.modeOfOperation[self.operationMode])
-        elif self.ptkMode == '1P2K':
-            if type(self.lmEntry) == type(''):
-                self.lmEntry = self.aesmoo.convertString(self.lmEntry,
-                        0, len(self.lmEntry),
-                        self.aesmoo.modeOfOperation[self.operationMode])
+                if type(self.lltEntry) == type(''):
+                    self.lltEntry = self.aesmoo.convertString(self.lltEntry,
+                            0, len(self.lltEntry),
+                            self.aesmoo.modeOfOperation[self.operationMode])
+            elif self.ptkMode == '1P2K':
+                if type(self.lrtEntry) == type(''):
+                    self.lrtEntry = self.aesmoo.convertString(self.lrtEntry,
+                            0, len(self.lrtEntry),
+                            self.aesmoo.modeOfOperation[self.operationMode])
+        except AttributeError:
+            pass
 
     def editSBox(self):
         pass
 
     def runRoundKeys(self):
         self.convertStates()
-
-        # self.currentOne.one.addRoundKey(self.currentOne.one.createRoundKey())
-
+        # TODO
         self.addPointInHistory()
 
     def runSubBytes(self):
         self.convertStates()
         if self.ptkMode == '2P1K':
-            self.aes.state = self.ltEntry
+            self.aes.state = self.lltEntry
             self.aes.isInv = False
-            self.ltEntry = self.aes.subBytes()
-            self.aes.state = self.lbEntry
+            self.lltEntry = self.aes.subBytes()
+            self.aes.state = self.llbEntry
             self.aes.isInv = False
-            self.lbEntry = self.aes.subBytes()
+            self.llbEntry = self.aes.subBytes()
         elif self.ptkMode == '1P2K':
-            self.aes.state = self.lmEntry
+            self.aes.state = self.lrtEntry
             self.aes.isInv = False
-            self.ltEntry = self.aes.subBytes()
-            self.aes.state = self.lmEntry
+            self.lltEntry = self.aes.subBytes()
+            self.aes.state = self.lrtEntry
             self.aes.isInv = False
-            self.lbEntry = self.aes.subBytes()
+            self.llbEntry = self.aes.subBytes()
         self.updateMiddleColumn()
         self.addPointInHistory()
 
     def runShiftRows(self):
         self.convertStates()
         if self.ptkMode == '2P1K':
-            self.aes.state = self.ltEntry
+            self.aes.state = self.lltEntry
             self.aes.isInv = False
-            self.ltEntry = self.aes.shiftRows()
-            self.aes.state = self.lbEntry
+            self.lltEntry = self.aes.shiftRows()
+            self.aes.state = self.llbEntry
             self.aes.isInv = False
-            self.lbEntry = self.aes.shiftRows()
+            self.llbEntry = self.aes.shiftRows()
         elif self.ptkMode == '1P2K':
-            self.aes.state = self.lmEntry
+            self.aes.state = self.lrtEntry
             self.aes.isInv = False
-            self.ltEntry = self.aes.shiftRows()
-            self.aes.state = self.lmEntry
+            self.lltEntry = self.aes.shiftRows()
+            self.aes.state = self.lrtEntry
             self.aes.isInv = False
-            self.lbEntry = self.aes.shiftRows()
+            self.llbEntry = self.aes.shiftRows()
         self.updateMiddleColumn()
         self.addPointInHistory()
 
     def runMixColumns(self):
         self.convertStates()
         if self.ptkMode == '2P1K':
-            self.aes.state = self.ltEntry
+            self.aes.state = self.lltEntry
             self.aes.isInv = False
-            self.ltEntry = self.aes.mixColumns()
-            self.aes.state = self.lbEntry
+            self.lltEntry = self.aes.mixColumns()
+            self.aes.state = self.llbEntry
             self.aes.isInv = False
-            self.lbEntry = self.aes.mixColumns()
+            self.llbEntry = self.aes.mixColumns()
         elif self.ptkMode == '1P2K':
-            self.aes.state = self.lmEntry
+            self.aes.state = self.lrtEntry
             self.aes.isInv = False
-            self.ltEntry = self.aes.mixColumns()
-            self.aes.state = self.lmEntry
+            self.lltEntry = self.aes.mixColumns()
+            self.aes.state = self.lrtEntry
             self.aes.isInv = False
-            self.lbEntry = self.aes.mixColumns()
+            self.llbEntry = self.aes.mixColumns()
         self.updateMiddleColumn()
         self.addPointInHistory()
 
@@ -121,28 +128,28 @@ class MainScene(ui.Scene):
         self.addPointInHistory()
 
     def switchKeyPlaintextMode(self, btn):
-        top = self.lefttop_textfield.label.text
-        bottom = self.leftbottom_textfield.label.text
-        middle = self.leftmiddle_textfield.label.text
+        top = self.left_lefttop_textfield.label.text
+        bottom = self.left_leftbottom_textfield.label.text
+        middle = self.left_righttop_textfield.label.text
         if '2 Key' in btn.text:
             btn.text = '2 PTexts 1 Key'
             self.ptkMode = '2P1K'
         else:
             btn.text = '1 PText 2 Keys'
             self.ptkMode = '1P2K'
-        self.leftbottom_textfield.label.text = ''
-        self.lefttop_textfield.label.text = middle
-        self.leftmiddle_textfield.label.text = top
-        self.leftbottom_textfield.text = top
-        self.lefttop_textfield.text = middle
-        self.leftmiddle_textfield.text = top
+        self.left_leftbottom_textfield.label.text = ''
+        self.left_lefttop_textfield.label.text = middle
+        self.left_righttop_textfield.label.text = top
+        self.left_leftbottom_textfield.text = top
+        self.left_lefttop_textfield.text = middle
+        self.left_righttop_textfield.text = top
         self.updateColumns()
 
     def showEntropy(self):
         e = entropy.Entropy()
-        original = e.getAllEntropies(self.lefttop_textfield.text,
-                self.leftbottom_textfield.text)
-        states = e.getAllEntropies(self.ltEntry, self.lbEntry)
+        original = e.getAllEntropies(self.left_lefttop_textfield.text,
+                self.left_leftbottom_textfield.text)
+        states = e.getAllEntropies(self.lltEntry, self.llbEntry)
         crypts = e.getAllEntropies(self.ptoEncrypted, self.pttEncrypted)
         if self.originalEntropy != None:
             self.originalEntropy._dismiss(None, None)
@@ -194,7 +201,7 @@ class MainScene(ui.Scene):
         (self.mode, self.orig_len, self.ciph) = \
             self.moo.encrypt(self.cleartext,
                              self.moo.modeOfOperation[self.operationMode],
-                             self.cypherkey, int(self.keySize), self.iv)
+                             self.cypherkey, int(self.keySize), self.lrbEntry)
 
     def updateView(
         self,
@@ -350,65 +357,65 @@ class MainScene(ui.Scene):
         view.image = surf
 
     def updateMiddleColumn(self):
-        top = self.ltEntry
-        bottom = self.lbEntry
+        top = self.lltEntry
+        bottom = self.llbEntry
 
         if self.visualization == 'Greyscale' or self.visualization \
             == 'Color':
-            self.updateView(top, self.currentone_imageview,
+            self.updateView(top, self.topcenter_imageview,
                             (self.columnWidth, self.middleBarY
                             + MARGIN))
-            self.updateView(bottom, self.currenttwo_imageview,
+            self.updateView(bottom, self.bottomcenter_imageview,
                             (self.columnWidth, self.middleBarY
                             + MARGIN))
         elif self.visualization == 'Histogram':
             self.convertStates()
-            self.histogramOnView(top, self.currentone_imageview)
-            self.histogramOnView(bottom, self.currenttwo_imageview)
+            self.histogramOnView(top, self.topcenter_imageview)
+            self.histogramOnView(bottom, self.bottomcenter_imageview)
         elif self.visualization == 'Punchcard':
-            self.punchCardOnView(top, self.currentone_imageview)
-            self.punchCardOnView(bottom, self.currenttwo_imageview)
+            self.punchCardOnView(top, self.topcenter_imageview)
+            self.punchCardOnView(bottom, self.bottomcenter_imageview)
         elif self.visualization == 'Bit Compare':
             if self.ptkMode == '2P1K':
-                ptOne = self.lefttop_textfield.text
-                ptTwo = self.leftbottom_textfield.text
+                ptOne = self.left_lefttop_textfield.text
+                ptTwo = self.left_leftbottom_textfield.text
             else:
-                ptOne = self.leftmiddle_textfield.text
-                ptTwo = self.leftmiddle_textfield.text
-            self.bitChangeOnView(top, ptOne, self.currentone_imageview)
+                ptOne = self.left_righttop_textfield.text
+                ptTwo = self.left_righttop_textfield.text
+            self.bitChangeOnView(top, ptOne, self.topcenter_imageview)
             self.bitChangeOnView(bottom, ptTwo,
-                                 self.currenttwo_imageview)
+                                 self.bottomcenter_imageview)
 
     def updateLeftColumn(self):
         """ This should update the left column """
 
         if self.ptkMode == '2P1K':
-            top = self.lefttop_textfield.text
-            bottom = self.leftbottom_textfield.text
+            top = self.left_lefttop_textfield.text
+            bottom = self.left_leftbottom_textfield.text
         else:
-            top = bottom = self.leftmiddle_textfield.text
+            top = bottom = self.left_righttop_textfield.text
 
         # Left column doesn't need to be encrypted, we're using the plaintext.
 
         if self.visualization == 'Greyscale' or self.visualization \
             == 'Color':
-            self.updateView(top, self.plaintextone_imageview,
+            self.updateView(top, self.lefttop_imageview,
                             (self.columnWidth, self.middleBarY
                             + MARGIN))
-            self.updateView(bottom, self.plaintexttwo_imageview,
+            self.updateView(bottom, self.leftbottom_imageview,
                             (self.columnWidth, self.middleBarY
                             + MARGIN))
         elif self.visualization == 'Histogram':
-            self.histogramOnView(top, self.plaintextone_imageview)
-            self.histogramOnView(bottom, self.plaintexttwo_imageview)
+            self.histogramOnView(top, self.lefttop_imageview)
+            self.histogramOnView(bottom, self.leftbottom_imageview)
         elif self.visualization == 'Punchcard':
-            self.bitChangeOnView(top, top, self.plaintextone_imageview)
+            self.bitChangeOnView(top, top, self.lefttop_imageview)
             self.bitChangeOnView(bottom, bottom,
-                                 self.plaintexttwo_imageview)
+                                 self.leftbottom_imageview)
         elif self.visualization == 'Bit Compare':
-            self.bitChangeOnView(top, top, self.plaintextone_imageview)
+            self.bitChangeOnView(top, top, self.lefttop_imageview)
             self.bitChangeOnView(bottom, bottom,
-                                 self.plaintexttwo_imageview)
+                                 self.leftbottom_imageview)
 
     def updateRightColumn(self):
         """ This should update the right column """
@@ -418,64 +425,64 @@ class MainScene(ui.Scene):
         ptOne = None
         ptTwo = None
         if self.ptkMode == '2P1K':
-            (self.mode, self.orig_len, top) = \
-                self.moo.encrypt(self.lefttop_textfield.text,
+            (self.mode, self.orig_len, self.ptoEncrypted) = \
+                self.moo.encrypt(self.left_lefttop_textfield.text,
                                  self.moo.modeOfOperation[self.operationMode],
                                  self.cypherkey, int(self.keySize),
-                                 self.iv)
-            (self.mode, self.orig_len, bottom) = \
-                self.moo.encrypt(self.leftbottom_textfield.text,
+                                 self.lrbEntry)
+            (self.mode, self.orig_len, self.pttEncrypted) = \
+                self.moo.encrypt(self.left_leftbottom_textfield.text,
                                  self.moo.modeOfOperation[self.operationMode],
                                  self.cypherkey, int(self.keySize),
-                                 self.iv)
-            ptOne = self.lefttop_textfield.text
-            ptTwo = self.leftbottom_textfield.text
+                                 self.lrbEntry)
+            ptOne = self.left_lefttop_textfield.text
+            ptTwo = self.left_leftbottom_textfield.text
         elif self.ptkMode == '1P2K':
             key = []
-            for x in range(0, len(self.lefttop_textfield.text)):
-                key.append(ord(self.lefttop_textfield.text[x]))
-            (self.mode, self.orig_len, top) = \
-                self.moo.encrypt(self.leftmiddle_textfield.text,
+            for x in range(0, len(self.left_lefttop_textfield.text)):
+                key.append(ord(self.left_lefttop_textfield.text[x]))
+            (self.mode, self.orig_len, self.ptoEncrypted) = \
+                self.moo.encrypt(self.left_righttop_textfield.text,
                                  self.moo.modeOfOperation[self.operationMode],
-                                 key, int(self.keySize), self.iv)
-            (self.mode, self.orig_len, bottom) = \
-                self.moo.encrypt(self.leftmiddle_textfield.text,
+                                 key, int(self.keySize), self.lrbEntry)
+            (self.mode, self.orig_len, self.pttEncrypted) = \
+                self.moo.encrypt(self.left_righttop_textfield.text,
                                  self.moo.modeOfOperation[self.operationMode],
-                                 key, int(self.keySize), self.iv)
-            ptOne = self.leftmiddle_textfield.text
-            ptTwo = self.leftmiddle_textfield.text
+                                 key, int(self.keySize), self.lrbEntry)
+            ptOne = self.left_righttop_textfield.text
+            ptTwo = self.left_righttop_textfield.text
         else:
             print "Poop, this doesn't work =/"
 
         if self.visualization == 'Greyscale' or self.visualization \
             == 'Color':
-            self.updateView(top, self.cipherone_imageview,
+            self.updateView(self.ptoEncrypted, self.righttop_imageview,
                             (self.columnWidth, self.middleBarY
                             + MARGIN))
-            self.updateView(bottom, self.ciphertwo_imageview,
+            self.updateView(self.pttEncrypted, self.rightbottom_imageview,
                             (self.columnWidth, self.middleBarY
                             + MARGIN))
         elif self.visualization == 'Histogram':
-            self.histogramOnView(top, self.cipherone_imageview)
-            self.histogramOnView(bottom, self.ciphertwo_imageview)
+            self.histogramOnView(self.ptoEncrypted, self.righttop_imageview)
+            self.histogramOnView(self.pttEncrypted, self.rightbottom_imageview)
         elif self.visualization == 'Punchcard':
-            self.punchCardOnView(top, self.cipherone_imageview)
-            self.punchCardOnView(bottom, self.ciphertwo_imageview)
+            self.punchCardOnView(self.ptoEncrypted, self.righttop_imageview)
+            self.punchCardOnView(self.pttEncrypted, self.rightbottom_imageview)
         elif self.visualization == 'Bit Compare':
-            self.bitChangeOnView(ptOne, top, self.cipherone_imageview)
+            self.bitChangeOnView(ptOne, top, self.righttop_imageview)
             self.bitChangeOnView(ptTwo, bottom,
-                                 self.ciphertwo_imageview)
+                                 self.rightbottom_imageview)
             if self.ptkMode == '2P1K':
-                ptOne = self.lefttop_textfield.text
-                ptTwo = self.leftbottom_textfield.text
+                ptOne = self.left_lefttop_textfield.text
+                ptTwo = self.left_leftbottom_textfield.text
             else:
-                ptOne = self.leftmiddle_textfield.text
-                ptTwo = self.leftmiddle_textfield.text
+                ptOne = self.left_righttop_textfield.text
+                ptTwo = self.left_righttop_textfield.text
             print str(top) + ' ' + str(ptOne)
-            self.bitChangeOnView(top, ptOne, self.cipherone_imageview,
+            self.bitChangeOnView(self.ptoEncrypted, ptOne, self.righttop_imageview,
                                  True)
-            self.bitChangeOnView(bottom, ptTwo,
-                                 self.ciphertwo_imageview)
+            self.bitChangeOnView(self.pttEncrypted, ptTwo,
+                                 self.rightbottom_imageview)
 
     def updateColumns(self):
         """ This updates all the columns.  Redraws the left, right, and center. """
@@ -489,12 +496,14 @@ class MainScene(ui.Scene):
             Text is the text the TextField was changed to.
         """
 
-        if tf.placeholder == 'LT':
-            self.ltEntry = text
-        elif tf.placeholder == 'LB':
-            self.lbEntry = text
-        elif tf.placeholder == 'LM':
-            self.lmEntry = text
+        if tf.placeholder == 'LLT':
+            self.lltEntry = text
+        elif tf.placeholder == 'LLB':
+            self.llbEntry = text
+        elif tf.placeholder == 'LRT':
+            self.lrtEntry = text
+        elif tf.placeholder == 'LRB':
+            self.lrbEntry = text
         else:
             print "Don't know what to do..."
             return
@@ -729,43 +738,53 @@ class MainScene(ui.Scene):
             along input text boxes for the strings.
         """
 
-        self.plaintextone_imageview = ui.ImageView(ui.Rect(0,
+        self.lefttop_imageview = ui.ImageView(ui.Rect(0,
                 self.buttonBarBottom + MARGIN, self.columnWidth,
                 self.middleBarY + MARGIN), self.empty)
-        self.add_child(self.plaintextone_imageview)
+        self.add_child(self.lefttop_imageview)
 
-        self.plaintexttwo_imageview = ui.ImageView(ui.Rect(0,
+        self.leftbottom_imageview = ui.ImageView(ui.Rect(0,
                 self.middleBarY + MARGIN, self.columnWidth,
                 self.frame.h), self.empty)
-        self.add_child(self.plaintexttwo_imageview)
+        self.add_child(self.leftbottom_imageview)
 
         # Draw these text fields at end so they're on top of the pictures.
 
-        self.lefttop_textfield = ui.TextField(ui.Rect(0,
+        self.left_lefttop_textfield = ui.TextField(ui.Rect(0,
                 self.middleBarY - 15, self.columnWidth / 2,
-                self.label_height), placeholder='LT')
-        self.lefttop_textfield.centerx = self.frame.centerx
-        self.lefttop_textfield.text = self.ltEntry = 'Hello'
-        self.lefttop_textfield.on_text_change.connect(self.onTextChanged)
-        self.add_child(self.lefttop_textfield)
+                self.label_height), placeholder='LRT')
+        self.left_lefttop_textfield.centerx = self.frame.centerx
+        self.left_lefttop_textfield.text = self.lltEntry = 'Hello'
+        self.left_lefttop_textfield.on_text_change.connect(self.onTextChanged)
+        self.add_child(self.left_lefttop_textfield)
 
-        self.leftbottom_textfield = ui.TextField(ui.Rect(0,
+        self.left_leftbottom_textfield = ui.TextField(ui.Rect(0,
                 self.middleBarY + 15, self.columnWidth / 2,
-                self.label_height), placeholder='LB')
-        self.leftbottom_textfield.centerx = self.frame.centerx
-        self.leftbottom_textfield.text = self.lbEntry = 'World'
-        self.leftbottom_textfield.on_text_change.connect(self.onTextChanged)
-        self.add_child(self.leftbottom_textfield)
+                self.label_height), placeholder='LRB')
+        self.left_leftbottom_textfield.centerx = self.frame.centerx
+        self.left_leftbottom_textfield.text = self.llbEntry = 'World'
+        self.left_leftbottom_textfield.on_text_change.connect(self.onTextChanged)
+        self.add_child(self.left_leftbottom_textfield)
 
-        self.leftmiddle_textfield = \
-            ui.TextField(ui.Rect(self.leftbottom_textfield.frame.right,
-                         self.middleBarY, self.columnWidth / 2,
-                         self.label_height), placeholder='LM')
-        self.leftmiddle_textfield.centerx = self.frame.centerx
-        self.leftmiddle_textfield.text = self.lmEntry = 'Password'
-        self.leftmiddle_textfield.on_text_change.connect(self.onTextChanged)
-        self.leftmiddle_textfield.bring_to_front()
-        self.add_child(self.leftmiddle_textfield)
+        self.left_righttop_textfield = \
+            ui.TextField(ui.Rect(self.left_leftbottom_textfield.frame.right,
+                         self.left_lefttop_textfield.frame.top, self.columnWidth / 2,
+                         self.label_height), placeholder='LLT')
+        self.left_righttop_textfield.centerx = self.frame.centerx
+        self.left_righttop_textfield.text = self.lrtEntry = 'Password'
+        self.left_righttop_textfield.on_text_change.connect(self.onTextChanged)
+        self.left_righttop_textfield.bring_to_front()
+        self.add_child(self.left_righttop_textfield)
+
+        self.left_rightbottom_textfield = \
+            ui.TextField(ui.Rect(self.left_leftbottom_textfield.frame.right,
+                         self.left_leftbottom_textfield.frame.top, self.columnWidth / 2,
+                         self.label_height), placeholder='LLB')
+        self.left_rightbottom_textfield.centerx = self.frame.centerx
+        self.left_rightbottom_textfield.text = self.lrbEntry = 'IV'
+        self.left_rightbottom_textfield.on_text_change.connect(self.onTextChanged)
+        self.left_rightbottom_textfield.bring_to_front()
+        self.add_child(self.left_rightbottom_textfield)
 
     def drawRightColumn(self):
         """
@@ -774,18 +793,18 @@ class MainScene(ui.Scene):
             through AES.
         """
 
-        self.cipherone_imageview = \
+        self.righttop_imageview = \
             ui.ImageView(ui.Rect(self.columnWidth * 2,
                          self.buttonBarBottom + MARGIN,
                          self.columnWidth, self.middleBarY + MARGIN),
                          self.empty)
-        self.add_child(self.cipherone_imageview)
+        self.add_child(self.righttop_imageview)
 
-        self.ciphertwo_imageview = \
+        self.rightbottom_imageview = \
             ui.ImageView(ui.Rect(self.columnWidth * 2, self.middleBarY
                          + MARGIN, self.columnWidth, self.frame.h),
                          self.empty)
-        self.add_child(self.ciphertwo_imageview)
+        self.add_child(self.rightbottom_imageview)
 
     def drawCenterColumn(self):
         """
@@ -794,33 +813,33 @@ class MainScene(ui.Scene):
             for history.
         """
 
-        self.currentone_imageview = \
+        self.topcenter_imageview = \
             ui.ImageView(ui.Rect(self.columnWidth, self.buttonBarBottom
                          + MARGIN, self.columnWidth, self.middleBarY
                          + MARGIN), self.empty)
-        self.add_child(self.currentone_imageview)
+        self.add_child(self.topcenter_imageview)
 
-        self.currenttwo_imageview = \
+        self.bottomcenter_imageview = \
             ui.ImageView(ui.Rect(self.columnWidth, self.middleBarY
                          + MARGIN, self.columnWidth, self.frame.h),
                          self.empty)
-        self.add_child(self.currenttwo_imageview)
+        self.add_child(self.bottomcenter_imageview)
 
     def historyForward(self):
         if len(self.future) != 0:
             self.printHistory()
             point = self.future.pop()
             self.history.append(point)
-            self.ltEntry = point.mt
-            self.lbEntry = point.mb
+            self.lltEntry = point.mt
+            self.llbEntry = point.mb
             self.updateMiddleColumn()
 
     def historyBackward(self):
         if len(self.history) != 0:
             point = self.history.pop()
             self.future.append(point)
-            self.ltEntry = point.mt
-            self.lbEntry = point.mb
+            self.lltEntry = point.mt
+            self.llbEntry = point.mb
             self.updateMiddleColumn()
 
     def printHistory(self):
@@ -835,7 +854,7 @@ class MainScene(ui.Scene):
 
         # Add actual point.
 
-        p = HistoryPoint(self.ltEntry[:], self.lbEntry[:])
+        p = HistoryPoint(self.lltEntry[:], self.llbEntry[:])
         self.history.append(p)
 
     def clearHistory(self):
@@ -855,12 +874,13 @@ class MainScene(ui.Scene):
         self.ptkMode = '2P1K'
         self.keySize = self.moo.aes.keySize['SIZE_128']
         self.visualization = 'Greyscale'
-        self.cypherkey = [143,194,34,208,145,203,230,143,177,246,97,206,145,92,255,84]
-        self.iv = [103,35,148,239,76,213,47,118,255,222,123,176,106,134,98,92]
+        self.cypherkey = 'Password'
+        self.lrbEntry = 'IV'
+        #self.convertStates()
         (self.mode, self.orig_len, self.ciph) = \
             self.moo.encrypt(self.cleartext,
                              self.moo.modeOfOperation[self.operationMode],
-                             self.cypherkey, int(self.keySize), self.iv)
+                             self.cypherkey, int(self.keySize), self.lrbEntry)
         self.label_height = ui.theme.current.label_height
         infoObject = pygame.display.Info()
         size = (width, height) = (int(infoObject.current_w),

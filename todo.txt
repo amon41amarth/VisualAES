@@ -16,7 +16,23 @@ Parts - Visualizations:
 Open:
 	"Toasts" or small notifcations that appear and disappear.
 
+Open:
+	Option to have custom padding.
 
+Open:
+	Option to edit IV
+
+Open:
+	Color blindness with the color.
+
+Open:
+	XY Coordinates for a graph.
+
+Open:
+	Glyph types -- Vector fields
+
+Open:
+	Parallel Coordinates or Parallel Plot
 
 Bugs:
 	Open:

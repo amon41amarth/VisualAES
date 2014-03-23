@@ -448,12 +448,17 @@ class AESModeOfOperation(object):
     def encrypt(self, stringIn, mode, key, size, IV, pad = 0x0):
         if len(key) % size:
             # Fluff up the key if it's not the correct length with 0x0's.
+            if type(key) == type(''):
+                key = self.convertString(key, 0, len(key), mode)
             thing = len(key) % size
             while len(key) < 16:
                 key.append(pad) # Padding done here.
             size = len(key)
         if len(IV) % 16:
-            return None
+            if type(IV) == type(''):
+                IV = self.convertString(IV, 0, len(IV), mode)
+            while len(IV) < 16:
+                IV.append(pad)
         # the AES input/output
         plaintext = []
         iput = [0] * 16
