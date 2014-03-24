@@ -1,47 +1,40 @@
 Parts:
-	Open:
+	Open - High Pri:
 		RoundKey
-	Open:
-		Edit SBox
-Open:
-	Differential Fault Analysis
+	Open - High Pri:
+		Edit SBox - Start up notepad.
 
+Justin - High Pri:
+	Entropy Text Boxes
 
-
-Parts - Visualizations:
-	Open:
-		Sound
-		Needs implemented.  Not high priority though.
-
-Open:
-	"Toasts" or small notifcations that appear and disappear.
-
-Open:
+Open - Med Pri:
 	Option to have custom padding.
 
-Open:
-	Option to edit IV
+Open - Med Pri:
+	"Toasts" or small notifcations that appear and disappear.
 
-Open:
+Open - Low Pri:
+	Differential Fault Analysis
+
+Parts - Visualizations:
+	Open - Low Pri:
+		Sound
+		Needs implemented.
+	Open - Low Pri:
+		Punch card bugs
+
+Open - Low Pri:
 	Color blindness with the color.
 
-Open:
+Open - Low Pri:
 	XY Coordinates for a graph.
 
-Open:
+Open - Low Pri:
 	Glyph types -- Vector fields
 
-Open:
+Open - Low Pri:
 	Parallel Coordinates or Parallel Plot
 
-Bugs:
-	Open:
-		Entropy dialogues should update was buttons are pressed.
 
 Questions for Dr. B:
-1. Number of rounds in relation to round keys.
-2. Can we edit the s box?
-3. What exactly do you mean by variable watching?
-4. Should the Initialization Vector be editable, or just leave it constant?
-5. Keys must be divisible by 16, 24, 32 depending on key size. So should we allow 2K1P?
-6. 4X4 only.
+1.
