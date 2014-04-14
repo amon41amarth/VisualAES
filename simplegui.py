@@ -6,6 +6,7 @@ import sys
 import os
 import entropy
 import collections
+import numpy
 
 # sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
@@ -32,6 +33,11 @@ class MainScene(ui.Scene):
 
     aes = slowaes.AES()
     aesmoo = slowaes.AESModeOfOperation()
+
+    def kl(p, q):
+        p = numpy.asarray(p, dtype=numpy.int)
+        q = numpy.asarray(q, dtype=numpy.int)
+        return numpy.sum(numpy.where(p != 0, p * numpy.log(p / q), 0))
 
     def convertStates(self):
         try:
@@ -469,16 +475,13 @@ class MainScene(ui.Scene):
             self.punchCardOnView(self.ptoEncrypted, self.righttop_imageview)
             self.punchCardOnView(self.pttEncrypted, self.rightbottom_imageview)
         elif self.visualization == 'Bit Compare':
-            self.bitChangeOnView(ptOne, top, self.righttop_imageview)
-            self.bitChangeOnView(ptTwo, bottom,
-                                 self.rightbottom_imageview)
             if self.ptkMode == '2P1K':
                 ptOne = self.left_lefttop_textfield.text
                 ptTwo = self.left_leftbottom_textfield.text
             else:
                 ptOne = self.left_righttop_textfield.text
                 ptTwo = self.left_righttop_textfield.text
-            print str(top) + ' ' + str(ptOne)
+
             self.bitChangeOnView(self.ptoEncrypted, ptOne, self.righttop_imageview,
                                  True)
             self.bitChangeOnView(self.pttEncrypted, ptTwo,
@@ -645,8 +648,8 @@ class MainScene(ui.Scene):
                 modes = [
                     'Greyscale',
                     'Color',
-                    'Sound',
-                    'Histogram',
+                    #'Sound',
+                    #'Histogram',
                     'Punchcard',
                     'Bit Compare',
                     ]
@@ -805,6 +808,21 @@ class MainScene(ui.Scene):
                          + MARGIN, self.columnWidth, self.frame.h),
                          self.empty)
         self.add_child(self.rightbottom_imageview)
+
+        self.righttop_textfield = ui.TextField(ui.Rect(self.columnWidth * 2,
+                self.buttonBarBottom + MARGIN, MARGIN * 2,
+                MARGIN), placeholder='RTT')
+        self.righttop_textfield.centerx = self.frame.centerx
+        self.righttop_textfield.text = '100'
+        self.add_child(self.righttop_textfield)
+
+        self.rightbottom_textfield = ui.TextField(ui.Rect(self.columnWidth * 2,
+                self.middleBarY + MARGIN, MARGIN * 2,
+                MARGIN), placeholder='RBT')
+        self.rightbottom_textfield.centerx = self.frame.centerx
+        self.rightbottom_textfield.text = '100'
+        self.add_child(self.rightbottom_textfield)
+
 
     def drawCenterColumn(self):
         """
