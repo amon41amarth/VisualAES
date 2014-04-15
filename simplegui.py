@@ -44,6 +44,7 @@ class MainScene(ui.Scene):
             if type(self.lrbEntry) == type(''):
                 self.lrbEntry = self.aesmoo.convertString(self.lrbEntry, 0, len(self.lrbEntry),
                             self.aesmoo.modeOfOperation[self.operationMode])
+
         except AttributeError:
             pass
         try:
@@ -62,11 +63,25 @@ class MainScene(ui.Scene):
                     self.lrtEntry = self.aesmoo.convertString(self.lrtEntry,
                             0, len(self.lrtEntry),
                             self.aesmoo.modeOfOperation[self.operationMode])
+
         except AttributeError:
             pass
 
-    def editSBox(self):
-        pass
+    def editSBox(self, isZeros):
+        print "Changing SBOX =/"
+        if(self.oldSBox == None):
+            self.oldSBox = self.aes.sbox
+            self.oldRSBox = self.aes.rsbox
+        if(isZeros):
+            zeros = self.oldSBox
+            for x in range (0,len(zeros)):
+                zeros[x] = 0
+            self.aes.sbox = zeros
+            self.aes.rsbox = zeros
+        else:
+            self.aes.sbox = self.oldSBox
+            self.aes.rsbox = self.oldRSBox
+
 
     def runRoundKeys(self):
         self.convertStates()
@@ -175,7 +190,13 @@ class MainScene(ui.Scene):
 
     def onButtonClick(self, btn, mbtn):
         if 'SBox' in btn.text:
-            self.editSBox()
+            if '0s' in btn.text:
+                # we're going TO default.
+                btn.text = 'SBox Default'
+            else:
+                # we're going TO all 0s.
+                btn.text = 'SBox All 0s'
+            self.editSBox('0s' in btn.text)
         elif 'Expand' in btn.text:
             self.runRoundKeys()
         elif 'Sub' in btn.text:
@@ -202,7 +223,7 @@ class MainScene(ui.Scene):
         # we'll be updating it everytime this method is called.
 
         self.updateMiddleColumn()
-
+        # WHAT IS THIS DOING?
         self.cleartext = self.cleartext + ' J'
         (self.mode, self.orig_len, self.ciph) = \
             self.moo.encrypt(self.cleartext,
@@ -489,7 +510,8 @@ class MainScene(ui.Scene):
 
     def updateColumns(self):
         """ This updates all the columns.  Redraws the left, right, and center. """
-
+        self.convertStates()
+        self.cypherkey = self.lrtEntry
         self.updateLeftColumn()
         self.updateMiddleColumn()
         self.updateRightColumn()
@@ -512,7 +534,7 @@ class MainScene(ui.Scene):
             return
 
         # Clear and add new stuff!
-
+        self.convertStates()
         self.clearHistory()
         self.updateColumns()
         self.addPointInHistory()
@@ -630,7 +652,7 @@ class MainScene(ui.Scene):
     def drawBottomBar(self):
         bottomButtonNames = [
             '2 PTexts 1 Key',
-            'Edit SBox',
+            'SBox Default',
             '<--',
             '-->',
             'Entropy',
@@ -649,8 +671,8 @@ class MainScene(ui.Scene):
                     'Greyscale',
                     'Color',
                     #'Sound',
-                    #'Histogram',
-                    'Punchcard',
+                    'Histogram',
+                    #'Punchcard',
                     'Bit Compare',
                     ]
                 labels2 = [ui.Label(ui.Rect(0, 0, LIST_WIDTH,
@@ -673,6 +695,7 @@ class MainScene(ui.Scene):
                             self.frame.h - self.label_height,
                             buttonWidth, self.label_height),
                             bottomButtonNames[i])
+
                 view.on_clicked.connect(self.onButtonClick)
             self.add_child(view)
 
@@ -755,7 +778,7 @@ class MainScene(ui.Scene):
 
         self.left_lefttop_textfield = ui.TextField(ui.Rect(0,
                 self.middleBarY - 15, self.columnWidth / 2,
-                self.label_height), placeholder='LRT')
+                self.label_height), placeholder='LLT')
         self.left_lefttop_textfield.centerx = self.frame.centerx
         self.left_lefttop_textfield.text = self.lltEntry = 'Hello'
         self.left_lefttop_textfield.on_text_change.connect(self.onTextChanged)
@@ -763,7 +786,7 @@ class MainScene(ui.Scene):
 
         self.left_leftbottom_textfield = ui.TextField(ui.Rect(0,
                 self.middleBarY + 15, self.columnWidth / 2,
-                self.label_height), placeholder='LRB')
+                self.label_height), placeholder='LLB')
         self.left_leftbottom_textfield.centerx = self.frame.centerx
         self.left_leftbottom_textfield.text = self.llbEntry = 'World'
         self.left_leftbottom_textfield.on_text_change.connect(self.onTextChanged)
@@ -772,7 +795,7 @@ class MainScene(ui.Scene):
         self.left_righttop_textfield = \
             ui.TextField(ui.Rect(self.left_leftbottom_textfield.frame.right,
                          self.left_lefttop_textfield.frame.top, self.columnWidth / 2,
-                         self.label_height), placeholder='LLT')
+                         self.label_height), placeholder='LRT')
         self.left_righttop_textfield.centerx = self.frame.centerx
         self.left_righttop_textfield.text = self.lrtEntry = 'Password'
         self.left_righttop_textfield.on_text_change.connect(self.onTextChanged)
@@ -782,12 +805,13 @@ class MainScene(ui.Scene):
         self.left_rightbottom_textfield = \
             ui.TextField(ui.Rect(self.left_leftbottom_textfield.frame.right,
                          self.left_leftbottom_textfield.frame.top, self.columnWidth / 2,
-                         self.label_height), placeholder='LLB')
+                         self.label_height), placeholder='LRB')
         self.left_rightbottom_textfield.centerx = self.frame.centerx
-        self.left_rightbottom_textfield.text = self.lrbEntry = 'IV'
+        self.left_rightbottom_textfield.text = self.lrbEntry =  'IV'
         self.left_rightbottom_textfield.on_text_change.connect(self.onTextChanged)
         self.left_rightbottom_textfield.bring_to_front()
         self.add_child(self.left_rightbottom_textfield)
+
 
     def drawRightColumn(self):
         """
@@ -894,6 +918,7 @@ class MainScene(ui.Scene):
         self.visualization = 'Greyscale'
         self.cypherkey = 'Password'
         self.lrbEntry = 'IV'
+        self.oldSBox = None #Init it as none, will handle later.
         #self.convertStates()
         (self.mode, self.orig_len, self.ciph) = \
             self.moo.encrypt(self.cleartext,

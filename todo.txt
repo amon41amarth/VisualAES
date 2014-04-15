@@ -4,9 +4,6 @@ Parts:
 	Open - High Pri:
 		Edit SBox - Start up notepad.
 
-Justin - High Pri:
-	Entropy Text Boxes
-
 Open - Med Pri:
 	Option to have custom padding.
 

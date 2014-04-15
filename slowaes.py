@@ -138,8 +138,7 @@ class AES(object):
         # rotate the 32-bit word 8 bits to the left
         word = self.rotate(word)
         # apply S-Box substitution on all 4 parts of the 32-bit word
-        for i in range(4):
-            word[i] = self.getSBoxValue(word[i])
+        word[i] = self.getSBoxValue(word[i])
         # XOR the output of the rcon operation with i to the first part
         # (leftmost) only
         word[0] = word[0] ^ self.getRconValue(iteration)
@@ -166,7 +165,6 @@ class AES(object):
         while currentSize < expandedKeySize:
             # assign the previous 4 bytes to the temporary value t
             t = expandedKey[currentSize-4:currentSize]
-
             # every 16,24,32 bytes we apply the core schedule to t
             # and increment rconIteration afterwards
             if currentSize % size == 0:
