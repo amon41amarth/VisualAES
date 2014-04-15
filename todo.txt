@@ -1,8 +1,6 @@
 Parts:
 	Open - High Pri:
 		RoundKey
-	Open - High Pri:
-		Edit SBox - Start up notepad.
 
 Open - Med Pri:
 	Option to have custom padding.
