@@ -526,7 +526,12 @@ class MainScene(ui.Scene):
         elif tf.placeholder == 'LLB':
             self.llbEntry = text
         elif tf.placeholder == 'LRT':
+            # Password.
+            if(len(text) >= 16):
+                # We don't support this, so substring 1-16.
+                text = text[0:15]
             self.lrtEntry = text
+            tf.text = text
         elif tf.placeholder == 'LRB':
             self.lrbEntry = text
         else:
