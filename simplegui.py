@@ -7,6 +7,7 @@ import os
 import entropy
 import collections
 import numpy
+import math
 
 # sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
@@ -33,6 +34,18 @@ class MainScene(ui.Scene):
 
     aes = slowaes.AES()
     aesmoo = slowaes.AESModeOfOperation()
+
+    # Not sure if this takes in an array.
+    # Complained about "int[] numbers" (I know why)
+    def setToProbDist(numbers):
+        std = numpy.std(numbers)
+        mean = numpy.mean(numbers)
+        pi = 3.14159265359
+
+        # This is the formula for a PDF (according to multiple sources)
+        # The ** is used for exponential calculations (0.5 for squareroots)
+        # Also I have no idea was "x" is in the formula or what it should be
+        return (1 / (2 * pi * std ** 0.5)) * (math.exp(-(((x - mean) ** 2) / (2 * (std ** 0.5)))))
 
     def kl(p, q):
         p = numpy.asarray(p, dtype=numpy.int)
