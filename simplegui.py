@@ -34,6 +34,7 @@ class MainScene(ui.Scene):
 
     aes = slowaes.AES()
     aesmoo = slowaes.AESModeOfOperation()
+    curRound = 1
 
     # Not sure if this takes in an array.
     # Complained about "int[] numbers" (I know why)
@@ -96,9 +97,27 @@ class MainScene(ui.Scene):
             self.aes.rsbox = self.oldRSBox
 
 
-    def runRoundKeys(self):
+    def runAddRoundKey(self, expandedKey):
         self.convertStates()
-        # TODO
+
+        curRoundKey = self.aes.createRoundKey(expandedKey, self.curRound)
+
+        if self.ptkMode == '2P1K':
+            self.aes.state = self.lltEntry
+            self.aes.isInv = False
+            self.lltEntry = self.aes.addRoundKey(curRoundKey)# todo
+            self.aes.state = self.llbEntry
+            self.aes.isInv = False
+            self.llbEntry = self.aes.addRoundKey(curRoundKey)# todo
+        elif self.ptkMode == '1P2K':
+            self.aes.state = self.lrtEntry
+            self.aes.isInv = False
+            self.lltEntry = self.aes.addRoundKey(curRoundKey)# todo
+            self.aes.state = self.lrtEntry
+            self.aes.isInv = False
+            self.llbEntry = self.aes.addRoundKey(curRoundKey)# todo
+        self.updateMiddleColumn()
+
         self.addPointInHistory()
 
     def runSubBytes(self):
@@ -210,8 +229,8 @@ class MainScene(ui.Scene):
                 # we're going TO all 0s.
                 btn.text = 'SBox All 0s'
             self.editSBox('0s' in btn.text)
-        elif 'Expand' in btn.text:
-            self.runRoundKeys()
+        elif 'Add' in btn.text:
+            self.runAddRoundKey(expandedKey)  #TODO : create expanded key key
         elif 'Sub' in btn.text:
             self.runSubBytes()
         elif 'Shift' in btn.text:
@@ -572,6 +591,7 @@ class MainScene(ui.Scene):
         item,
         index,
         ):
+        self.curRound = index
         self.updateColumns()
 
     def expanded_key_size_changed(
@@ -602,7 +622,7 @@ class MainScene(ui.Scene):
     def drawTopBar(self):
         topButtonNames = [
             'Run Round',
-            'Exp. Round Key',
+            'Add Round Key',
             'RoundNumber',
             'EKeySize',
             'Sub Bytes',
