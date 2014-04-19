@@ -9,17 +9,22 @@ import collections
 import numpy
 import math
 
-# sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-
 import pygameui as ui
 from pygame.locals import *
 
+## Used for UI, a drop down width.
 LIST_WIDTH = 100
+## Represents a normal margin in UI
 MARGIN = 20
+## A small margin for the UI.
 SMALL_MARGIN = 10
+## A very small margin for the UI.
 VSMALL_MARGIN = 1
 
-
+## This marks a point in history.
+# mt is middle top.
+# mb is middle bottom.
+# Because we only track middle column, ignore everything else.
 class HistoryPoint(object):
 
     def __init__(self, mt, mb):
@@ -29,37 +34,51 @@ class HistoryPoint(object):
     def __str__(self):
         return str(self.mt)
 
-
+## A Scene object, from the pygameui library.
+# Draws all our UI for the visualization.
 class MainScene(ui.Scene):
 
+    ## An aes object to use to encrypt strings and call subroutine methods.
     aes = slowaes.AES()
+    # Also used with the aes object, for the OFB, CFB, etc.
     aesmoo = slowaes.AESModeOfOperation()
 
     # Not sure if this takes in an array.
     # Complained about "int[] numbers" (I know why)
-    def setToProbDist(numbers):
-        std = numpy.std(numbers)
-        mean = numpy.mean(numbers)
+    def setToProbDist(self, numbers):
+        std = numpy.std(numbers) # 72
+        mean = numpy.mean(numbers) # 116
         pi = 3.14159265359
+        x = 256
+
+        (1/(2 * pi * 72 * 72)) * ()
 
         # This is the formula for a PDF (according to multiple sources)
         # The ** is used for exponential calculations (0.5 for squareroots)
         # Also I have no idea was "x" is in the formula or what it should be
         return (1 / (2 * pi * std ** 0.5)) * (math.exp(-(((x - mean) ** 2) / (2 * (std ** 0.5)))))
 
-    def kl(p, q):
-        p = numpy.asarray(p, dtype=numpy.int)
-        q = numpy.asarray(q, dtype=numpy.int)
+    ## one and two are both probability distributions for the sets.
+    def kl(self, one, two):
+        #p = numpy.asarray(self.setToProbDist(one), dtype=numpy.int)
+        #q = numpy.asarray(self.setToProbDist(two), dtype=numpy.int)
+        #print p
+        #print q
+        p = 1
+        q = 1
         return numpy.sum(numpy.where(p != 0, p * numpy.log(p / q), 0))
 
+    ## Converts input to usable (With slowaes) int arrays.
+    # Should take care of if it's 1 plaintext 2 keys or 2 plaintexts 1 key
     def convertStates(self):
         try:
+            # Always do the IV.
             if type(self.lrbEntry) == type(''):
                 self.lrbEntry = self.aesmoo.convertString(self.lrbEntry, 0, len(self.lrbEntry),
                             self.aesmoo.modeOfOperation[self.operationMode])
 
         except AttributeError:
-            pass
+            pass # Ignore error.
         try:
             if self.ptkMode == '2P1K':
                 if type(self.llbEntry) == type(''):
@@ -78,10 +97,12 @@ class MainScene(ui.Scene):
                             self.aesmoo.modeOfOperation[self.operationMode])
 
         except AttributeError:
-            pass
+            pass # Ignore error.
 
+    ## Change between the all 0s in the s box and just the normal s box.
     def editSBox(self, isZeros):
         print "Changing SBOX =/"
+        # If oldSbox wasn't assigned yet, make it the current one (Must be the original)
         if(self.oldSBox == None):
             self.oldSBox = self.aes.sbox
             self.oldRSBox = self.aes.rsbox
@@ -95,12 +116,14 @@ class MainScene(ui.Scene):
             self.aes.sbox = self.oldSBox
             self.aes.rsbox = self.oldRSBox
 
-
+    ## Run the round key function on the information.
     def runRoundKeys(self):
         self.convertStates()
         # TODO
+        self.updateMiddleColumn()
         self.addPointInHistory()
 
+    ## Runs the sub bytes on the current values.  Update smiddle column when done.
     def runSubBytes(self):
         self.convertStates()
         if self.ptkMode == '2P1K':
@@ -120,6 +143,7 @@ class MainScene(ui.Scene):
         self.updateMiddleColumn()
         self.addPointInHistory()
 
+    ## Run shift row subroutine of AES and updates middle column
     def runShiftRows(self):
         self.convertStates()
         if self.ptkMode == '2P1K':
@@ -139,6 +163,7 @@ class MainScene(ui.Scene):
         self.updateMiddleColumn()
         self.addPointInHistory()
 
+    ## Run mix column subroutine of AES and updates middle column
     def runMixColumns(self):
         self.convertStates()
         if self.ptkMode == '2P1K':
@@ -158,9 +183,7 @@ class MainScene(ui.Scene):
         self.updateMiddleColumn()
         self.addPointInHistory()
 
-    def runRound(self):
-        self.addPointInHistory()
-
+    ## Switches between 2 plain texts, 1 key and 1 plain text, 2 keys.
     def switchKeyPlaintextMode(self, btn):
         top = self.left_lefttop_textfield.label.text
         bottom = self.left_leftbottom_textfield.label.text
@@ -179,28 +202,7 @@ class MainScene(ui.Scene):
         self.left_righttop_textfield.text = top
         self.updateColumns()
 
-    def showEntropy(self):
-        e = entropy.Entropy()
-        original = e.getAllEntropies(self.left_lefttop_textfield.text,
-                self.left_leftbottom_textfield.text)
-        states = e.getAllEntropies(self.lltEntry, self.llbEntry)
-        crypts = e.getAllEntropies(self.ptoEncrypted, self.pttEncrypted)
-        if self.originalEntropy != None:
-            self.originalEntropy._dismiss(None, None)
-            self.originalEntropy = None
-        if self.statesEntropy != None:
-            self.statesEntropy._dismiss(None, None)
-            self.statesEntropy = None
-        if self.cryptsEntropy != None:
-            self.cryptsEntropy._dismiss(None, None)
-            self.cryptsEntropy = None
-        self.originalEntropy = ui.show_alert_test(title='',
-                message=original, position='Left')
-        self.statesEntropy = ui.show_alert_test(title='',
-                message=states, position='Center')
-        self.cryptsEntropy = ui.show_alert_test(title='',
-                message=crypts, position='Right')
-
+    ## Ran when a button is clicked.
     def onButtonClick(self, btn, mbtn):
         if 'SBox' in btn.text:
             if '0s' in btn.text:
@@ -227,8 +229,6 @@ class MainScene(ui.Scene):
             self.historyBackward()
         elif '-->' in btn.text:
             self.historyForward()
-        elif 'Entropy' in btn.text:
-            self.showEntropy()
         else:
             print "Don't know what to do"
 
@@ -242,7 +242,7 @@ class MainScene(ui.Scene):
             self.moo.encrypt(self.cleartext,
                              self.moo.modeOfOperation[self.operationMode],
                              self.cypherkey, int(self.keySize), self.lrbEntry)
-
+    ## Updates the view for greyscale and color scale types.
     def updateView(
         self,
         text,
@@ -284,6 +284,7 @@ class MainScene(ui.Scene):
         view.image = pygame.transform.scale(surf, (self.columnWidth,
                 self.middleBarY - self.buttonBarBottom - MARGIN))
 
+    ## Creates the histogram on the surfaces.
     def histogramOnView(self, text, view):
         nums = []
         for x in range(0, 256):
@@ -308,34 +309,7 @@ class MainScene(ui.Scene):
                                     - self.buttonBarBottom - MARGIN)),
                                     180)
 
-    def punchCardOnView(self, text, view):
-        one = []
-        for x in range(0, len(text)):
-            one.append(0)
-        if type(text) == type('string'):
-            for x in range(0, len(text)):
-                one[x] = ord(text[x])
-        else:
-            one = text
-
-        cnt = collections.Counter()
-        for x in one:
-            cnt[x] += 1
-        size = cnt.most_common(1)[0][1]
-        surf = pygame.Surface((size * 16, size * 16))
-        surf.fill((255, 255, 255))
-        for x in range(0, 256):
-            if cnt[x] == 0:
-                pygame.draw.circle(surf, (0, 250, 0), (x % 16 * size,
-                                   size * int(x / 16)), cnt[x] / 2)
-            else:
-                pygame.draw.circle(surf, (0, 0, 250), (x % 16 * size,
-                                   size * int(x / 16)), cnt[x])
-
-        surf = pygame.transform.scale(surf, (self.columnWidth,
-                self.middleBarY - self.buttonBarBottom - MARGIN))
-        view.image = surf
-
+    ## Updates the surfaces to show the bit change visualization.
     def bitChangeOnView(
         self,
         first,
@@ -396,6 +370,7 @@ class MainScene(ui.Scene):
                 self.middleBarY - self.buttonBarBottom - MARGIN))
         view.image = surf
 
+    ## Updates the middle column.  Figures out which visualization to run, and makes it work.
     def updateMiddleColumn(self):
         top = self.lltEntry
         bottom = self.llbEntry
@@ -426,6 +401,10 @@ class MainScene(ui.Scene):
             self.bitChangeOnView(bottom, ptTwo,
                                  self.bottomcenter_imageview)
 
+        #self.textfield.text = str(self.kl([1],[1]))
+        #self.rightbottom_textfield.text = str(self.kl([1],[1]))
+
+    ## Updates the left column.  Figures out which visualization to run, and makes it work.
     def updateLeftColumn(self):
         """ This should update the left column """
 
@@ -448,6 +427,9 @@ class MainScene(ui.Scene):
         elif self.visualization == 'Histogram':
             self.histogramOnView(top, self.lefttop_imageview)
             self.histogramOnView(bottom, self.leftbottom_imageview)
+            print "Left Historgram"
+            print top
+            print bottom
         elif self.visualization == 'Punchcard':
             self.bitChangeOnView(top, top, self.lefttop_imageview)
             self.bitChangeOnView(bottom, bottom,
@@ -457,6 +439,7 @@ class MainScene(ui.Scene):
             self.bitChangeOnView(bottom, bottom,
                                  self.leftbottom_imageview)
 
+    ## Updates the right column.  Figures out which visualization to run, and makes it work.
     def updateRightColumn(self):
         """ This should update the right column """
 
@@ -503,6 +486,9 @@ class MainScene(ui.Scene):
                             (self.columnWidth, self.middleBarY
                             + MARGIN))
         elif self.visualization == 'Histogram':
+            print "Right Historgram"
+            print self.ptoEncrypted
+            print self.pttEncrypted
             self.histogramOnView(self.ptoEncrypted, self.righttop_imageview)
             self.histogramOnView(self.pttEncrypted, self.rightbottom_imageview)
         elif self.visualization == 'Punchcard':
@@ -520,7 +506,11 @@ class MainScene(ui.Scene):
                                  True)
             self.bitChangeOnView(self.pttEncrypted, ptTwo,
                                  self.rightbottom_imageview)
+        #print str(self.pttEncrypted) + " " + str(self.ptoEncrypted)
+        self.rightbottom_textfield.text = str(self.kl(self.ptoEncrypted, self.pttEncrypted))
+        self.righttop_textfield.text = str(self.kl([1],[1]))
 
+    ## Easy way to update all columns.
     def updateColumns(self):
         """ This updates all the columns.  Redraws the left, right, and center. """
         self.convertStates()
@@ -529,6 +519,7 @@ class MainScene(ui.Scene):
         self.updateMiddleColumn()
         self.updateRightColumn()
 
+    ## Ran when text is changed in any of the input boxes.
     def onTextChanged(self, tf, text):
         """  tf is the TextField object.
             Text is the text the TextField was changed to.
@@ -557,6 +548,7 @@ class MainScene(ui.Scene):
         self.updateColumns()
         self.addPointInHistory()
 
+    ## Ran when mode of operation is changed.  Updates the operationMode too.
     def moo_changed(
         self,
         selection_view,
@@ -566,6 +558,7 @@ class MainScene(ui.Scene):
         self.operationMode = str(item)
         self.updateColumns()
 
+    ## Ran when round number is changed (Just updates the columns)
     def round_number_changed(
         self,
         selection_view,
@@ -574,6 +567,7 @@ class MainScene(ui.Scene):
         ):
         self.updateColumns()
 
+    ## Expanded key size (128/192/256) was changed.
     def expanded_key_size_changed(
         self,
         selection_view,
@@ -590,6 +584,7 @@ class MainScene(ui.Scene):
             self.keySize = self.moo.aes.keySize['SIZE_256']
         self.updateColumns()
 
+    ## Visualizaiton changed, update views.
     def visualization_changed(
         self,
         selection_view,
@@ -599,6 +594,7 @@ class MainScene(ui.Scene):
         self.visualization = str(item)
         self.updateColumns()
 
+    ## Draws the top bar UI elements.
     def drawTopBar(self):
         topButtonNames = [
             'Run Round',
@@ -667,13 +663,14 @@ class MainScene(ui.Scene):
                 view.on_clicked.connect(self.onButtonClick)
             self.add_child(view)
 
+    ## Draws the bottom bar UI elements.
     def drawBottomBar(self):
         bottomButtonNames = [
             '2 PTexts 1 Key',
             'SBox Default',
             '<--',
             '-->',
-            'Entropy',
+            '', # This is a spacer button, ignore lolol.
             'Visualization',
             ]
         numButtons = len(bottomButtonNames)
@@ -688,9 +685,7 @@ class MainScene(ui.Scene):
                 modes = [
                     'Greyscale',
                     'Color',
-                    #'Sound',
                     'Histogram',
-                    #'Punchcard',
                     'Bit Compare',
                     ]
                 labels2 = [ui.Label(ui.Rect(0, 0, LIST_WIDTH,
@@ -717,6 +712,7 @@ class MainScene(ui.Scene):
                 view.on_clicked.connect(self.onButtonClick)
             self.add_child(view)
 
+    ## Draws the lines separaring the bars and the columns for UI elements.
     def drawLinesForGrid(self):
         """
             This draws the grid lines.
@@ -752,6 +748,8 @@ class MainScene(ui.Scene):
         slider.value = 1
         self.add_child(slider)
 
+    ## A stupid method needed to draw a surface in the columns.
+    # This is also what uses the empty.png lol.
     def load_image(
         self,
         file_name,
@@ -775,6 +773,7 @@ class MainScene(ui.Scene):
             _image = _image.convert_alpha()
         return _image
 
+    ## Draws the left column UI elements.
     def drawLeftColumn(self):
         """
             This draws the left column.
@@ -831,6 +830,7 @@ class MainScene(ui.Scene):
         self.add_child(self.left_rightbottom_textfield)
 
 
+    ## Draws the right column UI elements.
     def drawRightColumn(self):
         """
             This draws the right column.
@@ -866,6 +866,7 @@ class MainScene(ui.Scene):
         self.add_child(self.rightbottom_textfield)
 
 
+    ## Draws the center column UI elements.
     def drawCenterColumn(self):
         """
             This draws the center column.
@@ -885,6 +886,7 @@ class MainScene(ui.Scene):
                          self.empty)
         self.add_child(self.bottomcenter_imageview)
 
+    ## Called when we're moving forward in history.
     def historyForward(self):
         if len(self.future) != 0:
             self.printHistory()
@@ -894,6 +896,7 @@ class MainScene(ui.Scene):
             self.llbEntry = point.mb
             self.updateMiddleColumn()
 
+    ## Called when we're moving backward in history..
     def historyBackward(self):
         if len(self.history) != 0:
             point = self.history.pop()
@@ -902,10 +905,12 @@ class MainScene(ui.Scene):
             self.llbEntry = point.mb
             self.updateMiddleColumn()
 
+    ## Debug method.
     def printHistory(self):
         for x in range(0, len(self.history)):
             print self.history[x]
 
+    ## Adds a point to our history, resets the future.
     def addPointInHistory(self):
 
         # Clear anything from the current future.
@@ -917,9 +922,11 @@ class MainScene(ui.Scene):
         p = HistoryPoint(self.lltEntry[:], self.llbEntry[:])
         self.history.append(p)
 
+    ## Clears all history, or resets the history.
     def clearHistory(self):
         self.history = []
 
+    ## Initializes items, variables, etc..
     def __init__(self):
         ui.Scene.__init__(self)
         self.cleartext = ''
@@ -963,13 +970,16 @@ class MainScene(ui.Scene):
         self.updateColumns()
         self.addPointInHistory()
 
+    ## Used by the pygameui library.
     def layout(self):
         ui.Scene.layout(self)
 
+    ## Used by the pygameui library.
     def update(self, dt):
         ui.Scene.update(self, dt)
         self.updateColumns()
 
+    ## Helper method to get color values (RGB) from an 8 bit number.  Uses 8 bit colors.
     def getRGB(self, num):
         a = 255
         r = (num >> 5 & 0x7) * 36
@@ -984,7 +994,6 @@ if __name__ == '__main__':
     infoObject = pygame.display.Info()
 
     # Center Screen.
-
     size = (width, height) = (int(infoObject.current_w / 2),
                               int(infoObject.current_h / 2))
     pos_x = width / 2 - width / 2
