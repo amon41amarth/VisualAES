@@ -35,6 +35,9 @@ class MainScene(ui.Scene):
     aes = slowaes.AES()
     aesmoo = slowaes.AESModeOfOperation()
     curRound = 1
+    key1 = ""
+    key2 = ""
+
 
     # Not sure if this takes in an array.
     # Complained about "int[] numbers" (I know why)
@@ -230,7 +233,17 @@ class MainScene(ui.Scene):
                 btn.text = 'SBox All 0s'
             self.editSBox('0s' in btn.text)
         elif 'Add' in btn.text:
-            self.runAddRoundKey(expandedKey)  #TODO : create expanded key key
+            nbrRounds = 0
+            size = 0
+            if self.keySize["SIZE_128"] == 128:
+                nbrRounds = 10
+            elif self.keySize["SIZE_192"] == 192:
+                nbrRounds = 12
+            elif self.keySize["SIZE_256"] == 256:
+                nbrRounds = 14
+            expandedKeySize = 16*(nbrRounds+1)
+            expandedKey = self.expandKey(self.key1, self.keySize, expandedKeySize)
+            self.runAddRoundKey(expandedKey)  #TODO : create expanded key
         elif 'Sub' in btn.text:
             self.runSubBytes()
         elif 'Shift' in btn.text:
@@ -564,8 +577,10 @@ class MainScene(ui.Scene):
                 text = text[0:15]
             self.lrtEntry = text
             tf.text = text
+            self.key1 = text
         elif tf.placeholder == 'LRB':
             self.lrbEntry = text
+            self.key2 = text
         else:
             print "Don't know what to do..."
             return
@@ -927,7 +942,6 @@ class MainScene(ui.Scene):
             print self.history[x]
 
     def addPointInHistory(self):
-
         # Clear anything from the current future.
 
         self.future = []
