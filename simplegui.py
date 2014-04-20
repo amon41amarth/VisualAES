@@ -35,8 +35,6 @@ class MainScene(ui.Scene):
     aes = slowaes.AES()
     aesmoo = slowaes.AESModeOfOperation()
     curRound = 1
-    key1 = ""
-    key2 = ""
 
 
     # Not sure if this takes in an array.
@@ -100,25 +98,36 @@ class MainScene(ui.Scene):
             self.aes.rsbox = self.oldRSBox
 
 
-    def runAddRoundKey(self, expandedKey):
+    def runAddRoundKey(self):
         self.convertStates()
 
+
+        nbrRounds = 10
+        if self.keySize == 192:
+            nbrRounds = 12
+        elif self.keySize == 256:
+            nbrRounds = 14
+        expandedKeySize = 16*(nbrRounds+1)
+        expandedKey = self.aes.expandKey(self.cypherkey, len(self.cypherkey), expandedKeySize)
+        expandedKey2 = self.aes.expandKey(self.lrbEntry, len(self.lrbEntry), expandedKeySize)
+
         curRoundKey = self.aes.createRoundKey(expandedKey, self.curRound)
+        curRoundKey2 = self.aes.createRoundKey(expandedKey2, self.curRound)
 
         if self.ptkMode == '2P1K':
             self.aes.state = self.lltEntry
             self.aes.isInv = False
-            self.lltEntry = self.aes.addRoundKey(curRoundKey)# todo
+            self.lltEntry = self.aes.addRoundKey(curRoundKey)
             self.aes.state = self.llbEntry
             self.aes.isInv = False
-            self.llbEntry = self.aes.addRoundKey(curRoundKey)# todo
+            self.llbEntry = self.aes.addRoundKey(curRoundKey)
         elif self.ptkMode == '1P2K':
             self.aes.state = self.lrtEntry
             self.aes.isInv = False
-            self.lltEntry = self.aes.addRoundKey(curRoundKey)# todo
+            self.lltEntry = self.aes.addRoundKey(curRoundKey)
             self.aes.state = self.lrtEntry
             self.aes.isInv = False
-            self.llbEntry = self.aes.addRoundKey(curRoundKey)# todo
+            self.llbEntry = self.aes.addRoundKey(curRoundKey2)
         self.updateMiddleColumn()
 
         self.addPointInHistory()
@@ -233,17 +242,7 @@ class MainScene(ui.Scene):
                 btn.text = 'SBox All 0s'
             self.editSBox('0s' in btn.text)
         elif 'Add' in btn.text:
-            nbrRounds = 0
-            size = 0
-            if self.keySize["SIZE_128"] == 128:
-                nbrRounds = 10
-            elif self.keySize["SIZE_192"] == 192:
-                nbrRounds = 12
-            elif self.keySize["SIZE_256"] == 256:
-                nbrRounds = 14
-            expandedKeySize = 16*(nbrRounds+1)
-            expandedKey = self.expandKey(self.key1, self.keySize, expandedKeySize)
-            self.runAddRoundKey(expandedKey)  #TODO : create expanded key
+            self.runAddRoundKey()
         elif 'Sub' in btn.text:
             self.runSubBytes()
         elif 'Shift' in btn.text:
