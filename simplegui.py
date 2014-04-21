@@ -81,6 +81,7 @@ class MainScene(ui.Scene):
 
         except AttributeError:
             pass # Ignore error.
+
         try:
             # Always do the key.
             if type(self.lrtEntry) == type(''):
@@ -125,6 +126,7 @@ class MainScene(ui.Scene):
         else:
             self.aes.sbox = self.oldSBox
             self.aes.rsbox = self.oldRSBox
+
 
     ##This method runs a round like normal using the 4 subroutines.
     # Sub Bytes
