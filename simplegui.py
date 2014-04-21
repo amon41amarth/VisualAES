@@ -42,6 +42,8 @@ class MainScene(ui.Scene):
     aes = slowaes.AES()
     # Also used with the aes object, for the OFB, CFB, etc.
     aesmoo = slowaes.AESModeOfOperation()
+    curRound = 1
+
 
     # Not sure if this takes in an array.
     # Complained about "int[] numbers" (I know why)
@@ -71,6 +73,8 @@ class MainScene(ui.Scene):
     ## Converts input to usable (With slowaes) int arrays.
     # Should take care of if it's 1 plaintext 2 keys or 2 plaintexts 1 key
     def convertStates(self):
+        if type(self.cypherkey) == type(''):
+            self.cypherkey = self.aesmoo.convertString(self.cypherkey, 0, len(self.cypherkey), self.aesmoo.modeOfOperation[self.operationMode])
         try:
             # Always do the IV.
             if type(self.lrbEntry) == type(''):
@@ -117,9 +121,37 @@ class MainScene(ui.Scene):
             self.aes.rsbox = self.oldRSBox
 
     ## Run the round key function on the information.
-    def runRoundKeys(self):
+    def runAddRoundKey(self):
         self.convertStates()
-        # TODO
+
+
+        nbrRounds = 10
+        if self.keySize == 192:
+            nbrRounds = 12
+        elif self.keySize == 256:
+            nbrRounds = 14
+        expandedKeySize = 16*(nbrRounds+1)
+        expandedKey = self.aes.expandKey(self.cypherkey, len(self.cypherkey), expandedKeySize)
+        expandedKey2 = self.aes.expandKey(self.lrbEntry, len(self.lrbEntry), expandedKeySize)
+
+        curRoundKey = self.aes.createRoundKey(expandedKey, self.curRound)
+        curRoundKey2 = self.aes.createRoundKey(expandedKey2, self.curRound)
+
+        if self.ptkMode == '2P1K':
+            self.aes.state = self.lltEntry
+            self.aes.isInv = False
+            self.lltEntry = self.aes.addRoundKey(curRoundKey)
+            self.aes.state = self.llbEntry
+            self.aes.isInv = False
+            self.llbEntry = self.aes.addRoundKey(curRoundKey)
+        elif self.ptkMode == '1P2K':
+            self.aes.state = self.lrtEntry
+            self.aes.isInv = False
+            self.lltEntry = self.aes.addRoundKey(curRoundKey)
+            self.aes.state = self.lrtEntry
+            self.aes.isInv = False
+            self.llbEntry = self.aes.addRoundKey(curRoundKey2)
+
         self.updateMiddleColumn()
         self.addPointInHistory()
 
@@ -212,8 +244,8 @@ class MainScene(ui.Scene):
                 # we're going TO all 0s.
                 btn.text = 'SBox All 0s'
             self.editSBox('0s' in btn.text)
-        elif 'Expand' in btn.text:
-            self.runRoundKeys()
+        elif 'Add' in btn.text:
+            self.runAddRoundKey()
         elif 'Sub' in btn.text:
             self.runSubBytes()
         elif 'Shift' in btn.text:
@@ -536,8 +568,10 @@ class MainScene(ui.Scene):
                 text = text[0:15]
             self.lrtEntry = text
             tf.text = text
+            self.key1 = text
         elif tf.placeholder == 'LRB':
             self.lrbEntry = text
+            self.key2 = text
         else:
             print "Don't know what to do..."
             return
@@ -565,6 +599,7 @@ class MainScene(ui.Scene):
         item,
         index,
         ):
+        self.curRound = index
         self.updateColumns()
 
     ## Expanded key size (128/192/256) was changed.
@@ -598,7 +633,7 @@ class MainScene(ui.Scene):
     def drawTopBar(self):
         topButtonNames = [
             'Run Round',
-            'Exp. Round Key',
+            'Add Round Key',
             'RoundNumber',
             'EKeySize',
             'Sub Bytes',
@@ -912,7 +947,6 @@ class MainScene(ui.Scene):
 
     ## Adds a point to our history, resets the future.
     def addPointInHistory(self):
-
         # Clear anything from the current future.
 
         self.future = []
