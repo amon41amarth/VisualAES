@@ -1,0 +1,691 @@
+\hypertarget{classsimplegui_1_1_main_scene}{\section{simplegui.\-Main\-Scene Class Reference}
+\label{classsimplegui_1_1_main_scene}\index{simplegui.\-Main\-Scene@{simplegui.\-Main\-Scene}}
+}
+
+
+A Scene object, from the pygameui library.  
+
+
+Inheritance diagram for simplegui.\-Main\-Scene\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classsimplegui_1_1_main_scene}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a2c8156bf798a6cbcc85f8f70b92877c1}{def {\bfseries set\-To\-Prob\-Dist}}\label{classsimplegui_1_1_main_scene_a2c8156bf798a6cbcc85f8f70b92877c1}
+
+\item 
+def \hyperlink{classsimplegui_1_1_main_scene_ac7eb263562c3f9a992a00d43ddd7d1a6}{kl}
+\begin{DoxyCompactList}\small\item\em one and two are both probability distributions for the sets. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a2fedafb26922217bff2c9b4f0a1e1980}{convert\-States}
+\begin{DoxyCompactList}\small\item\em Converts input to usable (With slowaes) int arrays. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a464f594963c80652f89a341d86e675ab}{edit\-S\-Box}
+\begin{DoxyCompactList}\small\item\em Change between the all 0s in the s box and just the normal s box. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a3e84e45150794e1806472cd45904f9b9}{run\-Round}
+\begin{DoxyCompactList}\small\item\em This method runs a round like normal using the 4 subroutines. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a13363bc98bb9603d8c0ab35d52cc853b}{run\-Add\-Round\-Key}
+\begin{DoxyCompactList}\small\item\em Run the round key function on the information. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a8e81494def3ea3c0e56813f6d702a435}{run\-Sub\-Bytes}
+\begin{DoxyCompactList}\small\item\em Runs the sub bytes on the current values. \end{DoxyCompactList}\item 
+\hypertarget{classsimplegui_1_1_main_scene_a900ce77068dfc386d298f7ef1243529a}{def \hyperlink{classsimplegui_1_1_main_scene_a900ce77068dfc386d298f7ef1243529a}{run\-Shift\-Rows}}\label{classsimplegui_1_1_main_scene_a900ce77068dfc386d298f7ef1243529a}
+
+\begin{DoxyCompactList}\small\item\em Run shift row subroutine of A\-E\-S and updates middle column. \end{DoxyCompactList}\item 
+\hypertarget{classsimplegui_1_1_main_scene_a805cca2ef3e4086eb23505b8af930f18}{def \hyperlink{classsimplegui_1_1_main_scene_a805cca2ef3e4086eb23505b8af930f18}{run\-Mix\-Columns}}\label{classsimplegui_1_1_main_scene_a805cca2ef3e4086eb23505b8af930f18}
+
+\begin{DoxyCompactList}\small\item\em Run mix column subroutine of A\-E\-S and updates middle column. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a8570c31330b924dce8f26088e4e3fa3e}{switch\-Key\-Plaintext\-Mode}
+\begin{DoxyCompactList}\small\item\em Switches between 2 plain texts, 1 key and 1 plain text, 2 keys. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_aaeb0e4df3ab8dd5a9cab35f28ad2f7a2}{on\-Button\-Click}
+\begin{DoxyCompactList}\small\item\em Ran when a button is clicked. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a1e32c0468a9abbd3e0e6b418c788c4e0}{update\-View}
+\begin{DoxyCompactList}\small\item\em Updates the view for greyscale and color scale types. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a1104ae8cca81e51cc77524c7e048464d}{histogram\-On\-View}
+\begin{DoxyCompactList}\small\item\em Creates the histogram on the surfaces. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a7155c316b15f3ff406c0fa44500ba768}{bit\-Change\-On\-View}
+\begin{DoxyCompactList}\small\item\em Updates the surfaces to show the bit change visualization. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a22c60c1b880ee015c51e35dce45a8267}{update\-Middle\-Column}
+\begin{DoxyCompactList}\small\item\em Updates the middle column. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_af271c4ea829421b364c9ccce3ea6d88a}{update\-Left\-Column}
+\begin{DoxyCompactList}\small\item\em Updates the left column. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a9feca10a8fe6385d3515407200d70789}{update\-Right\-Column}
+\begin{DoxyCompactList}\small\item\em Updates the right column. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a3f57128f4c0a7608e2b6514915fdb821}{update\-Columns}
+\begin{DoxyCompactList}\small\item\em Easy way to update all columns. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_af3b0457ad0c83dbe77810352fc765904}{on\-Text\-Changed}
+\begin{DoxyCompactList}\small\item\em Ran when text is changed in any of the input boxes. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_acfb4597c5d0766c02a140455b80ec1f3}{moo\-\_\-changed}
+\begin{DoxyCompactList}\small\item\em Ran when mode of operation is changed. \end{DoxyCompactList}\item 
+\hypertarget{classsimplegui_1_1_main_scene_aecc02f06c9b870a63c17099f1c683b32}{def \hyperlink{classsimplegui_1_1_main_scene_aecc02f06c9b870a63c17099f1c683b32}{round\-\_\-number\-\_\-changed}}\label{classsimplegui_1_1_main_scene_aecc02f06c9b870a63c17099f1c683b32}
+
+\begin{DoxyCompactList}\small\item\em Ran when round number is changed (Just updates the columns) \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_aeb4a9163209211e2da60c5956d0f0028}{expanded\-\_\-key\-\_\-size\-\_\-changed}
+\begin{DoxyCompactList}\small\item\em Expanded key size (128/192/256) was changed. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_aa53b6cd3c1c56ced6a8fe4b98602314e}{visualization\-\_\-changed}
+\begin{DoxyCompactList}\small\item\em Visualizaiton changed, update views. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a46b737949a8af3c0637f63e3223c655d}{draw\-Top\-Bar}
+\begin{DoxyCompactList}\small\item\em Draws the top bar U\-I elements. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_ab5ce2a41f55ec406f4902fb0ce2a5845}{draw\-Bottom\-Bar}
+\begin{DoxyCompactList}\small\item\em Draws the bottom bar U\-I elements. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_ab5ba5b0e3ab5ac61668929effb1a5544}{draw\-Lines\-For\-Grid}
+\begin{DoxyCompactList}\small\item\em Draws the lines separaring the bars and the columns for U\-I elements. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a3a8096d9c941aacdee8e159858f67866}{load\-\_\-image}
+\begin{DoxyCompactList}\small\item\em A stupid method needed to draw a surface in the columns. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a74c3de5ad8f9cbf50fd626e539ec29d1}{draw\-Left\-Column}
+\begin{DoxyCompactList}\small\item\em Draws the left column U\-I elements. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_adf07e31f3e330acfdf78ca1155e65fd0}{draw\-Right\-Column}
+\begin{DoxyCompactList}\small\item\em Draws the right column U\-I elements. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a17c05e23835e26489665463846367443}{draw\-Center\-Column}
+\begin{DoxyCompactList}\small\item\em Draws the center column U\-I elements. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a8b2f261a306a2919d702e57475f15589}{history\-Forward}
+\begin{DoxyCompactList}\small\item\em Called when we're moving forward in history. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_ac745bb4c5e46e8abfb92619905ff9845}{history\-Backward}
+\begin{DoxyCompactList}\small\item\em Called when we're moving backward in history. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a85395ee516211bc07cdd7ff765158de0}{print\-History}
+\begin{DoxyCompactList}\small\item\em Debug method. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a8c7e504663d3819336e4df829e9819cf}{add\-Point\-In\-History}
+\begin{DoxyCompactList}\small\item\em Adds a point to our history, resets the future. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a2e495c8b6cf4da78947791e42dcd8f42}{clear\-History}
+\begin{DoxyCompactList}\small\item\em Clears all history, or resets the history. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a1771d66ba1c6fdb7f2b3c04f4173a9e3}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Initializes items, variables, etc. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a82073a2b7ed88995f266a06b7f9ec6be}{layout}
+\begin{DoxyCompactList}\small\item\em Used by the pygameui library. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_abe88eb59c38cba1d558fb8bcc672e929}{update}
+\begin{DoxyCompactList}\small\item\em Used by the pygameui library. \end{DoxyCompactList}\item 
+def \hyperlink{classsimplegui_1_1_main_scene_a68319a096ea4237e209e861005e1aaf7}{get\-R\-G\-B}
+\begin{DoxyCompactList}\small\item\em Helper method to get color values (R\-G\-B) from an 8 bit number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a3caeb0ed63f79e39b6cb371333588459}{{\bfseries lrb\-Entry}}\label{classsimplegui_1_1_main_scene_a3caeb0ed63f79e39b6cb371333588459}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a397b09a55f332b362aa9ed4a4cc93888}{{\bfseries lrt\-Entry}}\label{classsimplegui_1_1_main_scene_a397b09a55f332b362aa9ed4a4cc93888}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a6f6b3ee72b43ee95448828b8dd1fe675}{{\bfseries ptk\-Mode}}\label{classsimplegui_1_1_main_scene_a6f6b3ee72b43ee95448828b8dd1fe675}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a5dd2dd757387dfd57519b395382b23d2}{{\bfseries llb\-Entry}}\label{classsimplegui_1_1_main_scene_a5dd2dd757387dfd57519b395382b23d2}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_af83011177cccee7fd54e54be752e0a58}{{\bfseries llt\-Entry}}\label{classsimplegui_1_1_main_scene_af83011177cccee7fd54e54be752e0a58}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a12caf5854924dac329f3ee95d5c2f67f}{{\bfseries old\-S\-Box}}\label{classsimplegui_1_1_main_scene_a12caf5854924dac329f3ee95d5c2f67f}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_ab5c6e082bdf28d47e18c15115fb9d29a}{{\bfseries old\-R\-S\-Box}}\label{classsimplegui_1_1_main_scene_ab5c6e082bdf28d47e18c15115fb9d29a}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a07365b93310d51583324117e96f548c7}{{\bfseries key\-Size}}\label{classsimplegui_1_1_main_scene_a07365b93310d51583324117e96f548c7}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_ae295a66ef3135a9f1f445a82d8b4d647}{{\bfseries cleartext}}\label{classsimplegui_1_1_main_scene_ae295a66ef3135a9f1f445a82d8b4d647}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a2522d257feb552ec87215e4af1055852}{{\bfseries visualization}}\label{classsimplegui_1_1_main_scene_a2522d257feb552ec87215e4af1055852}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_ab5d4615ae42d5c705ba4398b3e33fc7a}{{\bfseries cypherkey}}\label{classsimplegui_1_1_main_scene_ab5d4615ae42d5c705ba4398b3e33fc7a}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_aac7f93fc2da16c5425f60138e3b1ce51}{{\bfseries operation\-Mode}}\label{classsimplegui_1_1_main_scene_aac7f93fc2da16c5425f60138e3b1ce51}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a1e40227d207ff4128178318f46b7eb64}{{\bfseries cur\-Round}}\label{classsimplegui_1_1_main_scene_a1e40227d207ff4128178318f46b7eb64}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_ac02d017c82930dc6d8ba7b50e08338f8}{{\bfseries lefttop\-\_\-imageview}}\label{classsimplegui_1_1_main_scene_ac02d017c82930dc6d8ba7b50e08338f8}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_abbaf5ce29ad761564b100bd0d67ad640}{{\bfseries leftbottom\-\_\-imageview}}\label{classsimplegui_1_1_main_scene_abbaf5ce29ad761564b100bd0d67ad640}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a7100a4f494b5a0a7034d20f5cf1b439a}{{\bfseries left\-\_\-lefttop\-\_\-textfield}}\label{classsimplegui_1_1_main_scene_a7100a4f494b5a0a7034d20f5cf1b439a}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a151e172baed80290e57e40b80e2835e4}{{\bfseries left\-\_\-leftbottom\-\_\-textfield}}\label{classsimplegui_1_1_main_scene_a151e172baed80290e57e40b80e2835e4}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a304f92429003f6a17948a706e6ef6176}{{\bfseries left\-\_\-righttop\-\_\-textfield}}\label{classsimplegui_1_1_main_scene_a304f92429003f6a17948a706e6ef6176}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a8256dc0f55492ba52afe25ed4c5ba2cc}{{\bfseries left\-\_\-rightbottom\-\_\-textfield}}\label{classsimplegui_1_1_main_scene_a8256dc0f55492ba52afe25ed4c5ba2cc}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_ad92c7b292cd930149e3cb3562c7e29ca}{{\bfseries righttop\-\_\-imageview}}\label{classsimplegui_1_1_main_scene_ad92c7b292cd930149e3cb3562c7e29ca}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a06b71444909b48f5a42f713dbdef073e}{{\bfseries rightbottom\-\_\-imageview}}\label{classsimplegui_1_1_main_scene_a06b71444909b48f5a42f713dbdef073e}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_aa1558652739abf5a2bd7dd30cc1dbfc1}{{\bfseries righttop\-\_\-textfield}}\label{classsimplegui_1_1_main_scene_aa1558652739abf5a2bd7dd30cc1dbfc1}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a5badeac88a2d619a07f75b06ba7f5a29}{{\bfseries rightbottom\-\_\-textfield}}\label{classsimplegui_1_1_main_scene_a5badeac88a2d619a07f75b06ba7f5a29}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a03c419214753dec155555b54770e3e3d}{{\bfseries topcenter\-\_\-imageview}}\label{classsimplegui_1_1_main_scene_a03c419214753dec155555b54770e3e3d}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a89beb6f25398a13a09bd3dd42f826620}{{\bfseries bottomcenter\-\_\-imageview}}\label{classsimplegui_1_1_main_scene_a89beb6f25398a13a09bd3dd42f826620}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a1e9577a7c2ab7b097818432d27477a26}{{\bfseries future}}\label{classsimplegui_1_1_main_scene_a1e9577a7c2ab7b097818432d27477a26}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a862964130c0348a2f8386a1d1a5eb427}{{\bfseries history}}\label{classsimplegui_1_1_main_scene_a862964130c0348a2f8386a1d1a5eb427}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a46616ac6f045431b76c909ce571f599f}{{\bfseries moo}}\label{classsimplegui_1_1_main_scene_a46616ac6f045431b76c909ce571f599f}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a647e6071e501e2d37a64b6688d27c942}{{\bfseries original\-Entropy}}\label{classsimplegui_1_1_main_scene_a647e6071e501e2d37a64b6688d27c942}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_ab7c01609fb1e306ec066971dcfb291b0}{{\bfseries states\-Entropy}}\label{classsimplegui_1_1_main_scene_ab7c01609fb1e306ec066971dcfb291b0}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a021b0c1cb13db8497dba560911986ed4}{{\bfseries crypts\-Entropy}}\label{classsimplegui_1_1_main_scene_a021b0c1cb13db8497dba560911986ed4}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a2a749ea3c4e4aace671f83ea68b16d25}{{\bfseries label\-\_\-height}}\label{classsimplegui_1_1_main_scene_a2a749ea3c4e4aace671f83ea68b16d25}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_af672fec772fc90129f8e5ba92f82ad5d}{{\bfseries button\-Bar\-Bottom}}\label{classsimplegui_1_1_main_scene_af672fec772fc90129f8e5ba92f82ad5d}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_ae86b310e4226fc8a1b93b8563841e9c7}{{\bfseries column\-Width}}\label{classsimplegui_1_1_main_scene_ae86b310e4226fc8a1b93b8563841e9c7}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_ab1659015b41aa39ee60c3275452953fe}{{\bfseries middle\-Bar\-Y}}\label{classsimplegui_1_1_main_scene_ab1659015b41aa39ee60c3275452953fe}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a77e225283588bdbaa435c00b268dc5ae}{{\bfseries empty}}\label{classsimplegui_1_1_main_scene_a77e225283588bdbaa435c00b268dc5ae}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+tuple \hyperlink{classsimplegui_1_1_main_scene_afc11de68b1f5e44d5831ca15698bbd69}{aes} = \hyperlink{classslowaes_1_1_a_e_s}{slowaes.\-A\-E\-S}()
+\begin{DoxyCompactList}\small\item\em An aes object to use to encrypt strings and call subroutine methods. \end{DoxyCompactList}\item 
+\hypertarget{classsimplegui_1_1_main_scene_afdac18342ee21e270adcd32168b2392a}{tuple {\bfseries aesmoo} = \hyperlink{classslowaes_1_1_a_e_s_mode_of_operation}{slowaes.\-A\-E\-S\-Mode\-Of\-Operation}()}\label{classsimplegui_1_1_main_scene_afdac18342ee21e270adcd32168b2392a}
+
+\item 
+\hypertarget{classsimplegui_1_1_main_scene_a60e750d2c3a510f6f3116a1f418f11dc}{int {\bfseries cur\-Round} = 1}\label{classsimplegui_1_1_main_scene_a60e750d2c3a510f6f3116a1f418f11dc}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A Scene object, from the pygameui library. 
+
+Draws all our U\-I for the visualization. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classsimplegui_1_1_main_scene_a1771d66ba1c6fdb7f2b3c04f4173a9e3}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a1771d66ba1c6fdb7f2b3c04f4173a9e3}
+
+
+Initializes items, variables, etc. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classsimplegui_1_1_main_scene_a8c7e504663d3819336e4df829e9819cf}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!add\-Point\-In\-History@{add\-Point\-In\-History}}
+\index{add\-Point\-In\-History@{add\-Point\-In\-History}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{add\-Point\-In\-History}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-add\-Point\-In\-History (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a8c7e504663d3819336e4df829e9819cf}
+
+
+Adds a point to our history, resets the future. 
+
+\hypertarget{classsimplegui_1_1_main_scene_a7155c316b15f3ff406c0fa44500ba768}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!bit\-Change\-On\-View@{bit\-Change\-On\-View}}
+\index{bit\-Change\-On\-View@{bit\-Change\-On\-View}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{bit\-Change\-On\-View}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-bit\-Change\-On\-View (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{first, }
+\item[{}]{second, }
+\item[{}]{view, }
+\item[{}]{is\-Print = {\ttfamily False}}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a7155c316b15f3ff406c0fa44500ba768}
+
+
+Updates the surfaces to show the bit change visualization. 
+
+\hypertarget{classsimplegui_1_1_main_scene_a2e495c8b6cf4da78947791e42dcd8f42}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!clear\-History@{clear\-History}}
+\index{clear\-History@{clear\-History}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{clear\-History}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-clear\-History (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a2e495c8b6cf4da78947791e42dcd8f42}
+
+
+Clears all history, or resets the history. 
+
+\hypertarget{classsimplegui_1_1_main_scene_a2fedafb26922217bff2c9b4f0a1e1980}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!convert\-States@{convert\-States}}
+\index{convert\-States@{convert\-States}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{convert\-States}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-convert\-States (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a2fedafb26922217bff2c9b4f0a1e1980}
+
+
+Converts input to usable (With slowaes) int arrays. 
+
+Should take care of if it's 1 plaintext 2 keys or 2 plaintexts 1 key \hypertarget{classsimplegui_1_1_main_scene_ab5ce2a41f55ec406f4902fb0ce2a5845}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!draw\-Bottom\-Bar@{draw\-Bottom\-Bar}}
+\index{draw\-Bottom\-Bar@{draw\-Bottom\-Bar}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{draw\-Bottom\-Bar}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-draw\-Bottom\-Bar (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_ab5ce2a41f55ec406f4902fb0ce2a5845}
+
+
+Draws the bottom bar U\-I elements. 
+
+\hypertarget{classsimplegui_1_1_main_scene_a17c05e23835e26489665463846367443}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!draw\-Center\-Column@{draw\-Center\-Column}}
+\index{draw\-Center\-Column@{draw\-Center\-Column}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{draw\-Center\-Column}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-draw\-Center\-Column (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a17c05e23835e26489665463846367443}
+
+
+Draws the center column U\-I elements. 
+
+\begin{DoxyVerb}    This draws the center column.
+    This will be the current cipher keys and a slider at the bottom
+    for history.
+\end{DoxyVerb}
+ \hypertarget{classsimplegui_1_1_main_scene_a74c3de5ad8f9cbf50fd626e539ec29d1}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!draw\-Left\-Column@{draw\-Left\-Column}}
+\index{draw\-Left\-Column@{draw\-Left\-Column}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{draw\-Left\-Column}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-draw\-Left\-Column (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a74c3de5ad8f9cbf50fd626e539ec29d1}
+
+
+Draws the left column U\-I elements. 
+
+\begin{DoxyVerb}    This draws the left column.
+    This column consists of two surfaces showing the initial string,
+    along input text boxes for the strings.
+\end{DoxyVerb}
+ \hypertarget{classsimplegui_1_1_main_scene_ab5ba5b0e3ab5ac61668929effb1a5544}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!draw\-Lines\-For\-Grid@{draw\-Lines\-For\-Grid}}
+\index{draw\-Lines\-For\-Grid@{draw\-Lines\-For\-Grid}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{draw\-Lines\-For\-Grid}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-draw\-Lines\-For\-Grid (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_ab5ba5b0e3ab5ac61668929effb1a5544}
+
+
+Draws the lines separaring the bars and the columns for U\-I elements. 
+
+\begin{DoxyVerb}    This draws the grid lines.
+    This includes the two lines going top to bottom for each column.
+    This also includes the bar below the buttons at the top and the
+    middle horizontal line separating the two plain texts, cipher texts
+    and current progress.
+\end{DoxyVerb}
+ \hypertarget{classsimplegui_1_1_main_scene_adf07e31f3e330acfdf78ca1155e65fd0}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!draw\-Right\-Column@{draw\-Right\-Column}}
+\index{draw\-Right\-Column@{draw\-Right\-Column}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{draw\-Right\-Column}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-draw\-Right\-Column (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_adf07e31f3e330acfdf78ca1155e65fd0}
+
+
+Draws the right column U\-I elements. 
+
+\begin{DoxyVerb}    This draws the right column.
+    This will be the normal result of the plain texts if ran normally
+    through AES.
+\end{DoxyVerb}
+ \hypertarget{classsimplegui_1_1_main_scene_a46b737949a8af3c0637f63e3223c655d}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!draw\-Top\-Bar@{draw\-Top\-Bar}}
+\index{draw\-Top\-Bar@{draw\-Top\-Bar}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{draw\-Top\-Bar}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-draw\-Top\-Bar (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a46b737949a8af3c0637f63e3223c655d}
+
+
+Draws the top bar U\-I elements. 
+
+\hypertarget{classsimplegui_1_1_main_scene_a464f594963c80652f89a341d86e675ab}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!edit\-S\-Box@{edit\-S\-Box}}
+\index{edit\-S\-Box@{edit\-S\-Box}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{edit\-S\-Box}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-edit\-S\-Box (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{is\-Zeros}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a464f594963c80652f89a341d86e675ab}
+
+
+Change between the all 0s in the s box and just the normal s box. 
+
+\hypertarget{classsimplegui_1_1_main_scene_aeb4a9163209211e2da60c5956d0f0028}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!expanded\-\_\-key\-\_\-size\-\_\-changed@{expanded\-\_\-key\-\_\-size\-\_\-changed}}
+\index{expanded\-\_\-key\-\_\-size\-\_\-changed@{expanded\-\_\-key\-\_\-size\-\_\-changed}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{expanded\-\_\-key\-\_\-size\-\_\-changed}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-expanded\-\_\-key\-\_\-size\-\_\-changed (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{selection\-\_\-view, }
+\item[{}]{item, }
+\item[{}]{index}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_aeb4a9163209211e2da60c5956d0f0028}
+
+
+Expanded key size (128/192/256) was changed. 
+
+\hypertarget{classsimplegui_1_1_main_scene_a68319a096ea4237e209e861005e1aaf7}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!get\-R\-G\-B@{get\-R\-G\-B}}
+\index{get\-R\-G\-B@{get\-R\-G\-B}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{get\-R\-G\-B}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-get\-R\-G\-B (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{num}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a68319a096ea4237e209e861005e1aaf7}
+
+
+Helper method to get color values (R\-G\-B) from an 8 bit number. 
+
+Uses 8 bit colors. \hypertarget{classsimplegui_1_1_main_scene_a1104ae8cca81e51cc77524c7e048464d}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!histogram\-On\-View@{histogram\-On\-View}}
+\index{histogram\-On\-View@{histogram\-On\-View}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{histogram\-On\-View}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-histogram\-On\-View (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{text, }
+\item[{}]{view}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a1104ae8cca81e51cc77524c7e048464d}
+
+
+Creates the histogram on the surfaces. 
+
+\hypertarget{classsimplegui_1_1_main_scene_ac745bb4c5e46e8abfb92619905ff9845}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!history\-Backward@{history\-Backward}}
+\index{history\-Backward@{history\-Backward}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{history\-Backward}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-history\-Backward (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_ac745bb4c5e46e8abfb92619905ff9845}
+
+
+Called when we're moving backward in history. 
+
+\hypertarget{classsimplegui_1_1_main_scene_a8b2f261a306a2919d702e57475f15589}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!history\-Forward@{history\-Forward}}
+\index{history\-Forward@{history\-Forward}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{history\-Forward}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-history\-Forward (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a8b2f261a306a2919d702e57475f15589}
+
+
+Called when we're moving forward in history. 
+
+\hypertarget{classsimplegui_1_1_main_scene_ac7eb263562c3f9a992a00d43ddd7d1a6}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!kl@{kl}}
+\index{kl@{kl}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{kl}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-kl (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{one, }
+\item[{}]{two}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_ac7eb263562c3f9a992a00d43ddd7d1a6}
+
+
+one and two are both probability distributions for the sets. 
+
+\hypertarget{classsimplegui_1_1_main_scene_a82073a2b7ed88995f266a06b7f9ec6be}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!layout@{layout}}
+\index{layout@{layout}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{layout}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-layout (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a82073a2b7ed88995f266a06b7f9ec6be}
+
+
+Used by the pygameui library. 
+
+\hypertarget{classsimplegui_1_1_main_scene_a3a8096d9c941aacdee8e159858f67866}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!load\-\_\-image@{load\-\_\-image}}
+\index{load\-\_\-image@{load\-\_\-image}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{load\-\_\-image}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-load\-\_\-image (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{file\-\_\-name, }
+\item[{}]{colorkey = {\ttfamily False}, }
+\item[{}]{image\-\_\-directory = {\ttfamily ''}}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a3a8096d9c941aacdee8e159858f67866}
+
+
+A stupid method needed to draw a surface in the columns. 
+
+This is also what uses the empty.\-png lol. \hypertarget{classsimplegui_1_1_main_scene_acfb4597c5d0766c02a140455b80ec1f3}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!moo\-\_\-changed@{moo\-\_\-changed}}
+\index{moo\-\_\-changed@{moo\-\_\-changed}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{moo\-\_\-changed}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-moo\-\_\-changed (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{selection\-\_\-view, }
+\item[{}]{item, }
+\item[{}]{index}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_acfb4597c5d0766c02a140455b80ec1f3}
+
+
+Ran when mode of operation is changed. 
+
+Updates the operation\-Mode too. \hypertarget{classsimplegui_1_1_main_scene_aaeb0e4df3ab8dd5a9cab35f28ad2f7a2}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!on\-Button\-Click@{on\-Button\-Click}}
+\index{on\-Button\-Click@{on\-Button\-Click}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{on\-Button\-Click}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-on\-Button\-Click (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{btn, }
+\item[{}]{mbtn}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_aaeb0e4df3ab8dd5a9cab35f28ad2f7a2}
+
+
+Ran when a button is clicked. 
+
+\hypertarget{classsimplegui_1_1_main_scene_af3b0457ad0c83dbe77810352fc765904}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!on\-Text\-Changed@{on\-Text\-Changed}}
+\index{on\-Text\-Changed@{on\-Text\-Changed}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{on\-Text\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-on\-Text\-Changed (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{tf, }
+\item[{}]{text}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_af3b0457ad0c83dbe77810352fc765904}
+
+
+Ran when text is changed in any of the input boxes. 
+
+\begin{DoxyVerb}tf is the TextField object.
+    Text is the text the TextField was changed to.
+\end{DoxyVerb}
+ \hypertarget{classsimplegui_1_1_main_scene_a85395ee516211bc07cdd7ff765158de0}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!print\-History@{print\-History}}
+\index{print\-History@{print\-History}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{print\-History}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-print\-History (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a85395ee516211bc07cdd7ff765158de0}
+
+
+Debug method. 
+
+\hypertarget{classsimplegui_1_1_main_scene_a13363bc98bb9603d8c0ab35d52cc853b}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!run\-Add\-Round\-Key@{run\-Add\-Round\-Key}}
+\index{run\-Add\-Round\-Key@{run\-Add\-Round\-Key}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{run\-Add\-Round\-Key}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-run\-Add\-Round\-Key (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{expanded\-Key}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a13363bc98bb9603d8c0ab35d52cc853b}
+
+
+Run the round key function on the information. 
+
+\hypertarget{classsimplegui_1_1_main_scene_a3e84e45150794e1806472cd45904f9b9}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!run\-Round@{run\-Round}}
+\index{run\-Round@{run\-Round}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{run\-Round}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-run\-Round (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a3e84e45150794e1806472cd45904f9b9}
+
+
+This method runs a round like normal using the 4 subroutines. 
+
+Sub Bytes Shift Rows Mix Columns Run Round Key \hypertarget{classsimplegui_1_1_main_scene_a8e81494def3ea3c0e56813f6d702a435}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!run\-Sub\-Bytes@{run\-Sub\-Bytes}}
+\index{run\-Sub\-Bytes@{run\-Sub\-Bytes}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{run\-Sub\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-run\-Sub\-Bytes (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a8e81494def3ea3c0e56813f6d702a435}
+
+
+Runs the sub bytes on the current values. 
+
+Update smiddle column when done. \hypertarget{classsimplegui_1_1_main_scene_a8570c31330b924dce8f26088e4e3fa3e}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!switch\-Key\-Plaintext\-Mode@{switch\-Key\-Plaintext\-Mode}}
+\index{switch\-Key\-Plaintext\-Mode@{switch\-Key\-Plaintext\-Mode}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{switch\-Key\-Plaintext\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-switch\-Key\-Plaintext\-Mode (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{btn}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a8570c31330b924dce8f26088e4e3fa3e}
+
+
+Switches between 2 plain texts, 1 key and 1 plain text, 2 keys. 
+
+\hypertarget{classsimplegui_1_1_main_scene_abe88eb59c38cba1d558fb8bcc672e929}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!update@{update}}
+\index{update@{update}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-update (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{dt}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_abe88eb59c38cba1d558fb8bcc672e929}
+
+
+Used by the pygameui library. 
+
+\hypertarget{classsimplegui_1_1_main_scene_a3f57128f4c0a7608e2b6514915fdb821}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!update\-Columns@{update\-Columns}}
+\index{update\-Columns@{update\-Columns}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{update\-Columns}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-update\-Columns (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a3f57128f4c0a7608e2b6514915fdb821}
+
+
+Easy way to update all columns. 
+
+\begin{DoxyVerb}This updates all the columns.  Redraws the left, right, and center. \end{DoxyVerb}
+ \hypertarget{classsimplegui_1_1_main_scene_af271c4ea829421b364c9ccce3ea6d88a}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!update\-Left\-Column@{update\-Left\-Column}}
+\index{update\-Left\-Column@{update\-Left\-Column}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{update\-Left\-Column}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-update\-Left\-Column (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_af271c4ea829421b364c9ccce3ea6d88a}
+
+
+Updates the left column. 
+
+Figures out which visualization to run, and makes it work. \begin{DoxyVerb}This should update the left column \end{DoxyVerb}
+ \hypertarget{classsimplegui_1_1_main_scene_a22c60c1b880ee015c51e35dce45a8267}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!update\-Middle\-Column@{update\-Middle\-Column}}
+\index{update\-Middle\-Column@{update\-Middle\-Column}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{update\-Middle\-Column}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-update\-Middle\-Column (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a22c60c1b880ee015c51e35dce45a8267}
+
+
+Updates the middle column. 
+
+Figures out which visualization to run, and makes it work. \hypertarget{classsimplegui_1_1_main_scene_a9feca10a8fe6385d3515407200d70789}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!update\-Right\-Column@{update\-Right\-Column}}
+\index{update\-Right\-Column@{update\-Right\-Column}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{update\-Right\-Column}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-update\-Right\-Column (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a9feca10a8fe6385d3515407200d70789}
+
+
+Updates the right column. 
+
+Figures out which visualization to run, and makes it work. \begin{DoxyVerb}This should update the right column \end{DoxyVerb}
+ \hypertarget{classsimplegui_1_1_main_scene_a1e32c0468a9abbd3e0e6b418c788c4e0}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!update\-View@{update\-View}}
+\index{update\-View@{update\-View}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{update\-View}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-update\-View (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{text, }
+\item[{}]{view, }
+\item[{}]{size}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_a1e32c0468a9abbd3e0e6b418c788c4e0}
+
+
+Updates the view for greyscale and color scale types. 
+
+\begin{DoxyVerb}    This method accepts a string, cipher/plain text (text), and updates the view (view) given.
+    The size is a tuple (#,#) that is the resulting size.
+\end{DoxyVerb}
+ \hypertarget{classsimplegui_1_1_main_scene_aa53b6cd3c1c56ced6a8fe4b98602314e}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!visualization\-\_\-changed@{visualization\-\_\-changed}}
+\index{visualization\-\_\-changed@{visualization\-\_\-changed}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{visualization\-\_\-changed}]{\setlength{\rightskip}{0pt plus 5cm}def simplegui.\-Main\-Scene.\-visualization\-\_\-changed (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{selection\-\_\-view, }
+\item[{}]{item, }
+\item[{}]{index}
+\end{DoxyParamCaption}
+)}}\label{classsimplegui_1_1_main_scene_aa53b6cd3c1c56ced6a8fe4b98602314e}
+
+
+Visualizaiton changed, update views. 
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classsimplegui_1_1_main_scene_afc11de68b1f5e44d5831ca15698bbd69}{\index{simplegui\-::\-Main\-Scene@{simplegui\-::\-Main\-Scene}!aes@{aes}}
+\index{aes@{aes}!simplegui::MainScene@{simplegui\-::\-Main\-Scene}}
+\subsubsection[{aes}]{\setlength{\rightskip}{0pt plus 5cm}tuple simplegui.\-Main\-Scene.\-aes = {\bf slowaes.\-A\-E\-S}()\hspace{0.3cm}{\ttfamily [static]}}}\label{classsimplegui_1_1_main_scene_afc11de68b1f5e44d5831ca15698bbd69}
+
+
+An aes object to use to encrypt strings and call subroutine methods. 
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+simplegui.\-py\end{DoxyCompactItemize}

@@ -1,0 +1,109 @@
+\hypertarget{classentropy_1_1_entropy}{\section{entropy.\-Entropy Class Reference}
+\label{classentropy_1_1_entropy}\index{entropy.\-Entropy@{entropy.\-Entropy}}
+}
+Inheritance diagram for entropy.\-Entropy\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classentropy_1_1_entropy}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classentropy_1_1_entropy_a907635c50b59c160e09192fdb0cd56c5}{def {\bfseries dice\-\_\-coefficient}}\label{classentropy_1_1_entropy_a907635c50b59c160e09192fdb0cd56c5}
+
+\item 
+\hypertarget{classentropy_1_1_entropy_acc04c8428c9cd63f5f572783fefcd35f}{def {\bfseries compute\-\_\-jaccard\-\_\-index}}\label{classentropy_1_1_entropy_acc04c8428c9cd63f5f572783fefcd35f}
+
+\item 
+def \hyperlink{classentropy_1_1_entropy_a8b8657211f139161dc3851692bf496fd}{winkler\-Compare\-P}
+\item 
+def \hyperlink{classentropy_1_1_entropy_ab6bfc57e1b5d3b4f3fb93f243c3946cc}{get\-All\-Entropies}
+\item 
+def \hyperlink{classentropy_1_1_entropy_a607991156d5723944e95de617599f156}{dameraulevenshtein}
+\item 
+\hypertarget{classentropy_1_1_entropy_a905010113e49e5fcda39754c2d48fab4}{def {\bfseries levenshtein}}\label{classentropy_1_1_entropy_a905010113e49e5fcda39754c2d48fab4}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVerb}duplicate bigrams in a word should be counted distinctly
+(per discussion), otherwise 'AA' and 'AAAA' would have a
+dice coefficient of 1...
+\end{DoxyVerb}
+ 
+
+\subsection{Member Function Documentation}
+\hypertarget{classentropy_1_1_entropy_a607991156d5723944e95de617599f156}{\index{entropy\-::\-Entropy@{entropy\-::\-Entropy}!dameraulevenshtein@{dameraulevenshtein}}
+\index{dameraulevenshtein@{dameraulevenshtein}!entropy::Entropy@{entropy\-::\-Entropy}}
+\subsubsection[{dameraulevenshtein}]{\setlength{\rightskip}{0pt plus 5cm}def entropy.\-Entropy.\-dameraulevenshtein (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{seq1, }
+\item[{}]{seq2}
+\end{DoxyParamCaption}
+)}}\label{classentropy_1_1_entropy_a607991156d5723944e95de617599f156}
+\begin{DoxyVerb}Calculate the Damerau-Levenshtein distance between sequences.
+
+This distance is the number of additions, deletions, substitutions,
+and transpositions needed to transform the first sequence into the
+second. Although generally used with strings, any sequences of
+comparable objects will work.
+
+Transpositions are exchanges of *consecutive* characters; all other
+operations are self-explanatory.
+
+This implementation is O(N*M) time and O(M) space, for N and M the
+lengths of the two sequences.
+
+>>> dameraulevenshtein('ba', 'abc')
+2
+>>> dameraulevenshtein('fee', 'deed')
+2
+
+It works with arbitrary sequences too:
+>>> dameraulevenshtein('abcd', ['b', 'a', 'c', 'd', 'e'])
+2
+\end{DoxyVerb}
+ \hypertarget{classentropy_1_1_entropy_ab6bfc57e1b5d3b4f3fb93f243c3946cc}{\index{entropy\-::\-Entropy@{entropy\-::\-Entropy}!get\-All\-Entropies@{get\-All\-Entropies}}
+\index{get\-All\-Entropies@{get\-All\-Entropies}!entropy::Entropy@{entropy\-::\-Entropy}}
+\subsubsection[{get\-All\-Entropies}]{\setlength{\rightskip}{0pt plus 5cm}def entropy.\-Entropy.\-get\-All\-Entropies (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{one, }
+\item[{}]{two}
+\end{DoxyParamCaption}
+)}}\label{classentropy_1_1_entropy_ab6bfc57e1b5d3b4f3fb93f243c3946cc}
+\begin{DoxyVerb}one and two are the two states to compare in number array form. \end{DoxyVerb}
+ \hypertarget{classentropy_1_1_entropy_a8b8657211f139161dc3851692bf496fd}{\index{entropy\-::\-Entropy@{entropy\-::\-Entropy}!winkler\-Compare\-P@{winkler\-Compare\-P}}
+\index{winkler\-Compare\-P@{winkler\-Compare\-P}!entropy::Entropy@{entropy\-::\-Entropy}}
+\subsubsection[{winkler\-Compare\-P}]{\setlength{\rightskip}{0pt plus 5cm}def entropy.\-Entropy.\-winkler\-Compare\-P (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{str1, }
+\item[{}]{str2}
+\end{DoxyParamCaption}
+)}}\label{classentropy_1_1_entropy_a8b8657211f139161dc3851692bf496fd}
+\begin{DoxyVerb}Return approximate string comparator measure (between 0.0 and 1.0)
+
+USAGE:
+  score = winkler(str1, str2)
+
+ARGUMENTS:
+  str1  The first string
+  str2  The second string
+
+DESCRIPTION:
+  As described in 'An Application of the Fellegi-Sunter Model of
+  Record Linkage to the 1990 U.S. Decennial Census' by William E. Winkler
+  and Yves Thibaudeau.
+
+  Based on the 'jaro' string comparator, but modifies it according to whether
+  the first few characters are the same or not.
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+entropy.\-py\end{DoxyCompactItemize}

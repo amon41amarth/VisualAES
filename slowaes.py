@@ -89,7 +89,11 @@ class AES(object):
 
     def getSBoxValue(self, num):
         """Retrieves a given S-Box Value"""
-        return self.sbox[num]
+        try:
+            return self.sbox[num]
+        except:
+            print "Poop " + str(num)
+            return self.sbox[int(num)]
 
     def getSBoxInvert(self, num):
         """Retrieves a given Inverted S-Box Value"""
@@ -157,11 +161,11 @@ class AES(object):
         currentSize = 0
         rconIteration = 1
         expandedKey = [0] * expandedKeySize
-
+        while(len(key) != size):
+            key += "0"
         # set the 16, 24, 32 bytes of the expanded key to the input key
-        print 'Expanded key:  %s \r\n' % expandedKey
-        print 'Key:  %s \r\n' % key
         for j in range(size):
+            print str( expandedKey[j]) + " " + str(key[j])
             expandedKey[j] = key[j]
         currentSize += size
 
@@ -182,8 +186,12 @@ class AES(object):
             # expanded key.  This becomes the next four bytes in the expanded
             # key.
             for m in range(4):
-                expandedKey[currentSize] = expandedKey[currentSize - size] ^ \
-                    t[m]
+                try:
+                    expandedKey[currentSize] = expandedKey[currentSize - size] ^ t[m]
+                except:
+                    print type(expandedKey[currentSize - size])
+                    print type(t[m])
+                    print "poo " + str(expandedKey[currentSize - size]) + " " + str(t[m])
                 currentSize += 1
 
         return expandedKey
@@ -192,6 +200,7 @@ class AES(object):
         """Adds (XORs) the round key to the state."""
         for i in range(16):
             self.state[i] ^= roundKey[i]
+        return self.state
 
     def createRoundKey(self, expandedKey, roundKeyPointer):
         """Create a round key.
