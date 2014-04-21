@@ -55,6 +55,8 @@ class MainScene(ui.Scene):
         return numpy.sum(numpy.where(p != 0, p * numpy.log(p / q), 0))
 
     def convertStates(self):
+        if type(self.cypherkey) == type(''):
+            self.cypherkey = self.aesmoo.convertString(self.cypherkey, 0, len(self.cypherkey), self.aesmoo.modeOfOperation[self.operationMode])
         try:
             if type(self.lrbEntry) == type(''):
                 self.lrbEntry = self.aesmoo.convertString(self.lrbEntry, 0, len(self.lrbEntry),
@@ -128,8 +130,8 @@ class MainScene(ui.Scene):
             self.aes.state = self.lrtEntry
             self.aes.isInv = False
             self.llbEntry = self.aes.addRoundKey(curRoundKey2)
-        self.updateMiddleColumn()
 
+        self.updateMiddleColumn()
         self.addPointInHistory()
 
     def runSubBytes(self):

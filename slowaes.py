@@ -159,6 +159,8 @@ class AES(object):
         expandedKey = [0] * expandedKeySize
 
         # set the 16, 24, 32 bytes of the expanded key to the input key
+        print 'Expanded key:  %s \r\n' % expandedKey
+        print 'Key:  %s \r\n' % key
         for j in range(size):
             expandedKey[j] = key[j]
         currentSize += size
