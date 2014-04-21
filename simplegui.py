@@ -137,7 +137,7 @@ class MainScene(ui.Scene):
         self.runSubBytes()
         self.runShiftRows()
         self.runMixColumns()
-        self.runAddRoundKey()
+        self.runAddRoundKey(self.generateAddRoundKey())
         self.updateMiddleColumn()
 
     ## Run the round key function on the information.
@@ -255,18 +255,7 @@ class MainScene(ui.Scene):
                 btn.text = 'SBox All 0s'
             self.editSBox('0s' in btn.text)
         elif 'Add' in btn.text:
-            nbrRounds = 0
-            size = 0
-            self.convertStates()
-            if self.keySize == self.moo.aes.keySize['SIZE_128']:
-                nbrRounds = 10
-            elif self.keySize == self.moo.aes.keySize['SIZE_192']:
-                nbrRounds = 12
-            elif self.keySize == self.moo.aes.keySize['SIZE_256']:
-                nbrRounds = 14
-            expandedKeySize = 16*(nbrRounds+1)
-            expandedKey = self.aes.expandKey(self.lrtEntry, self.keySize, expandedKeySize)
-            self.runAddRoundKey(expandedKey)  #TODO : create expanded key
+            self.runAddRoundKey(self.generateAddRoundKey())  #TODO : create expanded key
         elif 'Sub' in btn.text:
             self.runSubBytes()
         elif 'Shift' in btn.text:
@@ -295,6 +284,21 @@ class MainScene(ui.Scene):
             self.moo.encrypt(self.cleartext,
                              self.moo.modeOfOperation[self.operationMode],
                              self.cypherkey, int(self.keySize), self.lrbEntry)
+
+    def generateAddRoundKey(self):
+        nbrRounds = 0
+        size = 0
+        self.convertStates()
+        if self.keySize == self.moo.aes.keySize['SIZE_128']:
+            nbrRounds = 10
+        elif self.keySize == self.moo.aes.keySize['SIZE_192']:
+            nbrRounds = 12
+        elif self.keySize == self.moo.aes.keySize['SIZE_256']:
+            nbrRounds = 14
+        expandedKeySize = 16*(nbrRounds+1)
+        expandedKey = self.aes.expandKey(self.lrtEntry, self.keySize, expandedKeySize)
+        return expandedKey
+
     ## Updates the view for greyscale and color scale types.
     def updateView(
         self,

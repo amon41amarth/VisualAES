@@ -92,7 +92,6 @@ class AES(object):
         try:
             return self.sbox[num]
         except:
-            print "Poop " + str(num)
             return self.sbox[int(num)]
 
     def getSBoxInvert(self, num):
@@ -165,7 +164,6 @@ class AES(object):
             key += "0"
         # set the 16, 24, 32 bytes of the expanded key to the input key
         for j in range(size):
-            print str( expandedKey[j]) + " " + str(key[j])
             expandedKey[j] = key[j]
         currentSize += size
 
@@ -186,12 +184,8 @@ class AES(object):
             # expanded key.  This becomes the next four bytes in the expanded
             # key.
             for m in range(4):
-                try:
-                    expandedKey[currentSize] = expandedKey[currentSize - size] ^ t[m]
-                except:
-                    print type(expandedKey[currentSize - size])
-                    print type(t[m])
-                    print "poo " + str(expandedKey[currentSize - size]) + " " + str(t[m])
+
+                expandedKey[currentSize] = expandedKey[currentSize - size] ^ t[m]
                 currentSize += 1
 
         return expandedKey
